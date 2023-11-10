@@ -187,14 +187,7 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
       <slot name="folders"></slot>
     </div>
     <div class="home-main">
-      <Suspense>
-        <template #default>
-          <slot/>
-        </template>
-        <template #fallback>
-          loading
-        </template>
-      </Suspense>
+      <slot/>
     </div>
   </div>
 </template>
