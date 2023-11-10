@@ -18,4 +18,8 @@ class Workspace extends Model
     public function users(): BelongsToMany {
         return $this->BelongsToMany(User::class, 'workspace_members');
     }
+
+    public function surveys(): HasMany {
+        $this->hasMany(Survey::class);
+    }
 }
