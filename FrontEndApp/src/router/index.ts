@@ -2,6 +2,7 @@ import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
+import HelloWorld from "@/components/HelloWorld.vue";
 import { useDataStore } from "@/store";
 
 const routes: RouteRecordRaw[] = [
@@ -35,7 +36,18 @@ const routes: RouteRecordRaw[] = [
                 component: Dashboard
             },
         ]
+    },
+    {
+      path: "/test",
+      name: "Test",
+      component: HelloWorld,
     }
+    // {
+    //     path: "/:pathMatch(.*)*",
+    //     redirect: "/dashboard",
+    //     name: "NotFound",
+    //     meta: { isAuth: true },
+    // }
 ]
 
 const router = createRouter({

@@ -2,7 +2,7 @@
 import InputError from "@/components/form/InputError.vue";
 import InputLabel from "@/components/form/InputLabel.vue";
 import TextInput from "@/components/form/TextInput.vue";
-import SubmitButton from "@/components/form/SubmitButton.vue";
+import AuthSubmit from "@/components/form/AuthSubmit.vue";
 
 import { useDataStore } from "@/store";
 import { useForm } from "vee-validate";
@@ -98,13 +98,13 @@ const register = handleSubmit(values => {
           Policy stuff
         </div>
 
-        <SubmitButton
+        <AuthSubmit
           type="submit"
           :isSub="isSubmitting && meta.valid"
           :disabled="!meta.valid && (meta.dirty || meta.touched)"
         >
           Register
-        </SubmitButton>
+        </AuthSubmit>
       </form>
     </div>
     <div class="register-footer">
@@ -114,6 +114,14 @@ const register = handleSubmit(values => {
 </template>
 
 <style scoped>
+.register-wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .register-form-title {
   text-align: center;
   font-weight: 700;

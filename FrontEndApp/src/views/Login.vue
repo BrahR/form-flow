@@ -2,13 +2,13 @@
 import InputError from "@/components/form/InputError.vue";
 import InputLabel from "@/components/form/InputLabel.vue";
 import TextInput from "@/components/form/TextInput.vue";
-import SubmitButton from "@/components/form/SubmitButton.vue";
+import AuthSubmit from "@/components/form/AuthSubmit.vue";
 
 import { useDataStore } from "@/store";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
-import {Ref, ref} from "vue";
+import {computed, Ref, ref} from "vue";
 
 type loginForm = {
   email: string,
@@ -48,6 +48,9 @@ const login = handleSubmit(values => {
       });
   });
 });
+
+const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid)
+const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
 </script>
 
 <template>
@@ -75,13 +78,13 @@ const login = handleSubmit(values => {
           Policy stuff
         </div>
 
-        <SubmitButton
+        <AuthSubmit
             type="submit"
-            :isSub="isSubmitting && meta.valid"
-            :disabled="!meta.valid && (meta.dirty || meta.touched)"
+            :isSubmitting="isSubmitting_"
+            :disabled="disabled"
         >
           login
-        </SubmitButton>
+        </AuthSubmit>
       </form>
     </div>
     <div class="login-footer">
@@ -91,6 +94,14 @@ const login = handleSubmit(values => {
 </template>
 
 <style scoped>
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .login-form-title {
   text-align: center;
   font-weight: 700;
