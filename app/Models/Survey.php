@@ -11,7 +11,7 @@ class Survey extends Model
     use HasFactory;
 
     protected $fillable = [
-        "title"
+        "name"
     ];
 
     public function workspace(): BelongsTo {

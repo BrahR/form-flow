@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use \Illuminate\Database\Eloquent\Builder;
 
 /**
+ * @property int $id
  * @property Workspace[] $workspaces
  */
 class User extends Authenticatable
