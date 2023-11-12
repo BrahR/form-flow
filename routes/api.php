@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post("/logout", [AuthController::class, "logout"]);
 
-    Route::get("/workspaces", [WorkspaceController::class, "index"]);
+    Route::get("/dashboard", [DashboardController::class, "index"]);
     Route::post("/workspace/create", [WorkspaceController::class, "store"]);
+
+    Route::post("/workspace/{workspace}/survey/create", [SurveyController::class, "store"]);
 });
 
 Route::post("/register", [AuthController::class, "register"]);

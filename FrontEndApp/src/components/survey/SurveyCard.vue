@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
+defineProps<{
+  survey: Survey
+}>()
+
 </script>
 
 <template>
   <div class="mySurveyItem_card_view_survey__AFsFL mySurveyItem_ltr__tZFi6">
     <div class="mySurveyItem_name_wrapper__FtsrP mySurveyItem_ltr__tZFi6"
          style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151);">
-      <div>test</div>
+      <div>{{ survey.name }}</div>
     </div>
     <div class="mySurveyItem_details__S0THf">
       <div style="opacity: 1;">

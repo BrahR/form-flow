@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+import {useDataStore} from "@/store";
+import {useWorkspaceStore} from "@/store/workspace.ts";
+
+const workspaceStore = useWorkspaceStore()
 </script>
 
 <template>
@@ -7,7 +11,7 @@
     <div class="mySurveys_container_wrapper__87EPU">
       <div class="mySurveys_header__5IXQb">
         <div class="mySurveys_folder_name_wrapper__R94N2">
-          <div class="mySurveys_folder_name__D7f9W">Java Course</div>
+          <div class="mySurveys_folder_name__D7f9W">{{ workspaceStore.workspaces.selected.name }}</div>
           <div class="mySurveys_more_icon_wrapper__oYNt_">
             <div class="moreDropDown_wrapper__3ZqgO">
               <div class="moreDropDown_button__3GhWA undefined undefined" id="downshift-12-toggle-button"

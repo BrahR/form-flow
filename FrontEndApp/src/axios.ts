@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useDataStore } from "@/store";
+import {useUserStore} from "@/store/user.ts";
 
 const axiosInstance = axios.create({
     baseURL: `${import.meta.env.VITE_APP_URL}/api`,
@@ -9,13 +9,12 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(config => {
-    const store = useDataStore();
+    const userStore = useUserStore()
+    const token = userStore.getToken();
 
-    const token = store.getToken();
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     config.headers.Accept = "application/json";
+
     return config;
 })
 

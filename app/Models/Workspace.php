@@ -20,6 +20,6 @@ class Workspace extends Model
     }
 
     public function surveys(): HasMany {
-        $this->hasMany(Survey::class);
+        return $this->hasMany(Survey::class);
     }
 }

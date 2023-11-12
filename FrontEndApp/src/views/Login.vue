@@ -4,11 +4,11 @@ import InputLabel from "@/components/form/InputLabel.vue";
 import TextInput from "@/components/form/TextInput.vue";
 import AuthSubmit from "@/components/form/AuthSubmit.vue";
 
-import { useDataStore } from "@/store";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
-import {computed, Ref, ref} from "vue";
+import {computed, ref} from "vue";
+import {useUserStore} from "@/store/user.ts";
 
 type loginForm = {
   email: string,
@@ -16,7 +16,7 @@ type loginForm = {
 };
 
 const router = useRouter();
-const store = useDataStore();
+const userStore = useUserStore()
 const { errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta } = useForm<loginForm>({
   validationSchema: yup.object({
     email: yup.string().required().email().label("Email"),
@@ -30,7 +30,7 @@ const error = ref("");
 
 const login = handleSubmit(values => {
   return new Promise(resolve => {
-    store.loginUser(values)
+    userStore.loginUser(values)
       .then(() => {
         router.push({ name: "Dashboard" });
         resolve(true);

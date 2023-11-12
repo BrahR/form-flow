@@ -11,8 +11,9 @@ import {ref, computed} from "vue";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
 import {AxiosError} from "axios";
-import {useDataStore} from "@/store";
 import router from "@/router";
+import {useWorkspaceStore} from "@/store/workspace.ts";
+import {useUserStore} from "@/store/user.ts";
 
 type WorkspaceForm = {
   name: string,
@@ -23,7 +24,10 @@ const userNavigation = [
   { name: 'Settings', href: '#' }
 ]
 
-const store = useDataStore();
+// const store = useDataStore();
+// const userStore = useUserStore()
+const workspaceStore = useWorkspaceStore()
+
 // create workspace form
 const isCreateWorkspaceModalOpen = ref(false)
 
@@ -51,7 +55,7 @@ const error = ref("");
 
 const createWorkspace = handleSubmit(values => {
   return new Promise(resolve => {
-    store.createWorkspace(values)
+    workspaceStore.createWorkspace(values)
         .then(() => {
           closeWorkspaceModal()
           //   do something later
@@ -73,16 +77,15 @@ const createWorkspace = handleSubmit(values => {
 })
 
 function logout() {
-  if (store.isLoggingOut()) return;
-  store.logoutUser()
-      .then(() => {
-        router.push({ name: "Login" });
-      })
+  // if (userStore.isLoggingOut()) return;
+  // userStore.logoutUser()
+  //     .then(() => {
+  //       router.push({ name: "Login" });
+  //     })
 }
 
 const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid)
 const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
-
 
 </script>
 
@@ -313,34 +316,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 .messageModal_footer__EhWT8 button:first-child {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-}
-
-.buttons_button__PUTxb.buttons_secondary__4Zotp {
-  background-color: rgba(59, 54, 142, .15);
-  color: #3b368e;
-  -webkit-text-fill-color: #3b368e;
-  -webkit-opacity: 1;
-}
-
-.buttons_button__PUTxb {
-  all: unset;
-  min-width: 4rem;
-  min-height: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.25rem 0.875rem;
-  border-radius: 0.25rem;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.buttons_button__PUTxb.buttons_primary__RmNyQ {
-  background-color: #3b368e;
-  color: #fff;
-  -webkit-text-fill-color: #fff;
-  -webkit-opacity: 1;
 }
 
 </style>
