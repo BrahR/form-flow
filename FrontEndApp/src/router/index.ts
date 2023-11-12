@@ -4,6 +4,7 @@ import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import { useDataStore } from "@/store";
+import {useUserStore} from "@/store/user.ts";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -55,11 +56,12 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const store = useDataStore();
+router.beforeEach(async (to, from, next) => {
+    const userStore = useUserStore()
+    if (userStore.getToken()) userStore.hydrate().catch(() => console.log("E"))
 
-    if (to.meta.isAuth && !store.getToken()) return next({ name: "Login" })
-    if (to.meta.isGuest && store.getToken()) return next({ name: "Dashboard" })
+    if (to.meta.isAuth && !userStore.getToken()) return next({ name: "Login" })
+    if (to.meta.isGuest && userStore.getToken()) return next({ name: "Dashboard" })
 
     return next();
 })
