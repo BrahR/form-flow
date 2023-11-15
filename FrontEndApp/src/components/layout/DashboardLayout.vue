@@ -6,6 +6,7 @@ import router from "@/router";
 import {useUserStore} from "@/store/user.ts";
 // import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue";
 import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal.vue";
+import {useWorkspaceStore} from "@/store/workspace.ts";
 
 
 const userNavigation = [
@@ -14,8 +15,8 @@ const userNavigation = [
 ]
 
 const userStore = useUserStore()
+useWorkspaceStore().hydrate()
 
-// create workspace form
 const isCreateWorkspaceModalOpen = ref(false)
 const openCreateWorkspace = () => {
   isCreateWorkspaceModalOpen.value = true;
