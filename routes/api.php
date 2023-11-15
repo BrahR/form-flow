@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get("/dashboard", [DashboardController::class, "index"]);
     Route::post("/workspace/create", [WorkspaceController::class, "store"]);
+    Route::post("/workspace/update/{workspace}", [WorkspaceController::class, "update"]);
+    Route::delete("/workspace/delete/{workspace}", [WorkspaceController::class, "delete"]);
 
     Route::post("/workspace/{workspace}/survey/create", [SurveyController::class, "store"]);
 });
