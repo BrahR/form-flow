@@ -48,27 +48,26 @@ export const useUserStore = defineStore("user", () => {
     const isHydrated = (): boolean => user.hydrated
     const isLoggingOut = (): boolean => user.loggingOut
 
-
-    function setToken(token: string): void {
+    const setToken = (token: string): void => {
         user.token = token;
         sessionStorage.setItem("TOKEN", token)
     }
 
-    async function registerUser(_user: User): Promise<void> {
+    const registerUser = async (_user: never): Promise<void> => {
         return axiosInstance.post("/register", _user).then((response) => {
             setToken(response.data.token);
             user.data = response.data.user;
         })
     }
 
-    async function loginUser(_user: User): Promise<void> {
+     const loginUser = async (_user: User): Promise<void> => {
         return axiosInstance.post("/login", _user).then((response) => {
             setToken(response.data.token);
             user.data = response.data.user;
         })
     }
 
-    async function logoutUser(): Promise<void> {
+     const logoutUser = async (): Promise<void> =>  {
         user.loggingOut = true;
         return axiosInstance.post("/logout").then(() => {
             dehydrate();

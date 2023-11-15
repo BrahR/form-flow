@@ -1,6 +1,6 @@
 type Workspace = {
     id: number,
     name: string,
-    owner: User,
-    surveys: Survey[]
+    owner?: User,
+    surveys?: Survey[]
 }
