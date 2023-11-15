@@ -30,7 +30,7 @@ const error = ref("");
 
 const login = handleSubmit(values => {
   return new Promise(resolve => {
-    userStore.loginUser(values)
+    userStore.loginUser(values as User)
       .then(() => {
         router.push({ name: "Dashboard" });
         resolve(true);

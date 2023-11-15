@@ -4,16 +4,19 @@ import InputError from "@/components/form/InputError.vue";
 import StandardModalForm from "@/components/StandardModalForm.vue";
 import SecondaryButton from "@/components/form/SecondaryButton.vue";
 import TextInput from "@/components/form/TextInput.vue";
-import {useRouter} from "vue-router";
-import {computed, ref} from "vue/dist/vue";
+import {computed, ref} from "vue";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
-import {AxiosError} from "axios";
+import {useWorkspaceStore} from "@/store/workspace.ts";
 
-const router = useRouter();
+type SurveyForm = {
+  name: string
+}
+
+const useWorkspace = useWorkspaceStore()
 const isCreateSurveyModalOpen = ref(false);
 
-const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<WorkspaceForm>({
+const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
   validationSchema: yup.object({
     name: yup.string().required().label("Name"),
   }),
@@ -23,12 +26,12 @@ const name = defineComponentBinds("name");
 const error = ref("");
 
 const createWorkspace = handleSubmit(values => {
-  store.createWorkspace(values)
+  useWorkspace.createWorkspace(values as Workspace)
       .then(() => {
         closeSurveyModal()
         //   do something later
       })
-      .catch((err: AxiosError) => {
+      .catch((err) => {
         console.log(err)
         // setTimeout(() => {
         resetForm({
@@ -41,19 +44,16 @@ const createWorkspace = handleSubmit(values => {
       });
 })
 
-const openSurveyModal = () => {
-  isCreateSurveyModalOpen.value = true;
-}
+// const openSurveyModal = () => {
+//   isCreateSurveyModalOpen.value = true;
+// }
 
 const closeSurveyModal = () => {
   isCreateSurveyModalOpen.value = false;
   resetForm();
 }
 
-const isSubmitting_ = computed(() => {
-  console.log(isSubmitting.value && meta.value.valid)
-  return isSubmitting.value && meta.value.valid
-})
+const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid)
 
 const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
 </script>

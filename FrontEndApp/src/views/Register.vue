@@ -4,11 +4,11 @@ import InputLabel from "@/components/form/InputLabel.vue";
 import TextInput from "@/components/form/TextInput.vue";
 import AuthSubmit from "@/components/form/AuthSubmit.vue";
 
-import { useDataStore } from "@/store";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import {useUserStore} from "@/store/user.ts";
 
 type RegisterForm = {
   email: string,
@@ -17,7 +17,7 @@ type RegisterForm = {
 };
 
 const router = useRouter();
-const store = useDataStore();
+const userStore = useUserStore();
 const { errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta } = useForm<RegisterForm>({
   validationSchema: yup.object({
     email: yup.string().required().email().label("Email"),
@@ -45,7 +45,7 @@ const register = handleSubmit(values => {
       password_confirmation: values.confirmPassword,
     }
 
-    store.registerUser(payload)
+    userStore.registerUser(payload as never)
       .then(() => {
         router.push({ name: "Login" });
         resolve(true);
@@ -100,7 +100,7 @@ const register = handleSubmit(values => {
 
         <AuthSubmit
           type="submit"
-          :isSub="isSubmitting && meta.valid"
+          :isSubmitting="isSubmitting && meta.valid"
           :disabled="!meta.valid && (meta.dirty || meta.touched)"
         >
           Register

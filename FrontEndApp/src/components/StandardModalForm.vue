@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
-import { ref } from "vue";
 
 defineProps<{
   show: boolean

@@ -1,91 +1,37 @@
 <script setup lang="ts">
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-
-import StandardModalForm from "@/components/StandardModalForm.vue";
-import TextInput from "@/components/form/TextInput.vue";
-import InputError from "@/components/form/InputError.vue";
-import PrimaryButton from "@/components/form/PrimaryButton.vue";
-import SecondaryButton from "@/components/form/SecondaryButton.vue";
-
-import {ref, computed} from "vue";
-import {useForm} from "vee-validate";
-import * as yup from "yup";
-import {AxiosError} from "axios";
+import {ref} from "vue";
+// import {useWorkspaceStore} from "@/store/workspace.ts";
 import router from "@/router";
-import {useWorkspaceStore} from "@/store/workspace.ts";
 import {useUserStore} from "@/store/user.ts";
+// import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue";
+import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal.vue";
 
-type WorkspaceForm = {
-  name: string,
-};
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' }
 ]
 
-// const store = useDataStore();
-// const userStore = useUserStore()
-const workspaceStore = useWorkspaceStore()
+const userStore = useUserStore()
 
 // create workspace form
 const isCreateWorkspaceModalOpen = ref(false)
-
-const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<WorkspaceForm>({
-  validationSchema: yup.object({
-    name: yup.string().required().label("Name"),
-  }),
-})
-
-const openWorkspaceModal = () => {
+const openCreateWorkspace = () => {
   isCreateWorkspaceModalOpen.value = true;
 }
 
-const closeWorkspaceModal = () => {
+const closeCreateWorkspace = () => {
   isCreateWorkspaceModalOpen.value = false;
-  resetForm({
-    values: {
-      name: "",
-    },
-  })
 }
-
-const name = defineComponentBinds("name");
-const error = ref("");
-
-const createWorkspace = handleSubmit(values => {
-  return new Promise(resolve => {
-    workspaceStore.createWorkspace(values)
-        .then(() => {
-          closeWorkspaceModal()
-          //   do something later
-          resolve(true)
-        })
-        .catch((err: AxiosError) => {
-          console.log(err)
-          // setTimeout(() => {
-          resetForm({
-            values: {
-              name: "",
-            },
-          })
-          error.value = "Something happened, please try again later!"
-          if (err.status) error.value = err.response.data.message
-          resolve(false)
-        });
-  })
-})
 
 function logout() {
-  // if (userStore.isLoggingOut()) return;
-  // userStore.logoutUser()
-  //     .then(() => {
-  //       router.push({ name: "Login" });
-  //     })
+  if (userStore.isLoggingOut()) return;
+  userStore.logoutUser()
+      .then(() => {
+        router.push({ name: "Login" });
+      })
 }
-
-const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid)
-const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
 
 </script>
 
@@ -134,7 +80,7 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
           Workspaces
         </div>
         <div class="home-sidebar-title-icons">
-          <div class="home-sidebar-title-icon-plus" @click="openWorkspaceModal">
+          <div class="home-sidebar-title-icon-plus" @click="openCreateWorkspace">
             <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <g fill="none" fill-rule="evenodd">
                 <path d="M0 0h24v24H0z"></path>
@@ -143,39 +89,9 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
               </g>
             </svg>
           </div>
-          <StandardModalForm title="Create new workspace" :show="isCreateWorkspaceModalOpen" @close="closeWorkspaceModal">
-            <form @submit="createWorkspace">
-              <div class="messageModal_grid_wrapper__ziDi0">
-                <div class="createFolderModal_createFolder_modal__UDqGR">
-                  <InputError class="mb-3" :error="error" :show="!meta.touched"/>
-
-                  <TextInput
-                      v-bind="name"
-                      placeholder="Please enter a name for this workspace"
-                  />
-
-                  <InputError :error="errors.name"/>
-                </div>
-              </div>
-              <div class="messageModal_footer__EhWT8">
-                <SecondaryButton
-                    @click.prevent="closeWorkspaceModal">
-                  Cancel
-                </SecondaryButton>
-
-                <PrimaryButton
-                    :is-submitting="isSubmitting_"
-                    :disabled="disabled"
-                >
-                  Add workspace
-                </PrimaryButton>
-              </div>
-            </form>
-          </StandardModalForm>
 
           <div class="home-sidebar-title-icon-search">
-            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
               <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
                 <path
@@ -193,6 +109,12 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
       <slot/>
     </div>
   </div>
+
+  <CreateWorkspaceModal
+      :is-open="isCreateWorkspaceModalOpen"
+      @open="openCreateWorkspace"
+      @close="closeCreateWorkspace"
+  />
 </template>
 
 <style scoped>
@@ -246,7 +168,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
   display: flex;
   flex-direction: column;
   font-weight: 700;
-  display: flex;
   align-items: flex-start;
 }
 
@@ -279,43 +200,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 
 .home-main {
   width: calc(100% - 17.5rem);
-}
-
-.messageModal_grid_wrapper__ziDi0 {
-  padding: 2rem;
-  font-size: 14px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  height: calc(100% - 112px);
-}
-
-.createFolderModal_createFolder_modal__UDqGR {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-//grid-gap: 1rem; min-height: fit-content !important;
-}
-
-.createFolderModal_createFolder_modal__UDqGR > * {
-  width: 100%;
-}
-
-.messageModal_footer__EhWT8 {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.75rem 1rem;
-  box-shadow: inset 0 0.125rem 0 0 #f0f2f5;
-}
-
-.messageModal_footer__EhWT8 button:first-child {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
 }
 
 </style>

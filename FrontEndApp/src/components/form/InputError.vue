@@ -4,7 +4,7 @@ type Props = {
     show?: boolean,
 };
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
     error: undefined,
     show: true,
 });

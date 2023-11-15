@@ -4,22 +4,12 @@ import WorkspaceFolder from "@/components/workspace/WorkspaceFolder.vue";
 import WorkspaceUI from "@/components/workspace/WorkspaceUI.vue";
 import SurveyCard from "@/components/survey/SurveyCard.vue";
 
-import {Ref, ref} from "vue";
 import CreateSurveyCard from "@/components/survey/CreateSurveyCard.vue";
 import {useWorkspaceStore} from "@/store/workspace.ts";
-import {useUserStore} from "@/store/user.ts";
+// import {useUserStore} from "@/store/user.ts";
 
-const userStore = useUserStore()
-const workspaceStore = useWorkspaceStore()
-const { hydrate, getSelected, setSelected, isLoading, workspaces } = workspaceStore
-
-hydrate()
-
-console.log(getSelected())
-// workspace
-
-// const workspaces: Ref<Workspace[]> = ref<Workspace[] | null>(null) as Ref<Workspace[]>;
-// const currentWorkspace: Ref<Workspace> = ref<Workspace | null>(null) as Ref<Workspace>;
+const useWorkspace = useWorkspaceStore()
+const { setSelected, isLoading, workspaces } = useWorkspace
 
 </script>
 
@@ -32,7 +22,8 @@ console.log(getSelected())
             v-for="workspace in workspaces.data"
             :key="workspace.id"
             :name="workspace.name"
-            :selected="getSelected() === workspace"
+            :surveys="workspace.surveys"
+            :selected="useWorkspace.getSelected === workspace"
             @click="setSelected(workspace)"
           />
         </div>
@@ -46,10 +37,13 @@ console.log(getSelected())
 
     <div class="gap"></div>
 
-    <WorkspaceUI v-if="!isLoading()">
-      <CreateSurveyCard :workspace-id="getSelected().id" />
+    <WorkspaceUI v-if="!isLoading() && useWorkspace.getSelected">
+      <CreateSurveyCard :workspace-id="useWorkspace.getSelected.id" />
 
-      <SurveyCard v-for="survey in getSelected().surveys" :survey="survey"/>
+      <SurveyCard
+          v-for="survey in useWorkspace.getSelected.surveys"
+          :survey="survey"
+      />
     </WorkspaceUI>
     <div v-else class="flex justify-center items-center h-full -mt-8">
       <span class="loading loading-spinner loading-lg mr-1.5 absolute"></span>
