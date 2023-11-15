@@ -27,4 +27,24 @@ class WorkspaceController extends Controller {
             "workspace" => $workspace,
         ]);
     }
+
+    public function update(WorkspaceRequest $request, Workspace $workspace): Response {
+        $workspace->update($request->validated());
+
+        return response([
+            "workspace" => $workspace
+        ]);
+    }
+
+    public function delete(Workspace $workspace): Response {
+        if ($workspace->delete()) {
+            return response([
+                "success" => "Successfully deleted the workspace"
+            ]);
+        }
+
+        return response([
+            "error" => "Couldn't delete this workspace"
+        ]);
+    }
 }

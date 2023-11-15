@@ -30,9 +30,9 @@ defineExpose({ focus: () => input.value?.focus() });
 <template>
     <input
         :value="modelValue"
-        @input="$emit('update:modelValue', $event?.target?.value)"
-        @blur="$emit('blur')"
         ref="input"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        @blur="$emit('blur')"
         :disabled="props.disabled ? props.disabled : false"
     />
 </template>

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 type Props = {
   name: string
+  surveys?: Survey[] | []
   selected: boolean
   icon?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  name: '',
+  name: "",
+  surveys: [] as never,
   selected: false,
   icon: 'folder'
 })
@@ -35,7 +37,7 @@ withDefaults(defineProps<Props>(), {
       </div>
       {{ name }}
     </div>
-    <div class="workspace-folder-form-number">0</div>
+    <div class="workspace-folder-form-number">{{ surveys?.length ?? 0 }}</div>
   </div>
 </template>
 

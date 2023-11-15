@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue";
 
-import {useDataStore} from "@/store";
 import {useWorkspaceStore} from "@/store/workspace.ts";
+import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
+import {ref} from "vue";
 
-const workspaceStore = useWorkspaceStore()
+const useWorkspace = useWorkspaceStore()
+// const { getSelected } = useWorkspace
+const isUpdateWorkspaceModalOpen = ref(false)
+
+const openUpdateWorkspace = async () => {
+  console.log("updated")
+  isUpdateWorkspaceModalOpen.value = true
+}
+
+const closeUpdateWorkspace = () => {
+  isUpdateWorkspaceModalOpen.value = false
+}
+
+
+
+
 </script>
 
 <template>
@@ -11,26 +28,48 @@ const workspaceStore = useWorkspaceStore()
     <div class="mySurveys_container_wrapper__87EPU">
       <div class="mySurveys_header__5IXQb">
         <div class="mySurveys_folder_name_wrapper__R94N2">
-          <div class="mySurveys_folder_name__D7f9W">{{ workspaceStore.workspaces.selected.name }}</div>
-          <div class="mySurveys_more_icon_wrapper__oYNt_">
-            <div class="moreDropDown_wrapper__3ZqgO">
-              <div class="moreDropDown_button__3GhWA undefined undefined" id="downshift-12-toggle-button"
-                   aria-haspopup="listbox" aria-expanded="false"
-                   aria-labelledby="downshift-12-label downshift-12-toggle-button">
-                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" fill-rule="evenodd">
-                    <path d="M0 0h16v16H0z"></path>
-                    <path
-                      d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
-                      stroke="#3E434D" fill="#3E434D" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </g>
-                </svg>
-              </div>
-              <ul
-                class="moreDropDown_list__6nQ41 moreDropDown_right__hZmc7 undefined moreDropDown_not_show__HjTwn undefined"
-                id="downshift-12-menu" role="listbox" aria-labelledby="downshift-12-label" tabindex="-1"></ul>
+          <div class="mySurveys_folder_name__D7f9W">{{ useWorkspace.workspaces.selected?.name ?? "" }}</div>
+          <Menu as="div" class="relative">
+            <div>
+              <MenuButton
+                  class="relative flex items-center text-sm">
+                <div class="mySurveys_more_icon_wrapper__oYNt_">
+                  <div class="moreDropDown_wrapper__3ZqgO">
+                    <div class="moreDropDown_button__3GhWA">
+                      <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                          <path d="M0 0h16v16H0z"></path>
+                          <path
+                              d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                              stroke="#3E434D" fill="#3E434D" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </div>
+                    <ul
+                        class="moreDropDown_list__6nQ41 moreDropDown_right__hZmc7 undefined moreDropDown_not_show__HjTwn undefined"
+                        id="downshift-12-menu" role="listbox" aria-labelledby="downshift-12-label" tabindex="-1"></ul>
+                  </div>
+                </div>
+              </MenuButton>
             </div>
-          </div>
+            <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+              <MenuItems
+                  class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+
+                <MenuItem key="Sign-out" v-slot="{ active }">
+                  <a href="" @click.prevent="openUpdateWorkspace"
+                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Rename</a>
+                </MenuItem>
+                <MenuItem key="Sign-out" v-slot="{ active }">
+                  <a href="" @click.prevent="console.log(1)" class="text-red-600"
+                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Delete workspace</a>
+                </MenuItem>
+              </MenuItems>
+            </transition>
+          </Menu>
         </div>
         <div class="mySurveys_header_menubar_wrapper__zjJ4M">
           <button class="mySurveys_share_folder_button__VUV9N">
@@ -55,77 +94,15 @@ const workspaceStore = useWorkspaceStore()
       </div>
     </div>
   </div>
+
+  <UpdateWorkspaceForm
+      :is-open="isUpdateWorkspaceModalOpen"
+      @open="openUpdateWorkspace"
+      @close="closeUpdateWorkspace"
+  />
 </template>
 
 <style scoped>
-
-
-.ptr, .ptr__children {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-}
-
-.mySurveys_pull_to_refresh__HUjP3 {
-  width: calc(100% - 17.5rem) !important;
-}
-
-.ptr__pull-down {
-  position: absolute;
-  overflow: hidden;
-  left: 0;
-  right: 0;
-  top: 0;
-  visibility: hidden;
-}
-
-.ptr__children, .ptr__pull-down {
-  transition: transform 0.2s cubic-bezier(0, 0, 0.31, 1);
-}
-
-.ptr, .ptr__children {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-}
-
-.ptr__pull-down > div {
-  display: none;
-}
-
-.ptr__loader {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.lds-ellipsis {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-}
-
-
-.ptr__children, .ptr__pull-down {
-  transition: transform 0.2s cubic-bezier(0, 0, 0.31, 1);
-}
-
-.ptr, .ptr__children {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-}
-
-.mySurveys_pull_to_refresh__HUjP3 {
-  width: calc(100% - 17.5rem) !important;
-}
-
 .mySurveys_container__9lxhC {
   height: 100%;
   overflow-x: hidden;
@@ -196,7 +173,6 @@ const workspaceStore = useWorkspaceStore()
   border: 0.0625rem solid #d8dbe0;
   color: #3e434d;
   background-color: #fff;
-  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.25rem;
   padding: 0.25rem 0.75rem;
