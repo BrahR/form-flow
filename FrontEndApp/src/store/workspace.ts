@@ -16,6 +16,7 @@ export const useWorkspaceStore = defineStore("workspace", () => {
   )
 
   const hydrate = () => {
+    if (workspaces.hydrated) return
     workspaces.loading = true
 
     axiosInstance.get("/dashboard").then((r) => {
