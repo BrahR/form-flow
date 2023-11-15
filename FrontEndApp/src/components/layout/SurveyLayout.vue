@@ -3,7 +3,8 @@
 </script>
 
 <template>
-  {{ $route.params.id }}
+  Layout
+  <router-view :key="$route.path"></router-view>
 </template>
 
 <style scoped>

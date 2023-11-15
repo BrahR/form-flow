@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  {{ $route.params.id }}
+
 </template>
 
 <style scoped>

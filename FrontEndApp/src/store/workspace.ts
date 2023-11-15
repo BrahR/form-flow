@@ -17,9 +17,6 @@ export const useWorkspaceStore = defineStore("workspace", () => {
 
   const hydrate = () => {
     workspaces.loading = true
-    console.log("started")
-    console.log(workspaces.selected)
-
 
     axiosInstance.get("/dashboard").then((r) => {
       workspaces.data = r.data.workspaces;
@@ -29,7 +26,6 @@ export const useWorkspaceStore = defineStore("workspace", () => {
     }).finally(() => {
       workspaces.loading = false
       workspaces.hydrated = true
-      console.log(workspaces.selected)
     })
   }
 
