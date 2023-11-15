@@ -3,23 +3,19 @@ import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue
 
 import {useWorkspaceStore} from "@/store/workspace.ts";
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const useWorkspace = useWorkspaceStore()
-// const { getSelected } = useWorkspace
 const isUpdateWorkspaceModalOpen = ref(false)
+const workspace = computed(() => useWorkspace.workspaces.selected)
 
 const openUpdateWorkspace = async () => {
-  console.log("updated")
   isUpdateWorkspaceModalOpen.value = true
 }
 
 const closeUpdateWorkspace = () => {
   isUpdateWorkspaceModalOpen.value = false
 }
-
-
-
 
 </script>
 
@@ -28,7 +24,7 @@ const closeUpdateWorkspace = () => {
     <div class="mySurveys_container_wrapper__87EPU">
       <div class="mySurveys_header__5IXQb">
         <div class="mySurveys_folder_name_wrapper__R94N2">
-          <div class="mySurveys_folder_name__D7f9W">{{ useWorkspace.workspaces.selected?.name ?? "" }}</div>
+          <div class="mySurveys_folder_name__D7f9W">{{ workspace?.name ?? "" }}</div>
           <Menu as="div" class="relative">
             <div>
               <MenuButton
@@ -64,7 +60,7 @@ const closeUpdateWorkspace = () => {
                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Rename</a>
                 </MenuItem>
                 <MenuItem key="Sign-out" v-slot="{ active }">
-                  <a href="" @click.prevent="console.log(1)" class="text-red-600"
+                  <a href="" @click.prevent="useWorkspace.delete_(workspace)" class="text-red-600"
                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Delete workspace</a>
                 </MenuItem>
               </MenuItems>

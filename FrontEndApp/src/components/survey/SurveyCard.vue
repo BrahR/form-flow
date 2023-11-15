@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div class="mySurveyItem_card_view_survey__AFsFL">
-    <router-link class="mySurveyItem_name_wrapper__FtsrP" to="survey"
+    <router-link class="mySurveyItem_name_wrapper__FtsrP" :to="{ }"
            style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151);">
         <div>{{ survey.name }}</div>
     </router-link>

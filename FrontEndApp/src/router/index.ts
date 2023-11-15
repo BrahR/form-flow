@@ -2,7 +2,7 @@ import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
-import Survey from "@/views/Survey.vue";
+import SurveyBuild from "@/views/survey/SurveyBuild.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import {useUserStore} from "@/store/user.ts";
 
@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     path: "/auth",
     redirect: "/login",
     name: "Auth",
-    meta: {isGuest: true},
+    meta: {requiresAuth: false},
     children: [
       {
         path: '/login',
@@ -29,18 +29,25 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     redirect: "/dashboard",
     name: "Dashboard",
-    meta: {isAuth: true},
+    meta: {requiresAuth: true},
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard
-      },
-      {
-        path: "/survey",
-        name: "Survey",
-        component: Survey,
       }
+    ]
+  },
+  {
+    path: "/survey/:id",
+    meta: {requiresAuth: true},
+    children: [
+      {
+        path: '/',
+        alias: '/build',
+        name: 'Survey.Build',
+        component: SurveyBuild
+      },
     ]
   },
   {
@@ -60,8 +67,8 @@ router.beforeEach(async (to, from, next) => {
   const useUser = useUserStore()
   if (useUser.getToken()) useUser.hydrate().catch(() => console.log("E"))
 
-  if (to.meta.isAuth && !useUser.getToken()) return next({name: "Login"})
-  if (to.meta.isGuest && useUser.getToken()) return next({name: "Dashboard"})
+  if (to.meta.requiresAuth && !useUser.getToken()) return next({name: "Login"})
+  if (!to.meta.requiresAuth && useUser.getToken()) return next({name: "Dashboard"})
 
   return next();
 })
