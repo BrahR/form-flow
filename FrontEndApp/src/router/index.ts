@@ -8,6 +8,7 @@ import {useUserStore} from "@/store/user.ts";
 import SurveyDesign from "@/views/survey/SurveyDesign.vue";
 import SurveyResults from "@/views/survey/SurveyResults.vue";
 import SurveySettings from "@/views/survey/SurveySettings.vue";
+import SurveyShare from "@/views/survey/SurveyShare.vue";
 import SurveyLayout from "@/components/layout/SurveyLayout.vue";
 
 const routes: RouteRecordRaw[] = [
@@ -71,7 +72,7 @@ const routes: RouteRecordRaw[] = [
             {
                 path: "share",
                 name: "Survey.Share",
-                component: SurveySettings
+                component: SurveyShare
             },
             {
                 path: "preview",
