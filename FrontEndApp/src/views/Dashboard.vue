@@ -3,13 +3,21 @@ import DashboardLayout from "@/components/layout/DashboardLayout.vue";
 import WorkspaceFolder from "@/components/workspace/WorkspaceFolder.vue";
 import WorkspaceUI from "@/components/workspace/WorkspaceUI.vue";
 import SurveyCard from "@/components/survey/SurveyCard.vue";
+import CreateSurveyModal from "@/components/survey/CreateSurveyModal.vue";
 
-import CreateSurveyCard from "@/components/survey/CreateSurveyCard.vue";
 import {useWorkspaceStore} from "@/store/workspace.ts";
-// import {useUserStore} from "@/store/user.ts";
+import {ref} from "vue"
 
 const useWorkspace = useWorkspaceStore()
 const { setSelected, isLoading, workspaces } = useWorkspace
+const isCreateSurveyModalOpen = ref(false);
+
+const openSurveyModal = () => {
+  isCreateSurveyModalOpen.value = true;
+}
+const closeSurveyModal = () => {
+  isCreateSurveyModalOpen.value = false;
+}
 
 </script>
 
@@ -38,7 +46,18 @@ const { setSelected, isLoading, workspaces } = useWorkspace
     <div class="gap"></div>
 
     <WorkspaceUI v-if="!isLoading() && useWorkspace.getSelected">
-      <CreateSurveyCard :workspace-id="useWorkspace.getSelected.id" />
+      <div class="mySurveys_new_item__2LSh_" @click="openSurveyModal">
+        <div class="mySurveys_new_survey__EmeBN">
+          <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd">
+              <rect fill="#3B368E" width="32" height="32" rx="5.333"></rect>
+              <path d="M4 4h24v24H4z"></path>
+              <path d="M16 10a1.2 1.2 0 0 1 1.2 1.2v3.6h3.6a1.2 1.2 0 1 1 0 2.4l-3.6-.001V20.8a1.2 1.2 0 1 1-2.4 0v-3.6h-3.6a1.2 1.2 0 1 1 0-2.4h3.6v-3.6A1.2 1.2 0 0 1 16 10z" fill="#FFF"></path>
+            </g>
+          </svg>
+          <div class="mySurveys_text__1WyfZ">Create new survey</div>
+        </div>
+      </div>
 
       <SurveyCard
           v-for="survey in useWorkspace.getSelected.surveys"
@@ -49,6 +68,11 @@ const { setSelected, isLoading, workspaces } = useWorkspace
       <span class="loading loading-spinner loading-lg mr-1.5 absolute"></span>
     </div>
   </DashboardLayout>
+
+  <CreateSurveyModal
+      :is-open="isCreateSurveyModalOpen"
+      @close="closeSurveyModal"
+  />
 </template>
 
 <style scoped>
@@ -72,35 +96,41 @@ const { setSelected, isLoading, workspaces } = useWorkspace
   background-color: #f0f2f5;
 }
 
-.messageModal_grid_wrapper__ziDi0 {
-  padding: 2rem;
-  font-size: 14px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  height: calc(100% - 112px);
-}
-
-.createFolderModal_createFolder_modal__UDqGR {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
 .createFolderModal_createFolder_modal__UDqGR > * {
   width: 100%;
 }
 
-.messageModal_footer__EhWT8 {
+.mySurveys_new_item__2LSh_ {
+  width: 18.25rem;
+  height: 13.25rem;
   display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.mySurveys_new_survey__EmeBN {
+  height: 13.25rem;
+  background-color: #fff;
   align-items: center;
-  justify-content: flex-end;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.75rem 1rem;
-  box-shadow: inset 0 0.125rem 0 0 #f0f2f5;
+  justify-content: center;
+  width: 100%;
+  border-radius: 0.5rem;
+  display: flex;
+  color: #3b368e;
+  cursor: pointer;
+}
+
+.mySurveys_text__1WyfZ {
+  margin-right: 1rem;
+  font-weight: 700;
+  font-size: 14px;
+  margin-left: 14px;
+  color: #3b368e;
+  cursor: pointer;
+}
+
+.createFolderModal_createFolder_modal__UDqGR > * {
+  width: 100%;
 }
 
 .messageModal_footer__EhWT8 button:first-child {
