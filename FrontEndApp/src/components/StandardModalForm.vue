@@ -17,7 +17,7 @@ defineEmits<{
                     messageModal_overlay__RwrNz
                     messageModal_ltr__iojtB
                     messageModal_wrapper_with_button_and_title__62Gfx" tabindex="-1" role="dialog" aria-modal="true">
-      <div style="font-family: Roboto;">
+      <div>
         <div class="messageModal_header__B9SQ1 messageModal_ltr__iojtB">
           <div class="messageModal_icon__iPxOW" @click="$emit('close')">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">

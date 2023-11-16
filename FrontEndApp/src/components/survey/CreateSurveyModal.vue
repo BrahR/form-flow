@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import PrimaryButton from "@/components/form/PrimaryButton.vue";
-import StandardModalForm from "@/components/StandardModalForm.vue";
 import InputError from "@/components/form/InputError.vue";
+import StandardModalForm from "@/components/StandardModalForm.vue";
 import SecondaryButton from "@/components/form/SecondaryButton.vue";
 import TextInput from "@/components/form/TextInput.vue";
 
-import {ref, computed} from "vue"
+import {computed, ref} from "vue";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
 import {useSurveyStore} from "@/store/survey.ts";
 
-type WorkspaceForm = {
+type SurveyForm = {
   name: string
 }
 
-type Props = {
-  workspaceId: number
-}
+defineProps<{
+  isOpen: boolean
+}>()
 
-defineProps<Props>()
+const emits = defineEmits<{
+  (event: "close"): void
+}>()
+
 const useSurvey = useSurveyStore()
-
-// create survey form
-const isCreateSurveyModalOpen = ref(false);
-
-const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<WorkspaceForm>({
+const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
   validationSchema: yup.object({
     name: yup.string().required().label("Name"),
   }),
@@ -36,32 +35,28 @@ const error = ref("");
 const createSurvey = handleSubmit(values => {
   return new Promise((resolve, reject) => {
     useSurvey.createSurvey(values as Survey)
-        .then(() => {
-          closeSurveyModal()
-          //   do something later
-          resolve(true)
+      .then(() => {
+        closeSurveyModal()
+        //   do something later
+        resolve(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        // setTimeout(() => {
+        resetForm({
+          values: {
+            name: "",
+          },
         })
-        .catch((err) => {
-          console.log(err)
-          // setTimeout(() => {
-          resetForm({
-            values: {
-              name: "",
-            },
-          })
-          error.value = "Something happened, please try again later!"
-          if (err.status) error.value = err.response.data.message
-          reject(false)
-        });
+        error.value = "Something happened, please try again later!"
+        if (err.status) error.value = err.response.data.message
+        reject(false)
+      });
   })
 })
 
-const openSurveyModal = () => {
-  isCreateSurveyModalOpen.value = true;
-}
-
 const closeSurveyModal = () => {
-  isCreateSurveyModalOpen.value = false;
+  emits("close")
   resetForm();
 }
 
@@ -73,22 +68,11 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 </script>
 
 <template>
-  <div class="mySurveys_new_item__2LSh_" @click="openSurveyModal">
-    <div class="mySurveys_new_survey__EmeBN">
-      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" fill-rule="evenodd">
-          <rect fill="#3B368E" width="32" height="32" rx="5.333"></rect>
-          <path d="M4 4h24v24H4z"></path>
-          <path
-              d="M16 10a1.2 1.2 0 0 1 1.2 1.2v3.6h3.6a1.2 1.2 0 1 1 0 2.4l-3.6-.001V20.8a1.2 1.2 0 1 1-2.4 0v-3.6h-3.6a1.2 1.2 0 1 1 0-2.4h3.6v-3.6A1.2 1.2 0 0 1 16 10z"
-              fill="#FFF"></path>
-        </g>
-      </svg>
-      <div class="mySurveys_text__1WyfZ">Create new survey</div>
-    </div>
-  </div>
-  <StandardModalForm title="Create new survey" :show="isCreateSurveyModalOpen" @close="closeSurveyModal">
-    <form @submit="createSurvey">
+  <StandardModalForm title="Create new survey" :show="isOpen" @close="closeSurveyModal">
+    <form
+      @submit="createSurvey"
+      @keydown.enter.prevent="createSurvey"
+    >
       <div class="messageModal_grid_wrapper__ziDi0">
         <div class="createFolderModal_createFolder_modal__UDqGR">
           <InputError class="mb-3" :error="error" :show="!meta.touched"/>
@@ -111,7 +95,7 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
             :is-submitting="isSubmitting_"
             :disabled="disabled"
         >
-          Add workspace
+          Create
         </PrimaryButton>
       </div>
     </form>
@@ -119,36 +103,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 </template>
 
 <style scoped>
-
-.mySurveys_new_item__2LSh_ {
-  width: 18.25rem;
-  height: 13.25rem;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-.mySurveys_new_survey__EmeBN {
-  height: 13.25rem;
-  background-color: #fff;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-radius: 0.5rem;
-  display: flex;
-  color: #3b368e;
-  cursor: pointer;
-}
-
-.mySurveys_text__1WyfZ {
-  margin-right: 1rem;
-  font-weight: 700;
-  font-size: 14px;
-  margin-left: 14px;
-  color: #3b368e;
-  cursor: pointer;
-}
-
 
 .messageModal_grid_wrapper__ziDi0 {
   padding: 2rem;
@@ -163,7 +117,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-/*grid-gap: 1rem; min-height: fit-content !important; */
 }
 
 .createFolderModal_createFolder_modal__UDqGR > * {

@@ -8,6 +8,7 @@ import {computed, ref} from "vue";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
 import {useWorkspaceStore} from "@/store/workspace.ts";
+import {useSurveyStore} from "@/store/survey.ts";
 
 defineProps<{
   isOpen: boolean
@@ -21,7 +22,8 @@ type SurveyForm = {
   name: string
 }
 
-const useWorkspace = useWorkspaceStore()
+// const useWorkspace = useWorkspaceStore()
+const useSurvey = useSurveyStore()
 
 const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
   validationSchema: yup.object({
@@ -32,7 +34,7 @@ const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta
 const name = defineComponentBinds("name");
 const error = ref("");
 
-const updateWorkspace = handleSubmit(values => {
+const updateSurvey = handleSubmit(values => {
   useWorkspace.update(values as Workspace)
       .then(() => {
         closeModal()
@@ -68,8 +70,11 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 </script>
 
 <template>
-  <StandardModalForm title="Create new survey" :show="isOpen" @close="closeModal">
-    <form @submit="updateWorkspace">
+  <StandardModalForm title="Rename a survey" :show="isOpen" @close="closeModal">
+    <form
+        @submit="updateSurvey"
+        @keydown.enter.prevent="updateSurvey"
+    >
       <div class="messageModal_grid_wrapper__ziDi0">
         <div class="createFolderModal_createFolder_modal__UDqGR">
           <InputError class="mb-3" :error="error" :show="!meta.touched"/>
@@ -92,7 +97,7 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
             :is-submitting="isSubmitting_"
             :disabled="disabled"
         >
-          Add workspace
+          Rename
         </PrimaryButton>
       </div>
     </form>

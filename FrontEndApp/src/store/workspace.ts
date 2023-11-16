@@ -69,7 +69,8 @@ export const useWorkspaceStore = defineStore("workspace", () => {
   const delete_ = async (workspace: Workspace | null): Promise<void> => {
     if (!workspace) return
     return axiosInstance.delete(`/workspace/delete/${workspace.id}`).then(() => {
-      delete workspaces.data[find(workspace.id)]
+      workspaces.data.splice(find(workspace.id), 1)
+      workspaces.selected = workspaces.data[0] ?? null
     })
   }
 
