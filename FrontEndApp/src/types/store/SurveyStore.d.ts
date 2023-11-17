@@ -1,4 +1,7 @@
 export type SurveyStore = {
-    data: Survey[]
+    data: Survey[] | []
+    selected: Survey | null
     creating: boolean
+    loading: boolean
+    hydrated: boolean
 }

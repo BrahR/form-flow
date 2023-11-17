@@ -4,13 +4,12 @@ import InputError from "@/components/form/InputError.vue";
 import StandardModalForm from "@/components/StandardModalForm.vue";
 import SecondaryButton from "@/components/form/SecondaryButton.vue";
 import TextInput from "@/components/form/TextInput.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
-import {useWorkspaceStore} from "@/store/workspace.ts";
 import {useSurveyStore} from "@/store/survey.ts";
 
-defineProps<{
+const props = defineProps<{
   isOpen: boolean
 }>()
 
@@ -24,32 +23,48 @@ type SurveyForm = {
 
 // const useWorkspace = useWorkspaceStore()
 const useSurvey = useSurveyStore()
+const initial = ref({
+  id: useSurvey.getSelected?.id ?? 0,
+  name: useSurvey.getSelected?.name ?? ""
+})
 
-const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
+watch(() => props.isOpen, () => {
+  if (!props.isOpen) return
+  initial.value = {
+    id: useSurvey.getSelected?.id ?? 0,
+    name: useSurvey.getSelected?.name ?? ""
+  }
+  setValues(initial.value)
+})
+
+const {errors, setValues, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
   validationSchema: yup.object({
+    id: yup.string().required(),
     name: yup.string().required().label("Name"),
   }),
+  initialValues: initial.value
 })
 
 const name = defineComponentBinds("name");
 const error = ref("");
 
 const updateSurvey = handleSubmit(values => {
-  useWorkspace.update(values as Workspace)
-      .then(() => {
-        closeModal()
-        //   do something later
-      })
-      .catch((err) => {
-        console.log(err)
-        resetForm({
-          values: {
-            name: "",
-          },
+  return new Promise((resolve, reject) => {
+    useSurvey.update(values as Survey)
+        .then(() => {
+          closeModal()
+          resolve(true)
         })
-        error.value = "Something happened, please try again later!"
-        if (err.status) error.value = err.response.data.message
-      });
+        .catch((err) => {
+          console.log(err)
+          resetForm({
+            values: initial.value,
+          })
+          error.value = "Something happened, please try again later!"
+          if (err.status) error.value = err.response.data.message
+          reject()
+        });
+  })
 })
 
 // const openSurveyModal = () => {
