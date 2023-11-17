@@ -38,24 +38,23 @@ class WorkspaceController extends Controller {
         $workspace->update($request->validated());
 
         return response([
-            "workspace" => $workspace
+            "workspace" => $workspace->load("surveys"),
         ]);
     }
 
     public function delete(Workspace $workspace): Response {
+        $response = [
+            "success" => "Successfully deleted the workspace"
+        ];
+
         try {
             $workspace->users()->detach();
             $workspace->surveys()->delete();
             $workspace->delete();
-
-            return response([
-                "success" => "Successfully deleted the workspace"
-            ]);
         } catch (\Exception $e) {
             report($e);
-            return response([
-                "error" => "Couldn't delete this workspace"
-            ]);
         }
+
+        return response($response);
     }
 }
