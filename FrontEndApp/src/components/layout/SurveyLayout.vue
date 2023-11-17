@@ -3,14 +3,21 @@ import UserDropdown from "@/components/UserDropdown.vue";
 import UpdateSurveyForm from "@/components/survey/UpdateSurveyForm.vue";
 
 import { ref } from "vue"
+import {useWorkspaceStore} from "@/store/workspace.ts";
+import {useSurveyStore} from "@/store/survey.ts";
 
+const useWorkspace = useWorkspaceStore()
+const useSurvey = useSurveyStore()
 const isUpdateSurveyModalOpen = ref(false)
 const openUpdateSurvey = async () => {
+  if (!useSurvey.getSelected) return
   isUpdateSurveyModalOpen.value = true
 }
 const closeUpdateSurvey = () => {
   isUpdateSurveyModalOpen.value = false
 }
+
+useSurvey.hydrate()
 
 const navLinks = [
   {
@@ -41,23 +48,38 @@ const navLinks = [
     <main class="surveyLayout_survey_layout__dvLUs surveyLayout_ltr__gKavG surveyLayout_english__Q6s_6">
       <div class="surveyNavbar_wrapper__sDoyH surveyNavbar_ltr__Z0ZPQ">
         <div class="surveyNavbar_survey_info_wrapper__t5fNn surveyNavbar_ltr__Z0ZPQ">
-          <div class="surveyNavbar_back_icon__EzM4s" href="/n/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-              <g fill="none" fill-rule="evenodd">
-                <path d="M0 0H48V48H0z"
-                      transform="translate(-304.000000, -100.000000) translate(0.000000, 96.000000) translate(304.000000, 4.000000)"></path>
-                <path stroke="#3E434D" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M16 24.5L33 24.5M25 16L33 24.5 25 33"
-                      transform="translate(-304.000000, -100.000000) translate(0.000000, 96.000000) translate(304.000000, 4.000000)"></path>
-              </g>
-            </svg>
-          </div>
+          <router-link v-slot="{ navigate }" custom :to="{ name: 'Dashboard' }">
+            <div class="surveyNavbar_back_icon__EzM4s" @click="navigate">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                <g fill="none" fill-rule="evenodd">
+                  <path d="M0 0H48V48H0z"
+                        transform="translate(-304.000000, -100.000000) translate(0.000000, 96.000000) translate(304.000000, 4.000000)"></path>
+                  <path stroke="#3E434D" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 24.5L33 24.5M25 16L33 24.5 25 33"
+                        transform="translate(-304.000000, -100.000000) translate(0.000000, 96.000000) translate(304.000000, 4.000000)"></path>
+                </g>
+              </svg>
+            </div>
+          </router-link>
           <div class="surveyNavbar_survey_info__UXpg3">
             <router-link v-slot="{ navigate }" custom :to="{ name: 'Dashboard' }">
-              <div class="surveyNavbar_folder_name__rrU8k" @click="navigate">My workspace</div>
+              <div
+                  class="surveyNavbar_folder_name__rrU8k"
+                  :class="{ 'skeleton w-20': useWorkspace.isLoading || !useWorkspace.getSelected }"
+                  @click="navigate"
+              >
+                {{ useWorkspace.getSelected?.name }}
+              </div>
             </router-link>
             <span class="surveyNavbar_seperator__N_q4E"> / </span>
-            <div class="surveyNavbar_survey_name__Vlkqx" @click="openUpdateSurvey">Nam corporis quae vo</div>
+            <div
+                class="surveyNavbar_survey_name__Vlkqx"
+                :class="{ 'skeleton w-20': useSurvey.isLoading }"
+                @click="openUpdateSurvey"
+            >
+              {{ useSurvey.getSelected?.name }}
+
+            </div>
           </div>
         </div>
         <div class="surveyNavbar_desktop_phases__U9fPD">
