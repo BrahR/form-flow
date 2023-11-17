@@ -26,10 +26,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("/logout", [AuthController::class, "logout"]);
 
     Route::get("/dashboard", [DashboardController::class, "index"]);
+    Route::get("/workspace/{workspace}", [WorkspaceController::class, "show"]);
     Route::post("/workspace/create", [WorkspaceController::class, "store"]);
     Route::post("/workspace/update/{workspace}", [WorkspaceController::class, "update"]);
     Route::delete("/workspace/delete/{workspace}", [WorkspaceController::class, "delete"]);
 
+    Route::get("/workspace/{workspace}/survey", [SurveyController::class, "index"]);
+    Route::get("/workspace/survey/{survey}", [SurveyController::class, "show"]);
+    Route::put("/survey/{survey}", [SurveyController::class, "update"]);
     Route::post("/workspace/{workspace}/survey/create", [SurveyController::class, "store"]);
 });
 
