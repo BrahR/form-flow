@@ -9,9 +9,12 @@ defineProps<{
 
 <template>
   <div class="mySurveyItem_card_view_survey__AFsFL">
-    <router-link class="mySurveyItem_name_wrapper__FtsrP" :to="{ name: 'Survey.Build', params: { id: survey.id } }"
-           style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151);">
-        <div>{{ survey.name }}</div>
+    <router-link
+        class="mySurveyItem_name_wrapper__FtsrP"
+        :to="{ name: 'Survey.Build', params: { workspaceId: survey.workspace_id , surveyId: survey.id } }"
+        style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151);"
+    >
+      <div>{{ survey.name }}</div>
     </router-link>
     <div class="mySurveyItem_details__S0THf">
       <div style="opacity: 1;">
