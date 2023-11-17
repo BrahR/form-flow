@@ -2,10 +2,8 @@
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 import router from "@/router";
 import {useUserStore} from "@/store/user.ts";
-import {useWorkspaceStore} from "@/store/workspace.ts";
 
 const userStore = useUserStore()
-useWorkspaceStore().hydrate()
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },

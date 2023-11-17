@@ -16,6 +16,7 @@ export const useUserStore = defineStore("user", () => {
     )
 
     const hydrate = async () => {
+        if (user.hydrated) return
         user.loading = true
 
         await axiosInstance.get("/user").then((response) => {

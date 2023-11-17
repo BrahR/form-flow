@@ -1,10 +1,11 @@
-import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
+import {useUserStore} from "@/store/user.ts";
+import {createRouter, createWebHistory, RouteRecordRaw, Router} from "vue-router";
+
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import SurveyBuild from "@/views/survey/SurveyBuild.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
-import {useUserStore} from "@/store/user.ts";
 import SurveyDesign from "@/views/survey/SurveyDesign.vue";
 import SurveyResults from "@/views/survey/SurveyResults.vue";
 import SurveySettings from "@/views/survey/SurveySettings.vue";
@@ -44,7 +45,7 @@ const routes: RouteRecordRaw[] = [
         ]
     },
     {
-        path: "/survey/:id",
+        path: "/w-:workspaceId/survey/:surveyId",
         meta: {requiresAuth: true},
         component: SurveyLayout,
         children: [
@@ -96,7 +97,7 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
     history: createWebHistory(),
     routes
-})
+});
 
 router.beforeEach(async (to, from, next) => {
     from.meta.isAuth = from.meta.isAuth ?? false
@@ -109,4 +110,4 @@ router.beforeEach(async (to, from, next) => {
     return next();
 })
 
-export default router
+export default router as Router;

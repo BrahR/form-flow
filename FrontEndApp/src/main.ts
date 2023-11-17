@@ -13,6 +13,6 @@ defineRule('min', min);
 const pinia = createPinia();
 
 createApp(App)
+    .use(router as any)
     .use(pinia)
-    .use(router)
     .mount('#app')

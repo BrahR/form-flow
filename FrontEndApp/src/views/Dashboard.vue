@@ -9,7 +9,6 @@ import {useWorkspaceStore} from "@/store/workspace.ts";
 import {ref} from "vue"
 
 const useWorkspace = useWorkspaceStore()
-const { setSelected, isLoading, workspaces } = useWorkspace
 const isCreateSurveyModalOpen = ref(false);
 
 const openSurveyModal = () => {
@@ -25,14 +24,14 @@ const closeSurveyModal = () => {
   <DashboardLayout>
     <template #folders>
       <div class="home-sidebar-menu">
-        <div v-if="!isLoading()">
+        <div v-if="!useWorkspace.isLoading">
           <WorkspaceFolder
-            v-for="workspace in workspaces.data"
-            :key="workspace.id"
-            :name="workspace.name"
-            :surveys="workspace.surveys"
-            :selected="useWorkspace.getSelected === workspace"
-            @click="setSelected(workspace)"
+              v-for="workspace in useWorkspace.getWorkspaces"
+              :key="workspace.id"
+              :name="workspace.name"
+              :surveys="workspace.surveys"
+              :selected="useWorkspace.getSelected?.id === workspace.id"
+              @click="useWorkspace.setSelected(workspace)"
           />
         </div>
         <div v-else class="flex justify-center items-center py-2">
@@ -45,14 +44,16 @@ const closeSurveyModal = () => {
 
     <div class="gap"></div>
 
-    <WorkspaceUI v-if="!isLoading() && useWorkspace.getSelected">
+    <WorkspaceUI v-if="!useWorkspace.isLoading && useWorkspace.getSelected">
       <div class="mySurveys_new_item__2LSh_" @click="openSurveyModal">
         <div class="mySurveys_new_survey__EmeBN">
           <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fill-rule="evenodd">
               <rect fill="#3B368E" width="32" height="32" rx="5.333"></rect>
               <path d="M4 4h24v24H4z"></path>
-              <path d="M16 10a1.2 1.2 0 0 1 1.2 1.2v3.6h3.6a1.2 1.2 0 1 1 0 2.4l-3.6-.001V20.8a1.2 1.2 0 1 1-2.4 0v-3.6h-3.6a1.2 1.2 0 1 1 0-2.4h3.6v-3.6A1.2 1.2 0 0 1 16 10z" fill="#FFF"></path>
+              <path
+                  d="M16 10a1.2 1.2 0 0 1 1.2 1.2v3.6h3.6a1.2 1.2 0 1 1 0 2.4l-3.6-.001V20.8a1.2 1.2 0 1 1-2.4 0v-3.6h-3.6a1.2 1.2 0 1 1 0-2.4h3.6v-3.6A1.2 1.2 0 0 1 16 10z"
+                  fill="#FFF"></path>
             </g>
           </svg>
           <div class="mySurveys_text__1WyfZ">Create new survey</div>

@@ -3,25 +3,26 @@ import type {} from "vite";
 import {computed, reactive} from "vue";
 import axiosInstance from "@/axios.ts";
 import {WorkspaceStore} from "@/types/store/WorkspaceStore";
-import {pushToArray} from "@/utils/index.ts"
+import {find, pushToArray} from "@/utils/index.ts"
 
 export const useWorkspaceStore = defineStore("workspace", () => {
 
   const workspaces: WorkspaceStore = reactive({
-      data: [],
+      data: null,
       selected: null,
       loading: false,
       hydrated: false
     }
   )
 
-  const hydrate = () => {
+  const hydrate = async () => {
+    console.log(workspaces.selected)
     if (workspaces.hydrated) return
     workspaces.loading = true
 
     axiosInstance.get("/dashboard").then((r) => {
       workspaces.data = r.data.workspaces;
-      workspaces.selected = workspaces.data[0]
+      if (!workspaces.selected) workspaces.selected = workspaces?.data![0] ?? null
     }).catch(() => {
       //     later
     }).finally(() => {
@@ -33,23 +34,26 @@ export const useWorkspaceStore = defineStore("workspace", () => {
   const dehydrate = () => {
     workspaces.hydrated = false
     workspaces.loading = false
-    workspaces.data = []
+    workspaces.data = null
     workspaces.selected = null
   }
 
-  const find = (id: number): number => {
-    return workspaces.data.findIndex((i: Workspace) => i.id == id)
-  }
-
   // GETTERS
-  const getWorkspaces = () => workspaces.data
+  const getWorkspaces = computed(() => workspaces.data)
   const getSelected = computed(() => workspaces.selected)
-  const isLoading = () => workspaces.loading
-  const isHydrated = () => workspaces.hydrated
+  const isLoading = computed(() => workspaces.loading)
+  const isHydrated = computed(() => workspaces.hydrated)
 
   // SETTERS
   const setSelected = (workspace: Workspace): void => {
     workspaces.selected = workspace
+  }
+
+  const fetchWorkspace = async (id: number | string) => {
+    if (workspaces.selected?.id == id || workspaces.hydrated) return
+    return axiosInstance.get(`/workspace/${id}`).then(r => {
+      workspaces.selected = r.data.workspace
+    })
   }
 
   const createWorkspace = async (workspace: Workspace): Promise<void> => {
@@ -60,17 +64,20 @@ export const useWorkspaceStore = defineStore("workspace", () => {
   }
 
   const update = async (workspace: Workspace): Promise<void> => {
-    return axiosInstance.post(`/workspace/update/${workspace.id}`, workspace).then(r => {
-      workspaces.data[find(workspace.id)].name = r.data.workspace.name
-      workspaces.selected!.name = r.data.workspace.name
+    return axiosInstance.post(`/workspace/update/${workspace.id}`, workspace).then(async r => {
+      // if (!workspaces.data || !workspaces.selected) {
+      //   await hydrate()
+      // }
+      workspaces.data![find(workspace.id, workspaces!.data as Workspace[])] = r.data.workspace
+      workspaces!.selected = r.data.workspace
     })
   }
 
   const delete_ = async (workspace: Workspace | null): Promise<void> => {
     if (!workspace) return
     return axiosInstance.delete(`/workspace/delete/${workspace.id}`).then(() => {
-      workspaces.data.splice(find(workspace.id), 1)
-      workspaces.selected = workspaces.data[0] ?? null
+      workspaces?.data?.splice(find(workspace.id, workspaces?.data), 1)
+      workspaces.selected = workspaces?.data![0] ?? null
     })
   }
 
@@ -83,6 +90,8 @@ export const useWorkspaceStore = defineStore("workspace", () => {
     isHydrated,
 
     setSelected,
+
+    fetchWorkspace,
 
     createWorkspace,
     update,

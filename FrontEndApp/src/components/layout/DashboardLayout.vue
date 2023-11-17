@@ -1,19 +1,11 @@
 <script setup lang="ts">
-// import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {ref} from "vue";
-// import {useWorkspaceStore} from "@/store/workspace.ts";
-// import router from "@/router";
-// import {useUserStore} from "@/store/user.ts";
-// import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue";
+
 import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal.vue";
-// import {useWorkspaceStore} from "@/store/workspace.ts";
+import {useWorkspaceStore} from "@/store/workspace.ts";
 import UserDropdown from "@/components/UserDropdown.vue";
 
-
-
-
-
-
+useWorkspaceStore().hydrate()
 const isCreateWorkspaceModalOpen = ref(false)
 const openCreateWorkspace = () => {
   isCreateWorkspaceModalOpen.value = true;
