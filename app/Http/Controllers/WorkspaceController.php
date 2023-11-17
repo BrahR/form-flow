@@ -19,6 +19,12 @@ class WorkspaceController extends Controller {
         ]);
     }
 
+    public function show(Workspace $workspace): Response {
+        return response([
+           "workspace" => $workspace->load("surveys")
+        ]);
+    }
+
     public function store(WorkspaceRequest $request): Response {
         $workspace = Workspace::create($request->validated());
         $workspace->users()->attach(auth()->user());
