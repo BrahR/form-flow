@@ -1,28 +1,57 @@
+import axiosInstance from "@/axios.ts";
 import {acceptHMRUpdate, defineStore} from "pinia";
 import type {} from "vite"
 import {SurveyStore} from "@/types/store/SurveyStore";
-import {reactive} from "vue";
-import axiosInstance from "@/axios.ts";
+import {computed, reactive} from "vue";
 import {useWorkspaceStore} from "@/store/workspace.ts";
-import {pushToArray} from "@/utils";
+import {find, pushToArray} from "@/utils";
+import {useRoute} from "vue-router";
 
 export const useSurveyStore = defineStore("survey", () => {
     const useWorkspace = useWorkspaceStore()
+    const route = useRoute()
 
     const surveys: SurveyStore = reactive({
-        data: [] as Survey[],
-        creating: false
+        data: [],
+        selected: null,
+        creating: false,
+        loading: false,
+        hydrated: false
     })
 
-    const hydrate = (): void => {
+    const hydrate = async (): Promise<void> => {
+        dehydrate()
+        // @ts-ignore
+        if (surveys.hydrated && surveys.selected?.id === route.params.surveyId) return
+        surveys.loading = true
 
+        // @ts-ignore
+        await useWorkspace.fetchWorkspace(route.params.workspaceId)
+        surveys.data = useWorkspace.getSelected?.surveys ?? []
+        // @ts-ignore
+        const index = find(route.params.surveyId, surveys.data)
+        surveys.selected = surveys.data[index]
+
+        surveys.loading = false
+        surveys.hydrated = true
     }
 
     const dehydrate = (): void => {
-        surveys.data = [] as Survey[]
+        surveys.data = []
+        surveys.selected = null
+        surveys.hydrated = false
+        surveys.loading = false
+        surveys.creating = false
     }
 
-     const createSurvey = async (survey: Survey): Promise<void> => {
+    // GETTERS
+    const getSurveys = computed((): Survey[] => surveys.data)
+    const getSelected = computed((): Survey | null => surveys.selected)
+    const isLoading = computed((): boolean => surveys.loading)
+    const isHydrated = computed((): boolean => surveys.hydrated)
+    const isCreating = computed((): boolean => surveys.creating)
+
+    const createSurvey = async (survey: Survey): Promise<void> => {
         if (surveys.creating) return
         surveys.creating = true
 
@@ -34,10 +63,25 @@ export const useSurveyStore = defineStore("survey", () => {
         })
     }
 
+    const update = async (survey: Survey): Promise<void> => {
+        return axiosInstance.put(`/survey/${survey.id}`, survey).then((r) => {
+            const index = find(survey.id, surveys.data)
+            surveys.data[index] = r.data.survey
+            surveys.selected = r.data.survey
+        })
+    }
+
     return {
         surveys,
 
+        getSurveys,
+        getSelected,
+        isLoading,
+        isHydrated,
+        isCreating,
+
         createSurvey,
+        update,
 
         hydrate,
         dehydrate
