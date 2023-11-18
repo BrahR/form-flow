@@ -19,6 +19,8 @@ import MatrixIcon from "@/components/survey/icons/MatrixIcon.vue";
 import EndingsIcon from "@/components/survey/icons/EndingsIcon.vue";
 import CalculatedVariablesIcon from "@/components/survey/icons/CalculatedVariablesIcon.vue";
 import CustomVariablesIcon from "@/components/survey/icons/CustomVariablesIcon.vue";
+import QuestionMaker from "@/components/question/QuestionMaker.vue";
+// import Dialog from "@/components/Dialog.vue"
 
 const buttons = [
   {
@@ -238,6 +240,7 @@ const bottomButtons = [
       </div>
     </div>
   </div>
+  <QuestionMaker />
 </template>
 
 <style scoped>
@@ -1141,7 +1144,6 @@ const bottomButtons = [
   }
 }
 
-
 /*! CSS Used from: Embedded */
 [data-react-beautiful-dnd-drag-handle="4"] {
   -webkit-touch-callout: none;
@@ -1155,7 +1157,6 @@ const bottomButtons = [
 
 /*! CSS Used from: Embedded */
 [data-react-beautiful-dnd-drag-handle="4"] {
-  cursor: -webkit-grab;
   cursor: grab;
 }
 
