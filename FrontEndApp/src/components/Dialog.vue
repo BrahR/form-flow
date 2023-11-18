@@ -8,6 +8,7 @@ import {
 
 defineProps<{
   show: boolean
+  full?: boolean
 }>()
 
 defineEmits<{
@@ -44,7 +45,8 @@ defineEmits<{
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl align-middle shadow-xl transition-all"
+              class="w-full transform overflow-hidden rounded-2xl align-middle shadow-xl transition-all"
+              :class="{ 'max-w-md': !full, 'full': full }"
             >
                 <slot />
             </DialogPanel>
@@ -54,3 +56,10 @@ defineEmits<{
     </Dialog>
   </TransitionRoot>
 </template>
+
+<style scoped>
+.full {
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 2rem);
+}
+</style>
