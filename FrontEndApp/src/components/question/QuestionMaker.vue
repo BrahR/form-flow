@@ -1,106 +1,74 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
 
-// import { ConfigEditor  }
-import { EditorConfig } from "@ckeditor/ckeditor5-core"
-import {ClassicEditor} from "@ckeditor/ckeditor5-editor-classic"
-import {Essentials} from "@ckeditor/ckeditor5-essentials"
-import {Bold, Italic, Underline } from "@ckeditor/ckeditor5-basic-styles"
-import {Link} from "@ckeditor/ckeditor5-link"
-import {Paragraph} from "@ckeditor/ckeditor5-paragraph";
-import {ref} from "vue";
+import {useQuestionStore} from "@/store/question.ts";
+import {QuestionType} from "@/types/store/question";
+import {watch} from "vue";
 
-const editorData = ref("")
-const editor = ClassicEditor
-const editorConfig: EditorConfig = {
-  plugins: [
-      Essentials,
-      Bold,
-      Italic,
-      Link,
-      Paragraph,
-      Underline
-  ],
-  toolbar: {
-    items: [
-      'bold',
-      'italic',
-      'underline',
-      'link',
-      'undo',
-      'redo',
-    ]
-  },
-  placeholder: "Enter a label",
-  link: {
-    decorators: {
-      toggleDownloadable: {
-        mode: 'manual',
-        label: 'Downloadable',
-        attributes: {
-          download: 'file'
-        }
-      },
-      openInNewTab: {
-        mode: 'manual',
-        label: 'Open in a new tab',
-        defaultValue: true,
-        attributes: {
-          target: '_blank',
-          rel: 'noopener noreferrer'
-        }
-      },
-    },
-    defaultProtocol: 'https://',
+const props = defineProps<{
+  open: boolean
+  type: QuestionType
+}>()
 
-  }
-}
+
+const useQuestion = useQuestionStore()
+useQuestion.hydrate(props.type)
+
+watch(() => props.type, () => {
+  useQuestion.hydrate(props.type)
+})
 
 </script>
 
 <template>
-  <Dialog :show="true" :full="true" @close="() => console.log('E')">
+  <Dialog v-if="useQuestion.isHydrated" :show="open" :full="true" @close="() => console.log('E')">
     <div class="ReactModalPortal">
       <div class="ReactModal__Overlay ReactModal__Overlay--after-open addOrEditQuestionModal_modal_overlay__rgQs8">
         <div
-            class="ReactModal__Content ReactModal__Content--after-open addOrEditQuestionModal_modal_wrapper__KK2G8 undefined"
-            tabindex="-1" role="dialog" aria-modal="true">
+          class="ReactModal__Content ReactModal__Content--after-open addOrEditQuestionModal_modal_wrapper__KK2G8"
+          tabindex="-1" role="dialog" aria-modal="true">
           <div class="sharedIndex_content__3SCeJ sharedIndex_ltr__mCCAr">
             <div class="sharedIndex_sidebar__DMD9M sharedIndex_ltr__mCCAr">
               <div class="questionHeader_header__KdSai">
                 <div class="questionHeader_title__f0ZQh">
-                  <div class="questionHeader_close_icon__NxbEt false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-                      <g fill="none" fill-rule="evenodd">
-                        <path stroke="#3E434D" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M30 18L18 30M18 18L30 30"
-                              transform="translate(-1152.000000, -306.000000) translate(232.000000, 302.000000) translate(920.000000, 4.000000)"></path>
-                      </g>
-                    </svg>
-                  </div>
-                  <div class="questionHeader_question_header_wrapper__44dEG questionHeader_ltr__T3Sam">
-                    <div
-                        class="questionNumber_question_number_wrapper__eCXI_ questionNumber_multiple_choice_question__Qb_fe false questionNumber_ltr__n8kqK">
-                      <div class="questionNumber_icon__nsjC6">
-                        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                              d="M20 13a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4zm-8.5 3a.5.5 0 1 1 0 1h-8a.5.5 0 1 1 0-1h8zM18 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11.5 8a.5.5 0 1 1 0 1h-8a.5.5 0 0 1 0-1h8z"
-                              fill="#3E434D" fill-rule="nonzero"></path>
-                        </svg>
-                      </div>
-                      <div class="questionNumber_question_number_text__MJfAs">1</div>
+                  <router-link :to="{ name: 'Survey.Build', params: $route.params }" v-slot="{ navigate }" custom>
+                    <div class="questionHeader_close_icon__NxbEt" @click="navigate">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                        <g fill="none" fill-rule="evenodd">
+                          <path stroke="#3E434D" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M30 18L18 30M18 18L30 30"
+                                transform="translate(-1152.000000, -306.000000) translate(232.000000, 302.000000) translate(920.000000, 4.000000)"></path>
+                        </g>
+                      </svg>
                     </div>
+                  </router-link>
+                  <div class="questionHeader_question_header_wrapper__44dEG questionHeader_ltr__T3Sam">
+                    <component :is="{...useQuestion.getIcon}" :number="1"></component>
+<!--                    <div-->
+<!--                      class="questionNumber_question_number_wrapper__eCXI_ questionNumber_multiple_choice_question__Qb_fe questionNumber_ltr__n8kqK">-->
+<!--                      <div class="questionNumber_icon__nsjC6">-->
+<!--                        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
+<!--                          <path-->
+<!--                            d="M20 13a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4zm-8.5 3a.5.5 0 1 1 0 1h-8a.5.5 0 1 1 0-1h8zM18 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11.5 8a.5.5 0 1 1 0 1h-8a.5.5 0 0 1 0-1h8z"-->
+<!--                            fill="#3E434D" fill-rule="nonzero"></path>-->
+<!--                        </svg>-->
+<!--                      </div>-->
+<!--                      <div class="questionNumber_question_number_text__MJfAs">1</div>-->
+<!--                    </div>-->
                     <div class="questionHeader_name__Znclc questionHeader_ltr__T3Sam">Multiple Choice</div>
                   </div>
                 </div>
                 <div class="questionHeader_mobile_navbar__G6_dM">
                   <div class="questionHeader_navbar_item__2K8Sa questionHeader_active__X_qz1">Create</div>
-                  <div class="questionHeader_navbar_item__2K8Sa false">Preview</div>
+                  <div class="questionHeader_navbar_item__2K8Sa">Preview</div>
                 </div>
               </div>
               <div class="sharedIndex_content__3SCeJ">
-                <div class="sharedIndex_questions_content__TPf69">
-                  <div>
+                <div
+                  :class="{ skeleton: useQuestion.question.loading }"
+                  class="sharedIndex_questions_content__TPf69"
+                >
+                  <div v-if="!useQuestion.question.loading">
                     <div class="sharedBuild_questions_content__brpUH">
                       <div class="sharedBuild_build_content__A2KQg">
                         <div class="sharedBuild_title_row_wrapper__y3pqQ sharedBuild_ltr__BELlV">
@@ -109,55 +77,58 @@ const editorConfig: EditorConfig = {
                               <div class="ck-show-toolbar-wrapper">
                                 <div class="newPipedTextInput_label__djMbi newPipedTextInput_bold__KtKEN">Label</div>
                                 <ckeditor
-                                    :editor="editor"
-                                    v-model="editorData"
-                                    :config="editorConfig"
+                                  :editor="useQuestion.getLabelEditor"
+                                  :config="useQuestion.getLabelConfig"
+
+                                  @ready="useQuestion.getLabelReady"
                                 ></ckeditor>
-                                <!--                                <div class="newPipedTextInput_pipe_with_dropdown_toggle__lqrEA"-->
-                                <!--                                     id="downshift-293-toggle-button" aria-haspopup="listbox" aria-expanded="false"-->
-                                <!--                                     aria-labelledby="downshift-293-label downshift-293-toggle-button">-->
-                                <!--                                  <div class="newPipedTextInput_piping_helper_text__SzvxU undefined">Use @ to recall-->
-                                <!--                                    information from ...-->
-                                <!--                                  </div>-->
-                                <!--                                  <div class="newPipedTextInput_icon__yOCYK undefined undefined">-->
-                                <!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">-->
-                                <!--                                      <g fill="none" fill-rule="evenodd">-->
-                                <!--                                        <g>-->
-                                <!--                                          <g>-->
-                                <!--                                            <g>-->
-                                <!--                                              <path d="M0 0H24V24H0z"-->
-                                <!--                                                    transform="translate(-651.000000, -290.000000) translate(647.000000, 286.000000) translate(4.000000, 4.000000)"></path>-->
-                                <!--                                              <path stroke="#3B368E" stroke-linecap="round" stroke-linejoin="round"-->
-                                <!--                                                    stroke-width="2" d="M6 10L12 16 18 10"-->
-                                <!--                                                    transform="translate(-651.000000, -290.000000) translate(647.000000, 286.000000) translate(4.000000, 4.000000)"></path>-->
-                                <!--                                            </g>-->
-                                <!--                                          </g>-->
-                                <!--                                        </g>-->
-                                <!--                                      </g>-->
-                                <!--                                    </svg>-->
-                                <!--                                  </div>-->
-                                <!--                                </div>-->
-                                <!--                                <ul id="downshift-293-menu" role="listbox" aria-labelledby="downshift-293-label"-->
-                                <!--                                    tabindex="-1" class="newPipedTextInput_dropdown_wrapper__8nWQk"></ul>-->
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div
+                          v-if="useQuestion.getDescribed?.shown"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
                           <div class="questionDescription_description_Wrapper__auABf">
                             <div>
-                              <div class="toggleButton_wrapper__dOusd undefined false">
-																<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Description</span>
+                              <div class="toggleButton_wrapper__dOusd">
+                                <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Description</span>
                                 <label class="toggleButton_switch__EF_q8">
-                                  <input name="description_text_active" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                      type="checkbox"/>
-                                  <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                                  <input v-model="useQuestion.getDescribed.on"
+                                         class="toggleButton_toggle_button_checkbox__a2Pr8" type="checkbox"/>
+                                  <div class="toggleButton_slider_round__QN633"></div>
                                 </label>
                               </div>
                             </div>
                           </div>
+                          <div v-show="useQuestion.getDescribed.on" class="ck-show-toolbar-wrapper mt-3">
+                            <ckeditor
+                              :editor="useQuestion.getDescEditor"
+                              :config="useQuestion.getDescConfig"
+
+                              @ready="useQuestion.getDescReady"
+                            ></ckeditor>
+                          </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div
+                          v-if="useQuestion.getStartButton?.shown"
+                          class="sharedBuild_title_row_wrapper__y3pqQ sharedBuild_ltr__BELlV"
+                        >
+                          <div class="inlineInput_wrapper__7HOFO inlineInput_ltr__IdP5R">
+                            <p class="inlineInput_label__gJoig">Button</p>
+                            <div class="inlineInput_input_wrapper__8ZUU7">
+                              <input
+                                v-model="useQuestion.getStartButton.value"
+                                class="inlineInput_input__S084b undefined"
+                                type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          v-if="useQuestion.getChoices"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
                           <div class="build_choices_mode_wrapper__IYDOB build_ltr__VPOnA">
                             <div class="build_active__3KD8k build_mode__Erlww">
                               <div>
@@ -165,250 +136,254 @@ const editorConfig: EditorConfig = {
                                 <div class="build_active_line__LrOS_"></div>
                               </div>
                             </div>
-                            <div class="false build_mode__Erlww">
-                              <div>Ready-made choices</div>
-                            </div>
                           </div>
                           <div data-rbd-droppable-id="droppable" data-rbd-droppable-context-id="1">
-                            <div class="buildChoice_choice_row__T3p8q" data-rbd-draggable-context-id="1"
-                                 data-rbd-draggable-id="39d26a13-c473-4ff3-8c07-428dae22d63a">
-                              <div class="buildChoice_input_wrapper__j2HKG false buildChoice_ltr__k8APe false">
-                                <div class="buildChoice_index_wrapper__2__aG" tabindex="-1" role="button"
-                                     aria-describedby="rbd-hidden-text-1-hidden-text-6"
-                                     data-rbd-drag-handle-draggable-id="39d26a13-c473-4ff3-8c07-428dae22d63a"
-                                     data-rbd-drag-handle-context-id="1" draggable="false">
-                                  <svg width="12" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <g fill="none" fill-rule="evenodd">
-                                      <path d="M0 0h12v24H0z"></path>
-                                      <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                         stroke-width="1.5">
-                                        <path d="m1 8 2-2 2 2M5 17l-2 2-2-2M3 7.5v10"></path>
+                            <template v-for="(choice, index) in useQuestion.getChoices" :key="index">
+                              <div class="buildChoice_choice_row__T3p8q" data-rbd-draggable-context-id="1"
+                                   data-rbd-draggable-id="39d26a13-c473-4ff3-8c07-428dae22d63a">
+                                <div
+                                  :class="{ buildChoice_hidden__ITdK4: choice.hidden }"
+                                  class="buildChoice_input_wrapper__j2HKG buildChoice_ltr__k8APe"
+                                >
+                                  <div class="buildChoice_index_wrapper__2__aG" tabindex="-1" role="button"
+                                       aria-describedby="rbd-hidden-text-1-hidden-text-6"
+                                       data-rbd-drag-handle-draggable-id="39d26a13-c473-4ff3-8c07-428dae22d63a"
+                                       data-rbd-drag-handle-context-id="1" draggable="false">
+                                    <svg width="12" height="24" xmlns="http://www.w3.org/2000/svg">
+                                      <g fill="none" fill-rule="evenodd">
+                                        <path d="M0 0h12v24H0z"></path>
+                                        <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
+                                           stroke-width="1.5">
+                                          <path d="m1 8 2-2 2 2M5 17l-2 2-2-2M3 7.5v10"></path>
+                                        </g>
                                       </g>
-                                    </g>
-                                  </svg>
-                                  <div class="buildChoice_index__uOXsJ">1</div>
+                                    </svg>
+                                    <div class="buildChoice_index__uOXsJ">{{ index + 1 }}</div>
+                                  </div>
+                                  <input v-model="choice.value" class="buildChoice_input__pLH_h buildChoice_ltr__k8APe"
+                                         type="text"/>
                                 </div>
-                                <input class="buildChoice_input__pLH_h buildChoice_ltr__k8APe" type="text" value="c"/>
-                              </div>
-                              <div class="buildChoice_actions_wrapper__OzcvQ buildChoice_ltr__k8APe">
-                                <div class="buildChoice_choice_actions__Nufet">
-                                  <div class="buildChoice_action_right__5Cgii buildChoice_ltr__k8APe false">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                           stroke-width="2">
-                                          <path d="M12 7v10M7 12h10"></path>
+                                <div class="buildChoice_actions_wrapper__OzcvQ buildChoice_ltr__k8APe">
+                                  <div class="buildChoice_choice_actions__Nufet">
+                                    <div
+                                      class="buildChoice_action_right__5Cgii buildChoice_ltr__k8APe"
+                                      @click="useQuestion.appendChoice(index)"
+                                    >
+                                      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <g fill="none" fill-rule="evenodd">
+                                          <path d="M0 0h24v24H0z"></path>
+                                          <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
+                                             stroke-width="2">
+                                            <path d="M12 7v10M7 12h10"></path>
+                                          </g>
                                         </g>
-                                      </g>
-                                    </svg>
-                                  </div>
-                                  <div class="buildChoice_action_middle__etyfo">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g transform="translate(4 6)" stroke="#6B7079" stroke-linecap="round"
-                                           stroke-linejoin="round" stroke-width="1.5">
-                                          <path d="M0 6s2.91-6 8-6 8 6 8 6-2.91 6-8 6-8-6-8-6z"></path>
-                                          <ellipse cx="8" cy="6" rx="2.182" ry="2.25"></ellipse>
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="buildChoice_action_middle__etyfo"
+                                      @click="choice.hidden = !choice.hidden"
+                                    >
+                                      <svg v-if="choice.hidden" width="24" height="24"
+                                           xmlns="http://www.w3.org/2000/svg">
+                                        <g fill="none" fill-rule="evenodd">
+                                          <path d="M0 0h24v24H0z"></path>
+                                          <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
+                                             stroke-width="1.5">
+                                            <path
+                                              d="M16.32 16.32A7.324 7.324 0 0 1 12 17.818C6.91 17.818 4 12 4 12a13.418 13.418 0 0 1 3.68-4.32m2.793-1.324A6.634 6.634 0 0 1 12 6.182c5.09 0 8 5.818 8 5.818a13.455 13.455 0 0 1-1.57 2.32m-4.888-.778a2.182 2.182 0 1 1-3.084-3.084M4 4l16 16"></path>
+                                          </g>
                                         </g>
-                                      </g>
-                                    </svg>
-                                  </div>
-                                  <div
-                                      class="buildChoice_action_left__0V4PE buildChoice_ltr__k8APe buildChoice_disable__w99rm">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                           stroke-width="1.939">
-                                          <path d="m8.353 15.211 6.858-6.857M8.353 8.353l6.858 6.858"></path>
+                                      </svg>
+                                      <svg v-else width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <g fill="none" fill-rule="evenodd">
+                                          <path d="M0 0h24v24H0z"></path>
+                                          <g transform="translate(4 6)" stroke="#6B7079" stroke-linecap="round"
+                                             stroke-linejoin="round" stroke-width="1.5">
+                                            <path d="M0 6s2.91-6 8-6 8 6 8 6-2.91 6-8 6-8-6-8-6z"></path>
+                                            <ellipse cx="8" cy="6" rx="2.182" ry="2.25"></ellipse>
+                                          </g>
                                         </g>
-                                      </g>
-                                    </svg>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="buildChoice_choice_row__T3p8q" data-rbd-draggable-context-id="1"
-                                 data-rbd-draggable-id="65a0adda-c590-482f-bc33-b3b6e6b05ea1">
-                              <div class="buildChoice_input_wrapper__j2HKG false buildChoice_ltr__k8APe false">
-                                <div class="buildChoice_index_wrapper__2__aG" tabindex="-1" role="button"
-                                     aria-describedby="rbd-hidden-text-1-hidden-text-6"
-                                     data-rbd-drag-handle-draggable-id="65a0adda-c590-482f-bc33-b3b6e6b05ea1"
-                                     data-rbd-drag-handle-context-id="1" draggable="false">
-                                  <svg width="12" height="24" xmlns="http://www.w3.org/2000/svg">
-                                    <g fill="none" fill-rule="evenodd">
-                                      <path d="M0 0h12v24H0z"></path>
-                                      <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                         stroke-width="1.5">
-                                        <path d="m1 8 2-2 2 2M5 17l-2 2-2-2M3 7.5v10"></path>
-                                      </g>
-                                    </g>
-                                  </svg>
-                                  <div class="buildChoice_index__uOXsJ">2</div>
-                                </div>
-                                <input class="buildChoice_input__pLH_h buildChoice_ltr__k8APe" type="text" value="cas"/>
-                              </div>
-                              <div class="buildChoice_actions_wrapper__OzcvQ buildChoice_ltr__k8APe">
-                                <div class="buildChoice_choice_actions__Nufet">
-                                  <div class="buildChoice_action_right__5Cgii buildChoice_ltr__k8APe false">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                           stroke-width="2">
-                                          <path d="M12 7v10M7 12h10"></path>
+                                      </svg>
+                                    </div>
+                                    <div
+                                      :class="{ buildChoice_disable__w99rm: useQuestion.getChoices.length <= 2 }"
+                                      class="buildChoice_action_left__0V4PE buildChoice_ltr__k8APe"
+                                      @click="useQuestion.deleteChoice(index)"
+                                    >
+                                      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <g fill="none" fill-rule="evenodd">
+                                          <path d="M0 0h24v24H0z"></path>
+                                          <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
+                                             stroke-width="1.939">
+                                            <path d="m8.353 15.211 6.858-6.857M8.353 8.353l6.858 6.858"></path>
+                                          </g>
                                         </g>
-                                      </g>
-                                    </svg>
-                                  </div>
-                                  <div class="buildChoice_action_middle__etyfo">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g transform="translate(4 6)" stroke="#6B7079" stroke-linecap="round"
-                                           stroke-linejoin="round" stroke-width="1.5">
-                                          <path d="M0 6s2.91-6 8-6 8 6 8 6-2.91 6-8 6-8-6-8-6z"></path>
-                                          <ellipse cx="8" cy="6" rx="2.182" ry="2.25"></ellipse>
-                                        </g>
-                                      </g>
-                                    </svg>
-                                  </div>
-                                  <div
-                                      class="buildChoice_action_left__0V4PE buildChoice_ltr__k8APe buildChoice_disable__w99rm">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                      <g fill="none" fill-rule="evenodd">
-                                        <path d="M0 0h24v24H0z"></path>
-                                        <g stroke="#6B7079" stroke-linecap="round" stroke-linejoin="round"
-                                           stroke-width="1.939">
-                                          <path d="m8.353 15.211 6.858-6.857M8.353 8.353l6.858 6.858"></path>
-                                        </g>
-                                      </g>
-                                    </svg>
+                                      </svg>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </template>
                           </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div
+                          v-if="useQuestion.getRequired?.shown"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
                           <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Other, N/A, etc options</span>
+                            <div class="toggleButton_wrapper__dOusd">
+                              <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Required</span>
                               <label class="toggleButton_switch__EF_q8">
-                                <input name="special_options" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                    type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                                <input v-model="useQuestion.getRequired.on"
+                                       class="toggleButton_toggle_button_checkbox__a2Pr8"
+                                       type="checkbox"/>
+                                <div class="toggleButton_slider_round__QN633"></div>
                               </label>
                             </div>
                           </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
-                          <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Required</span>
-                              <label class="toggleButton_switch__EF_q8">
-                                <input name="answer_required" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                    type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
-                            </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div
+                          v-if="useQuestion.getVideoOrImage?.shown"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
                           <div class="addImageOrVideo_wrapper__7Q3RW">
                             <div>
-                              <div class="toggleButton_wrapper__dOusd undefined false">
-																<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Image or Video</span>
-                                sharedIndex_question__ROyXE false<label class="toggleButton_switch__EF_q8">
-                                  <input name="Image or Video" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                      type="checkbox"/>
-                                  <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                              <div class="toggleButton_wrapper__dOusd">
+                                <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Image or Video</span>
+                                <label class="toggleButton_switch__EF_q8">
+                                  <input
+                                    v-model="useQuestion.getVideoOrImage.on"
+                                    name="Image or Video" class="toggleButton_toggle_button_checkbox__a2Pr8"
+                                    type="checkbox"/>
+                                  <div class="toggleButton_slider_round__QN633"></div>
                                 </label>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
-                          <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
-                                Add secondary label to choices
-																<div class="tooltip_tooltip_wrapper__EBmhu">
-																	<div class="tooltip_tooltip_icon__P7bFI tooltip_ltr__gBssJ"
-                                       data-tooltip-id="1857acb9-f97d-4551-9ee0-d902d46639fb">
-																		<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-																			<g fill="none" fill-rule="evenodd">
-																				<path d="M0 0h24v24H0z"></path>
-																				<rect fill="#F0F2F5" x="4" y="4" width="16" height="16" rx="8"></rect>
-																				<path
-                                            d="M9.5 9.955c0-.494.12-.924.362-1.293.241-.369.555-.655.942-.858.387-.203.8-.304 1.238-.304.865 0 1.489.235 1.871.704.383.469.578 1.146.587 2.032h-1.278c-.008-.432-.091-.756-.247-.972-.157-.216-.444-.324-.86-.324-.366 0-.653.092-.861.275-.209.183-.313.45-.313.798 0 .21.074.399.221.567.148.168.33.337.548.507.217.17.435.363.652.58.217.215.4.475.55.778.15.303.228.671.232 1.103h-1.467c-.004-.406-.081-.728-.231-.965a2.132 2.132 0 0 0-.548-.593l-.642-.471a2.053 2.053 0 0 1-.538-.596c-.145-.24-.218-.563-.218-.968zm1.91 5.544c0-.275.098-.512.293-.71a.953.953 0 0 1 .704-.298c.274 0 .509.099.704.297a.977.977 0 0 1 .294.71c0 .275-.098.511-.294.707a.958.958 0 0 1-.704.295.97.97 0 0 1-.704-.288.96.96 0 0 1-.293-.713z"
-                                            fill="#3E434D" fill-rule="nonzero"></path>
-																			</g>
-																		</svg>
-																	</div>
-																	<div id="1857acb9-f97d-4551-9ee0-d902d46639fb" role="tooltip"
-                                       class="react-tooltip core-styles-module_tooltip__3vRRp styles-module_tooltip__mnnfp styles-module_dark__xNqje react-tooltip__place-top core-styles-module_closing__sGnxF react-tooltip__closing"
-                                       style="background-color: rgb(62, 67, 77); color: rgb(255, 255, 255); z-index: 1000; max-width: 17.5rem; box-sizing: border-box; white-space: pre-wrap; left: 120.281px; top: 385.969px">
-																		Activate this feature if you prefer numerical codes or different labels in the CSV/XLXS export file.
-																		<div
-                                        class="react-tooltip-arrow core-styles-module_arrow__cvMwQ styles-module_arrow__K0L3T"
-                                        style="left: 136px; bottom: -4px">
+                            <div v-if="useQuestion.getVideoOrImage.on">
+                              <div class="addImageOrVideo_image_or_video_selector__uGhVz addImageOrVideo_ltr__oPv_8">
+                                <div class="addImageOrVideo_item__LUNc5 addImageOrVideo_active__Ddfda">Image</div>
+                                <div class="addImageOrVideo_item__LUNc5 false">Video</div>
+                              </div>
+                              <div class="addImageOrVideo_file_upload_wrapper__1vjoC">
+                                <div>
+                                  <div class="addImageOrVideo_upload_box__haTNH null" role="presentation">
+                                    <div class="">
+                                      <button type="button"
+                                              class="buttons_button__PUTxb buttons_primary__RmNyQ">
+                                        Choose
+                                      </button>
                                     </div>
-																	</div>
+                                    <span class="addImageOrVideo_max_size_text__vJw3Y">Maximum Size: 2 MB</span>
+                                    <input type="file" class="addImageOrVideo_file_input__FukCL">
+                                  </div>
                                 </div>
-                              </span>
+                              </div>
+                              <div class="addImageOrVideo_image_error__7obvg">
+                                <div class="notifications_notification__WCzEr notifications_error__olN0I">
+                                  <div class="notifications_icon__XSCRe">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                      <g fill="none" fill-rule="evenodd">
+                                        <g>
+                                          <g>
+                                            <g>
+                                              <path d="M0 0H24V24H0z"
+                                                    transform="translate(-361.000000, -324.000000) translate(73.000000, 320.000000) translate(288.000000, 4.000000)"></path>
+                                              <path fill="#BC0007" fill-rule="nonzero"
+                                                    d="M3.867 22c-.48 0-.962-.1-1.442-.398-1.346-.796-1.827-2.687-1.058-4.08L9.54 3.393c.192-.398.576-.796.961-.995.673-.398 1.442-.498 2.211-.298.77.199 1.346.696 1.827 1.393l8.076 14.03c.289.497.385.994.385 1.492 0 .796-.288 1.592-.865 2.09-.481.596-1.154.895-1.923.895H3.867z"
+                                                    transform="translate(-361.000000, -324.000000) translate(73.000000, 320.000000) translate(288.000000, 4.000000)"></path>
+                                              <path fill="#FFF" fill-rule="nonzero"
+                                                    d="M12 16c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm0-8c.6 0 1 .4 1 1v4c0 .6-.4 1-1 1s-1-.4-1-1V9c0-.6.4-1 1-1z"
+                                                    transform="translate(-361.000000, -324.000000) translate(73.000000, 320.000000) translate(288.000000, 4.000000)"></path>
+                                            </g>
+                                          </g>
+                                        </g>
+                                      </g>
+                                    </svg>
+                                  </div>
+                                  <div class="notifications_title__AVo77">Choose a picture or disable this feature.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          v-if="useQuestion.getVerticalDisplay?.shown"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
+                          <div class="sharedBuild_toggle_wrapper__R5w_y">
+                            <div class="toggleButton_wrapper__dOusd">
+                              <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Vertical Display</span>
                               <label class="toggleButton_switch__EF_q8">
-                                <input name="" class="toggleButton_toggle_button_checkbox__a2Pr8" type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                                <input
+                                  v-model="useQuestion.getVerticalDisplay.on"
+                                  class="toggleButton_toggle_button_checkbox__a2Pr8"
+                                  type="checkbox"/>
+                                <div class="toggleButton_slider_round__QN633"></div>
                               </label>
                             </div>
                           </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div
+                          v-if="useQuestion.getMultipleAnswers?.shown"
+                          class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+                        >
                           <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Choice Randomization</span>
+                            <div class="toggleButton_wrapper__dOusd">
+                              <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Multiple Selection</span>
                               <label class="toggleButton_switch__EF_q8">
-                                <input name="randomize" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                      type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                                <input v-model="useQuestion.getMultipleAnswers.on"
+                                       class="toggleButton_toggle_button_checkbox__a2Pr8" type="checkbox"/>
+                                <div class="toggleButton_slider_round__QN633"></div>
                               </label>
                             </div>
                           </div>
-                        </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
-                          <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Vertical Display</span>
-                              <label class="toggleButton_switch__EF_q8">
-                                <input name="vertical_choices" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                    type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
-                            </label>
+                          <div
+                            v-if="useQuestion.getMultipleAnswers.on"
+                            class="buildMinMaxChoice_min_max_choices_wrapper__WvAKM"
+                          >
+                            <div class="buildMinMaxChoice_title__Nv3yz">Range</div>
+                            <div class="buildMinMaxChoice_min_max_wrapper__5S8Wi">
+                              <div class="buildMinMaxChoice_wrapper__Kmwsk">
+                                <div class="buildMinMaxChoice_min_wrapper__8oipe">
+                                  <div class="buildMinMaxChoice_description__kycW8 buildMinMaxChoice_ltr__rNhi8">Min
+                                  </div>
+                                  <input
+                                    v-model="useQuestion.getMultipleAnswers.min"
+                                    class="buildMinMaxChoice_input__29wsq"
+                                    type="number"
+                                    inputmode="decimal"
+                                  >
+                                </div>
+                              </div>
+                              <div class="buildMinMaxChoice_wrapper__Kmwsk">
+                                <div class="buildMinMaxChoice_max_wrapper__zI1rG">
+                                  <div class="buildMinMaxChoice_description__kycW8 buildMinMaxChoice_ltr__rNhi8">Max
+                                  </div>
+                                  <input
+                                    v-model="useQuestion.getMultipleAnswers.max"
+                                    class="buildMinMaxChoice_input__29wsq"
+                                    type="number"
+                                    inputmode="decimal"
+                                  >
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
+                        <div v-if="useQuestion.getHideQuestionNumber?.shown"
+                             class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
                           <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Multiple Selection</span>
+                            <div class="toggleButton_wrapper__dOusd">
+                              <span
+                                class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Hide question number</span>
                               <label class="toggleButton_switch__EF_q8">
-                                <input name="" class="toggleButton_toggle_button_checkbox__a2Pr8" type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV">
-                          <div class="sharedBuild_toggle_wrapper__R5w_y">
-                            <div class="toggleButton_wrapper__dOusd undefined false">
-															<span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">Hide question number</span>
-                              <label class="toggleButton_switch__EF_q8">
-                                <input name="question_number_is_hidden" class="toggleButton_toggle_button_checkbox__a2Pr8"
-                                    type="checkbox"/>
-                                <div class="toggleButton_slider_round__QN633 undefined undefined"></div>
+                                <input
+                                  v-model="useQuestion.getHideQuestionNumber.on"
+                                  class="toggleButton_toggle_button_checkbox__a2Pr8"
+                                  type="checkbox"
+                                />
+                                <div class="toggleButton_slider_round__QN633"></div>
                               </label>
                             </div>
                           </div>
@@ -419,16 +394,16 @@ const editorConfig: EditorConfig = {
                 </div>
               </div>
               <div class="footer_footer_wrapper__CrUvK">
-                <button type="button" class="footer_save_button__NO8M2 false">Save</button>
-                <button type="button" class="footer_cancel_button__XTxje false">Cancel</button>
+                <button type="button" class="footer_save_button__NO8M2">Save</button>
+                <button type="button" class="footer_cancel_button__XTxje">Cancel</button>
               </div>
             </div>
             <div class="sharedIndex_preview__HrJbC sharedIndex_ltr__mCCAr">
               <div class="sharedIndex_preview_buttons__S_Qr_">
                 <div class="previewButtonGroup_preview_button_group__3ggkH">
                   <div
-                      class="selectionButtonGroup_buttons_wrapper__jbKNI selectionButtonGroup_ltr__V3WKz selectionButtonGroup_white__LXFXJ">
-                    <button type="button" class="selectionButtonGroup_selected_tab__BT9Pz undefined">
+                    class="selectionButtonGroup_buttons_wrapper__jbKNI selectionButtonGroup_ltr__V3WKz selectionButtonGroup_white__LXFXJ">
+                    <button type="button" class="selectionButtonGroup_selected_tab__BT9Pz">
                       <div class="previewButtonGroup_svg_on__34F_H">
                         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                           <g fill="none" fill-rule="evenodd">
@@ -442,7 +417,7 @@ const editorConfig: EditorConfig = {
                         </svg>
                       </div>
                     </button>
-                    <button type="button" class="selectionButtonGroup_selected_tab__BT9Pz undefined">
+                    <button type="button" class="selectionButtonGroup_selected_tab__BT9Pz">
                       <div class="false">
                         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                           <g fill="none" fill-rule="evenodd">
@@ -459,50 +434,10 @@ const editorConfig: EditorConfig = {
                   </div>
                 </div>
               </div>
-              <div class="sharedIndex_background__565mZ sharedIndex_animation__KSN1B false sharedIndex_ltr__mCCAr"></div>
-              <div class="sharedIndex_question__ROyXE false">
-                <div class="preview_multiplechoice_question_wrapper__RatfO preview_ltr__Yc2N7 false" style="opacity: 1">
-                  <div class="questionIntro_question_intro_wrapper__93qE0">
-                    <div class="questionIntro_question_intro_title__soL_1">
-                      <div class="questionIntro_question_intro_title_text_wrapper__FjDMC">
-                        <div class="questionIntro_question_number_wrapper__4lzy7">
-                          <span class="questionIntro_question_number___M7ip">1</span>
-                          <div class="questionIntro_question_number_indicator_icon__SdB_o questionIntro_ltr__PbYmc">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="2" viewBox="0 0 8 2">
-                              <g fill="none" fill-rule="evenodd">
-                                <g fill="#FFF">
-                                  <path d="M848 133H856V135H848z"
-                                        transform="translate(-848.000000, -133.000000)"></path>
-                                </g>
-                              </g>
-                            </svg>
-                          </div>
-                        </div>
-                        <span class="questionIntro_question_intro_title_text__YurZo" v-html="editorData"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="preview_multiplechoice_question_choices_wrapper__9pZyU undefined preview_ltr__Yc2N7"
-                       style="grid-template-columns: repeat(4, 150px)">
-                    <div class="preview_multichoice_item__im8xB preview_ltr__Yc2N7 false false false false"
-                         style="width: auto">
-                      <div class="preview_question_number_and_label_wrapper__Bj0ev">
-                        <div><p class="preview_question_number__VUiY4 preview_ltr__Yc2N7">1</p></div>
-                        <div class="preview_choice_label__41CYt">c</div>
-                      </div>
-                      <div class="preview_selected_choice_icon_wrapper__7VOl3"></div>
-                    </div>
-                    <div class="preview_multichoice_item__im8xB preview_ltr__Yc2N7 false false false false"
-                         style="width: auto">
-                      <div class="preview_question_number_and_label_wrapper__Bj0ev">
-                        <div><p class="preview_question_number__VUiY4 preview_ltr__Yc2N7">2</p></div>
-                        <div class="preview_choice_label__41CYt">cas</div>
-                      </div>
-                      <div class="preview_selected_choice_icon_wrapper__7VOl3"></div>
-                    </div>
-                  </div>
-                  <div class="preview_multi_choice_error_wrapper__iXsW3"></div>
-                </div>
+              <div
+                class="sharedIndex_background__565mZ sharedIndex_animation__KSN1B sharedIndex_ltr__mCCAr"></div>
+              <div class="sharedIndex_question__ROyXE">
+                <component :is="{...useQuestion.getPreview}"></component>
               </div>
             </div>
           </div>
@@ -513,7 +448,6 @@ const editorConfig: EditorConfig = {
 </template>
 
 <style scoped>
-/*! CSS Used from: https://canarycdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
 * {
   box-sizing: content-box;
 }
@@ -527,75 +461,8 @@ const editorConfig: EditorConfig = {
   opacity: 1;
 }
 
-
-
-.core-styles-module_tooltip__3vRRp {
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  will-change: opacity;
-}
-
-.core-styles-module_arrow__cvMwQ {
-  background: inherit;
-  position: absolute;
-}
-
-.core-styles-module_closing__sGnxF {
-  opacity: 0;
-  transition: opacity var(--rt-transition-closing-delay) ease-in;
-}
-
-.styles-module_tooltip__mnnfp {
-  border-radius: 3px;
-  font-size: 90%;
-  padding: 8px 16px;
-  width: max-content;
-}
-
-.styles-module_arrow__K0L3T {
-  height: 8px;
-  width: 8px;
-}
-
-[class*=react-tooltip__place-top] > .styles-module_arrow__K0L3T {
-  transform: rotate(45deg);
-}
-
-.styles-module_dark__xNqje {
-  background: var(--rt-color-dark);
-  color: var(--rt-color-white);
-}
-
 /*! CSS Used from: Embedded */
-.questionNumber_question_number_wrapper__eCXI_ {
-  display: flex;
-  justify-content: center;
-  padding: 0 .25rem 0 .5rem;
-  height: 2rem;
-  grid-gap: .125rem;
-  align-items: center;
-  font-weight: 700;
-  border-radius: .25rem;
-}
 
-.questionNumber_question_number_wrapper__eCXI_ .questionNumber_icon__nsjC6 {
-  display: flex;
-}
-
-.questionNumber_question_number_wrapper__eCXI_ .questionNumber_icon__nsjC6 svg {
-  vertical-align: middle;
-}
-
-.questionNumber_question_number_wrapper__eCXI_ .questionNumber_question_number_text__MJfAs {
-  margin: 0 .125rem;
-}
-
-.questionNumber_question_number_wrapper__eCXI_.questionNumber_ltr__n8kqK {
-  padding: 0 .5rem 0 .25rem;
-}
 
 .questionNumber_multiple_choice_question__Qb_fe {
   background: #f4bbe1;
@@ -729,146 +596,6 @@ const editorConfig: EditorConfig = {
     left: 0;
     background-color: #3b368e;
     border-radius: 1rem 1rem 0 0;
-  }
-}
-
-.questionIntro_question_intro_wrapper__93qE0 {
-  padding: 0 0 1em;
-  transition: .4s;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 {
-  font-size: 1.25em;
-  word-break: break-word;
-  white-space: pre-line;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC {
-  display: flex;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_number_wrapper__4lzy7 {
-  display: flex;
-  color: var(--preview-theme-question-color);
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_number_wrapper__4lzy7 .questionIntro_question_number___M7ip {
-  word-break: normal;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_number_wrapper__4lzy7 .questionIntro_question_number_indicator_icon__SdB_o {
-  display: flex;
-  align-items: center;
-  padding: 0 .125rem 0 .25rem;
-  height: 1.875rem;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_number_wrapper__4lzy7 .questionIntro_question_number_indicator_icon__SdB_o svg g {
-  fill: var(--preview-theme-question-color);
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_number_wrapper__4lzy7 .questionIntro_question_number_indicator_icon__SdB_o.questionIntro_ltr__PbYmc {
-  padding: 0 .25rem 0 .125rem;
-}
-
-.questionIntro_question_intro_wrapper__93qE0 .questionIntro_question_intro_title__soL_1 .questionIntro_question_intro_title_text_wrapper__FjDMC .questionIntro_question_intro_title_text__YurZo {
-  color: var(--preview-theme-question-color);
-}
-
-.preview_multiplechoice_question_wrapper__RatfO {
-  padding: 1rem 0;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO.preview_ltr__Yc2N7 {
-  direction: ltr !important;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU {
-  display: grid;
-  grid-gap: .75rem;
-  padding-bottom: 1.5rem;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB {
-  height: 100%;
-  all: unset;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  border-radius: .5rem;
-  padding: .3125rem .25rem .25rem;
-  border: .0625rem solid;
-  min-height: 1.8125rem;
-  color: var(--preview-theme-answer-color);
-  -webkit-text-fill-color: var(--preview-theme-answer-color);
-  background-color: var(--preview-theme-answer-color-lightest);
-  transition: all .1s ease-in-out;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB p {
-  margin: 0;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB .preview_question_number_and_label_wrapper__Bj0ev {
-  display: flex;
-  width: calc(100% - 2.25rem);
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB .preview_question_number_and_label_wrapper__Bj0ev .preview_choice_label__41CYt {
-  margin: 0;
-  font-size: 1.0625em;
-  overflow-wrap: anywhere;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB .preview_question_number_and_label_wrapper__Bj0ev .preview_question_number__VUiY4 {
-  height: 1.75rem;
-  min-width: 1.75rem;
-  font-size: 1em;
-  margin-left: .5rem;
-  border-radius: .25rem;
-  background-color: var(--preview-theme-answer-color);
-  color: var(--preview-theme-answer-color-contrast);
-  -webkit-text-fill-color: var(--preview-theme-answer-color-contrast);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB .preview_question_number_and_label_wrapper__Bj0ev .preview_question_number__VUiY4.preview_ltr__Yc2N7 {
-  margin-left: 0;
-  margin-right: .5rem;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB .preview_selected_choice_icon_wrapper__7VOl3 {
-  width: 2rem;
-  margin-right: .5rem;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB.preview_ltr__Yc2N7 {
-  padding: .3125rem .25rem .25rem;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB.preview_ltr__Yc2N7 .preview_selected_choice_icon_wrapper__7VOl3 {
-  margin-left: .5rem;
-  margin-right: 0;
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB:hover {
-  cursor: pointer;
-  border-color: var(--preview-theme-accent-color);
-  box-shadow: 0 0 0 .1875rem var(--preview-theme-accent-color);
-}
-
-.preview_multiplechoice_question_wrapper__RatfO .preview_multi_choice_error_wrapper__iXsW3 {
-  height: 1.75rem;
-}
-
-@media (max-width: 1024px) {
-  .preview_multiplechoice_question_wrapper__RatfO .preview_multiplechoice_question_choices_wrapper__9pZyU .preview_multichoice_item__im8xB:hover {
-    cursor: pointer;
-    border-color: var(--preview-theme-accent-color);
-    box-shadow: 0 0 0 .1875rem var(--preview-theme-accent-color);
   }
 }
 
@@ -1407,7 +1134,7 @@ const editorConfig: EditorConfig = {
   position: absolute;
   padding: 2rem 4rem;
   box-sizing: border-box;
-  width: calc(100% - 8rem);
+  width: 100%;
   overflow-y: auto;
   max-height: calc(100% - 4rem);
   scrollbar-width: none;
@@ -1570,4 +1297,219 @@ const editorConfig: EditorConfig = {
   cursor: -webkit-grab;
   cursor: grab;
 }
+
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/440849882e57e464.css */
+.buttons_button__PUTxb {
+  all: unset;
+  min-width: 4rem;
+  min-height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .25rem .875rem;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.buttons_button__PUTxb:focus {
+  background-color: inherit;
+}
+
+.buttons_button__PUTxb.buttons_primary__RmNyQ {
+  background-color: #3b368e;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-opacity: 1;
+}
+
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/2a2e4efde05c354a.css */
+.notifications_notification__WCzEr {
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+  border-radius: .25rem;
+  padding: .25rem;
+  flex-wrap: nowrap;
+}
+
+.notifications_notification__WCzEr .notifications_icon__XSCRe {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.notifications_notification__WCzEr .notifications_title__AVo77 {
+  display: inherit;
+  align-items: center;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.notifications_notification__WCzEr.notifications_error__olN0I {
+  background-color: #ffd0d6 !important;
+  color: #bc0007;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz {
+  margin: 1rem 0 .75rem;
+  display: flex;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz .addImageOrVideo_item__LUNc5 {
+  height: 2rem;
+  min-width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz .addImageOrVideo_item__LUNc5:first-child {
+  border-radius: 0 .25rem .25rem 0;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz .addImageOrVideo_item__LUNc5:last-child {
+  border-radius: .25rem 0 0 .25rem;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz .addImageOrVideo_item__LUNc5.addImageOrVideo_active__Ddfda {
+  background-color: #d8dbe0;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz .addImageOrVideo_item__LUNc5:hover {
+  cursor: pointer;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz.addImageOrVideo_ltr__oPv_8 .addImageOrVideo_item__LUNc5:first-child {
+  border-radius: .25rem 0 0 .25rem;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_or_video_selector__uGhVz.addImageOrVideo_ltr__oPv_8 .addImageOrVideo_item__LUNc5:last-child {
+  border-radius: 0 .25rem .25rem 0;
+}
+
+.addImageOrVideo_wrapper__7Q3RW .addImageOrVideo_image_error__7obvg {
+  margin-top: 1rem;
+}
+
+.addImageOrVideo_file_upload_wrapper__1vjoC .addImageOrVideo_upload_box__haTNH {
+  max-width: 21.25rem;
+  height: 5.4375rem;
+  border-radius: .25rem;
+  border: none;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.addImageOrVideo_file_upload_wrapper__1vjoC .addImageOrVideo_upload_box__haTNH:hover {
+  cursor: pointer;
+}
+
+.addImageOrVideo_file_upload_wrapper__1vjoC .addImageOrVideo_upload_box__haTNH .addImageOrVideo_file_input__FukCL {
+  display: none;
+}
+
+.addImageOrVideo_file_upload_wrapper__1vjoC .addImageOrVideo_upload_box__haTNH .addImageOrVideo_max_size_text__vJw3Y {
+  font-size: 12px;
+  margin-top: .375rem;
+  color: #6b7079;
+}
+
+/*! CSS Used from: Embedded */
+.buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_title__Nv3yz {
+  margin-top: 1rem;
+  color: #6b7079;
+}
+
+.buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_max_wrapper__zI1rG, .buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_min_wrapper__8oipe {
+  display: flex;
+  align-items: center;
+  margin-top: .75rem;
+  color: #6b7079;
+}
+
+.buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_max_wrapper__zI1rG .buildMinMaxChoice_description__kycW8, .buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_min_wrapper__8oipe .buildMinMaxChoice_description__kycW8 {
+  margin-left: .5rem;
+}
+
+.buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_max_wrapper__zI1rG .buildMinMaxChoice_description__kycW8.buildMinMaxChoice_ltr__rNhi8, .buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_min_wrapper__8oipe .buildMinMaxChoice_description__kycW8.buildMinMaxChoice_ltr__rNhi8 {
+  margin-right: .5rem;
+  margin-left: 0;
+}
+
+.buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_max_wrapper__zI1rG .buildMinMaxChoice_input__29wsq, .buildMinMaxChoice_min_max_choices_wrapper__WvAKM .buildMinMaxChoice_min_max_wrapper__5S8Wi .buildMinMaxChoice_wrapper__Kmwsk .buildMinMaxChoice_min_wrapper__8oipe .buildMinMaxChoice_input__29wsq {
+  outline: none;
+  height: 2rem;
+  margin-top: .25rem;
+  padding: .188rem .5rem .25rem;
+  border-radius: .25rem;
+  border: .063rem solid #bbbdc0;
+  background-color: #fff;
+  width: 5rem;
+  direction: ltr;
+  padding-right: .25rem !important;
+  color: #3e434d;
+  box-sizing: border-box;
+}
+
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
+body :focus-visible {
+  outline: none;
+}
+
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/2a2e4efde05c354a.css */
+.sharedBuild_questions_content__brpUH .sharedBuild_build_content__A2KQg .sharedBuild_title_row_wrapper__y3pqQ {
+  font-size: 14px;
+  box-shadow: inset 0 -.0625rem 0 0 #f0f2f5;
+  padding: 1.5rem 0 .65rem;
+}
+
+.sharedBuild_questions_content__brpUH .sharedBuild_build_content__A2KQg .sharedBuild_title_row_wrapper__y3pqQ.sharedBuild_ltr__BELlV {
+  direction: ltr;
+}
+
+.sharedBuild_questions_content__brpUH .sharedBuild_build_content__A2KQg .sharedBuild_title_row_wrapper__y3pqQ:last-child {
+  box-shadow: none;
+}
+
+.inlineInput_wrapper__7HOFO {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.inlineInput_wrapper__7HOFO .inlineInput_label__gJoig {
+  margin: .5rem 0 .5rem .5rem;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.inlineInput_wrapper__7HOFO .inlineInput_input_wrapper__8ZUU7 {
+  position: relative;
+}
+
+.inlineInput_wrapper__7HOFO .inlineInput_input_wrapper__8ZUU7 .inlineInput_input__S084b {
+  font-family: unset;
+  border: 1px solid #bbbcc0;
+  height: 1.5rem;
+  padding: .25rem .75rem;
+  border-radius: .25rem;
+  margin-bottom: .25rem;
+}
+
+.inlineInput_wrapper__7HOFO.inlineInput_ltr__IdP5R .inlineInput_label__gJoig {
+  margin: .5rem .5rem .5rem 0;
+}
+
+
 </style>

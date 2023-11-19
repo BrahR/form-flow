@@ -19,99 +19,128 @@ import MatrixIcon from "@/components/survey/icons/MatrixIcon.vue";
 import EndingsIcon from "@/components/survey/icons/EndingsIcon.vue";
 import CalculatedVariablesIcon from "@/components/survey/icons/CalculatedVariablesIcon.vue";
 import CustomVariablesIcon from "@/components/survey/icons/CustomVariablesIcon.vue";
-import QuestionMaker from "@/components/question/QuestionMaker.vue";
-// import Dialog from "@/components/Dialog.vue"
 
-const buttons = [
+import QuestionMaker from "@/components/question/QuestionMaker.vue"
+// const QuestionMaker = defineAsyncComponent(() => import("@/components/question/QuestionMaker.vue"))
+
+import {useRouter, useRoute} from "vue-router";
+import {QuestionType} from "@/types/store/question";
+
+type SurveyButton = {
+  title: string
+  component: unknown
+  fullWidth: boolean
+  type: QuestionType
+}
+
+const buttons: SurveyButton[] = [
   {
     title: "Welcome page",
     component: WelcomeIcon,
-    fullWidth: true
+    fullWidth: true,
+    type: 'welcome'
   },
   {
     title: "Short Text",
     component: ShortTextIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Multiple Choice",
     component: MultipleChoiceIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: "multipleChoice"
   },
   {
     title: "Long Text",
     component: LongTextIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
-    title: "Picture Choise",
+    title: "Picture Choice",
     component: PictureChoiceIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Question Group",
     component: QuestionGroupIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Dropwdown",
     component: DropdownIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Numerical Answer",
     component: NumericalAnswerIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Opinion Scale",
     component: OpinionScaleIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Email",
     component: EmailIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Rating",
     component: RatingIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Link Website",
     component: LinkWebsiteIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Ranking",
     component: RankingIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Statement",
     component: StatementIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "File Upload",
     component: FileUploadIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Payment",
     component: PaymentIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Matrix",
     component: MatrixIcon,
-    fullWidth: false
+    fullWidth: false,
+    type: null
   },
   {
     title: "Endings",
     component: EndingsIcon,
-    fullWidth: true
+    fullWidth: true,
+    type: null
   }
 ]
 
@@ -119,12 +148,22 @@ const bottomButtons = [
   {
     title: "Custom Variables",
     component: CustomVariablesIcon,
+    type: null
   },
   {
     title: "Calculated Variables",
     component: CalculatedVariablesIcon,
+    type: null
   }
 ]
+
+const router = useRouter()
+const route = useRoute()
+
+const addParam = (title: QuestionType) => {
+  router.push({name: "Survey.Build", params: route.params, query: {type: title}})
+}
+
 </script>
 
 <template>
@@ -133,8 +172,9 @@ const bottomButtons = [
       <div class="buildMain_wrapper__txnsx">
         <div class="questionsTypesList_wrapper__ZpLGJ questionsTypesList_ltr__Z0TqO">
           <div data-react-beautiful-dnd-droppable="4" style="pointer-events: auto">
-            <div v-for="btn in buttons">
+            <div v-for="(btn, index) in buttons" :key="index">
               <div
+                @click="addParam(btn.type)"
                 data-react-beautiful-dnd-draggable="4"
                 tabindex="0"
                 data-react-beautiful-dnd-drag-handle="4"
@@ -152,7 +192,8 @@ const bottomButtons = [
           <div class="questionsTypesList_variables_and_in_app_message_wrapper__mmjWr">
             <div class="questionsTypesList_variables__VXEhg">
               <div
-                v-for="btn in bottomButtons"
+                v-for="(btn, index) in bottomButtons"
+                :key="index"
                 class="questionsTypesList_variable__0pjbr questionsTypesList_ltr__Z0TqO"
               >
                 <div class="questionsTypesList_icon_and_title__jClBm">
@@ -240,7 +281,7 @@ const bottomButtons = [
       </div>
     </div>
   </div>
-  <QuestionMaker />
+  <QuestionMaker :open="!!route.query?.type" :type="route.query?.type as QuestionType ?? null"/>
 </template>
 
 <style scoped>
@@ -1187,5 +1228,4 @@ const bottomButtons = [
     transform: scale(0);
   }
 }
-
 </style>
