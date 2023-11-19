@@ -5,7 +5,7 @@ import {Link} from "@ckeditor/ckeditor5-link";
 import {Paragraph} from "@ckeditor/ckeditor5-paragraph";
 import {EditorConfig} from "@ckeditor/ckeditor5-core";
 import {Alignment} from "@ckeditor/ckeditor5-alignment";
-import {Ref, ref} from "vue";
+import {ref} from "vue";
 
 interface hasId {
   id: number
@@ -29,7 +29,7 @@ function remove<T extends hasId>(id: number, array: T[]): T[] {
   return array
 }
 
-function initEditor(e) {
+function initEditor() {
   let instance: ClassicEditor | null = null;
   const model = ref("")
 
