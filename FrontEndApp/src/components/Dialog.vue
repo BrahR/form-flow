@@ -3,17 +3,17 @@ import {
   TransitionRoot,
   TransitionChild,
   Dialog,
-  DialogPanel
-} from '@headlessui/vue'
+  DialogPanel,
+} from "@headlessui/vue";
 
 defineProps<{
-  show: boolean
-  full?: boolean
-}>()
+  show: boolean;
+  full?: boolean;
+}>();
 
 defineEmits<{
-  (event: 'close'): void
-}>()
+  (event: "close"): void;
+}>();
 </script>
 
 <template>
@@ -32,9 +32,7 @@ defineEmits<{
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4"
-        >
+        <div class="flex min-h-full items-center justify-center p-4">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -45,10 +43,10 @@ defineEmits<{
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full transform overflow-hidden rounded-2xl align-middle shadow-xl transition-all"
-              :class="{ 'max-w-md': !full, 'full': full }"
+              class="w-full transform overflow-hidden align-middle shadow-xl transition-all"
+              :class="{ 'max-w-md': !full, full: full, 'rounded-2xl': !full }"
             >
-                <slot />
+              <slot />
             </DialogPanel>
           </TransitionChild>
         </div>
