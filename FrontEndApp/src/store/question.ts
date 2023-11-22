@@ -26,6 +26,7 @@ export const useQuestionStore = defineStore("question", () => {
   const isHydrated = computed(() => question.value.hydrated);
   const getPreview = computed(() => question.value.data.preview);
   const getIcon = computed(() => question.value.data.icon);
+  const getName = computed(() => question.value.data.name);
   // WELCOME
   const getStartButton = computed(() => question.value.data.startButton);
   // WELCOME
@@ -93,6 +94,7 @@ export const useQuestionStore = defineStore("question", () => {
     getPreview,
     getStartButton,
     getIcon,
+    getName,
     getDescribed,
     getChoices,
     getRequired,
