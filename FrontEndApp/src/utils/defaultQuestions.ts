@@ -3,6 +3,7 @@ import { initEditor } from "@/utils";
 
 const defaultQuestionTypes = {
   welcome: {
+    name: "Welcome Page",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/WelcomePreview.vue")
     ),
@@ -30,6 +31,7 @@ const defaultQuestionTypes = {
     },
   },
   shortText: {
+    name: "Short Text",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/WelcomePreview.vue")
     ),
@@ -66,6 +68,7 @@ const defaultQuestionTypes = {
     },
   },
   multipleChoice: {
+    name: "Multiple Choice",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/MultipleChoicePreview.vue")
     ),
@@ -119,6 +122,7 @@ const defaultQuestionTypes = {
     },
   },
   longText: {
+    name: "Long Text",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/WelcomePreview.vue")
     ),
@@ -156,6 +160,7 @@ const defaultQuestionTypes = {
     },
   },
   pictureChoice: {
+    name: "Picture Choice",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/PictureChoicePreview.vue")
     ),
@@ -215,6 +220,7 @@ const defaultQuestionTypes = {
     },
   },
   questionGroup: {
+    name: "Question Group",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/QuestionGroupPreview.vue")
     ),
@@ -246,6 +252,7 @@ const defaultQuestionTypes = {
     },
   },
   dropdown: {
+    name: "Dropdown",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/DropdownPreview.vue")
     ),
@@ -286,6 +293,7 @@ const defaultQuestionTypes = {
     },
   },
   numerical: {
+    name: "Numerical Answer",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/NumericalPreview.vue")
     ),
@@ -326,6 +334,7 @@ const defaultQuestionTypes = {
     },
   },
   opinionScale: {
+    name: "Opinion Scale",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/OpinionScalePreview.vue")
     ),
@@ -387,6 +396,7 @@ const defaultQuestionTypes = {
     },
   },
   email: {
+    name: "Email",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/OpinionScalePreview.vue")
     ),
@@ -418,6 +428,7 @@ const defaultQuestionTypes = {
     },
   },
   rating: {
+    rating: "Rating",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/RatingPreview.vue")
     ),
@@ -468,6 +479,7 @@ const defaultQuestionTypes = {
     },
   },
   linkWeb: {
+    name: "Link/Website",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/LinkWebPreview.vue")
     ),
@@ -504,6 +516,7 @@ const defaultQuestionTypes = {
     },
   },
   ranking: {
+    name: "Ranking",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/RankingPreview.vue")
     ),
@@ -551,6 +564,7 @@ const defaultQuestionTypes = {
     },
   },
   statement: {
+    name: "Statement",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/StatementPreview.vue")
     ),
@@ -579,6 +593,7 @@ const defaultQuestionTypes = {
     },
   },
   fileUpload: {
+    name: "File Upload",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/FileUploadPreview.vue")
     ),
@@ -622,6 +637,7 @@ const defaultQuestionTypes = {
     },
   },
   endings: {
+    name: "Ending Page",
     preview: defineAsyncComponent(
       () => import("@/components/question/preview/EndingsPreview.vue")
     ),
