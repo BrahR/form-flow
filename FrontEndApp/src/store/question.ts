@@ -27,6 +27,10 @@ export const useQuestionStore = defineStore("question", () => {
   const getPreview = computed(() => question.value.data.preview);
   const getIcon = computed(() => question.value.data.icon);
   const getName = computed(() => question.value.data.name);
+  const getComponents = computed(() => question.value.data.components);
+  const getLabeled = computed(() => question.value.data.labeled);
+  const getRandomize = computed(() => question.value.data.randomize);
+  const getAnswerFormat = computed(() => question.value.data.answerFormat);
   // WELCOME
   const getStartButton = computed(() => question.value.data.startButton);
   // WELCOME
@@ -76,7 +80,15 @@ export const useQuestionStore = defineStore("question", () => {
   const getDesc = computed(() => question.value.data.described.editor.model);
 
   const appendChoice = (index: number) => {
+    const maxId = getChoices.value.reduce(
+      (max: number, choice: any) => Math.max(max, choice.id),
+      0
+    );
+
+    // get last bigged id
+
     getChoices.value.splice(index + 1, 0, {
+      id: maxId + 1,
       hidden: false,
       value: "",
       checked: false,
@@ -95,6 +107,10 @@ export const useQuestionStore = defineStore("question", () => {
     getStartButton,
     getIcon,
     getName,
+    getComponents,
+    getLabeled,
+    getRandomize,
+    getAnswerFormat,
     getDescribed,
     getChoices,
     getRequired,

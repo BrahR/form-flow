@@ -1,1 +1,18 @@
-export type QuestionType = 'welcome' | 'multipleChoice' | null;
+export type QuestionType =
+  | "welcome"
+  | "shortText"
+  | "multipleChoice"
+  | "longText"
+  | "pictureChoice"
+  | "questionGroup"
+  | "dropdown"
+  | "numerical"
+  | "opinionScale"
+  | "email"
+  | "rating"
+  | "linkWeb"
+  | "ranking"
+  | "statement"
+  | "fileUpload"
+  | "endings"
+  | null;

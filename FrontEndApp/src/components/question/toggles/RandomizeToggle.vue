@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
+import { useQuestionStore } from "@/store/question.ts";
 
 const useQuestion = useQuestionStore();
 </script>
@@ -9,17 +9,19 @@ const useQuestion = useQuestionStore();
     class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
   >
     <div class="sharedBuild_toggle_wrapper__R5w_y">
-      <div class="toggleButton_wrapper__dOusd">
-        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Hide question number</span
-        >
+      <div class="toggleButton_wrapper__dOusd undefined false">
+        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+          Choice Randomization
+        </span>
         <label class="toggleButton_switch__EF_q8">
           <input
-            v-model="useQuestion.getHideQuestionNumber.on"
+            v-model="useQuestion.getRandomize.on"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
           />
-          <div class="toggleButton_slider_round__QN633"></div>
+          <div
+            class="toggleButton_slider_round__QN633 undefined undefined"
+          ></div>
         </label>
       </div>
     </div>
@@ -30,7 +32,6 @@ const useQuestion = useQuestionStore();
 * {
   box-sizing: content-box;
 }
-/*! CSS Used from: Embedded */
 .toggleButton_wrapper__dOusd {
   width: 100%;
   display: flex;

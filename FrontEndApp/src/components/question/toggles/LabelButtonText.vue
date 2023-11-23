@@ -1,24 +1,23 @@
-<script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-
-const useQuestion = useQuestionStore();
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="sharedBuild_title_row_wrapper__y3pqQ sharedBuild_ltr__BELlV">
+  <div
+    class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
+  >
     <div class="inlineInput_wrapper__7HOFO inlineInput_ltr__IdP5R">
-      <p class="inlineInput_label__gJoig">Button</p>
+      <p class="inlineInput_label__gJoig">Label</p>
       <div class="inlineInput_input_wrapper__8ZUU7">
         <input
-          v-model="useQuestion.getStartButton.value"
-          class="inlineInput_input__S084b undefined"
+          class="inlineInput_input__S084b false"
+          name="continue_text"
           type="text"
+          min="0"
+          value="Text"
         />
       </div>
     </div>
   </div>
 </template>
-
 <style scoped>
 * {
   box-sizing: content-box;
@@ -26,20 +25,15 @@ const useQuestion = useQuestionStore();
 /*! CSS Used from: Embedded */
 .sharedBuild_questions_content__brpUH
   .sharedBuild_build_content__A2KQg
-  .sharedBuild_title_row_wrapper__y3pqQ {
+  .sharedBuild_toggle_input_row_wrapper__1KFOE {
   font-size: 14px;
   box-shadow: inset 0 -0.0625rem 0 0 #f0f2f5;
-  padding: 1.5rem 0 0.65rem;
+  padding: 0.875rem 0;
 }
 .sharedBuild_questions_content__brpUH
   .sharedBuild_build_content__A2KQg
-  .sharedBuild_title_row_wrapper__y3pqQ.sharedBuild_ltr__BELlV {
+  .sharedBuild_toggle_input_row_wrapper__1KFOE.sharedBuild_ltr__BELlV {
   direction: ltr;
-}
-.sharedBuild_questions_content__brpUH
-  .sharedBuild_build_content__A2KQg
-  .sharedBuild_title_row_wrapper__y3pqQ:last-child {
-  box-shadow: none;
 }
 .inlineInput_wrapper__7HOFO {
   display: flex;

@@ -1,36 +1,32 @@
-<script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-
-const useQuestion = useQuestionStore();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div
     class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
   >
-    <div class="sharedBuild_toggle_wrapper__R5w_y">
-      <div class="toggleButton_wrapper__dOusd">
-        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Hide question number</span
-        >
-        <label class="toggleButton_switch__EF_q8">
-          <input
-            v-model="useQuestion.getHideQuestionNumber.on"
-            class="toggleButton_toggle_button_checkbox__a2Pr8"
-            type="checkbox"
-          />
-          <div class="toggleButton_slider_round__QN633"></div>
-        </label>
+    <div class="appreciation_link_button_wrapper__bndGB">
+      <div class="appreciation_toggle_wrapper__VOg6p">
+        <div class="toggleButton_wrapper__dOusd undefined false">
+          <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
+            >Reload/Redirect Button</span
+          ><label class="toggleButton_switch__EF_q8"
+            ><input
+              name="link_active"
+              class="toggleButton_toggle_button_checkbox__a2Pr8"
+              type="checkbox" />
+            <div
+              class="toggleButton_slider_round__QN633 undefined undefined"
+            ></div
+          ></label>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <style scoped>
 * {
   box-sizing: content-box;
 }
-/*! CSS Used from: Embedded */
 .toggleButton_wrapper__dOusd {
   width: 100%;
   display: flex;
@@ -120,20 +116,16 @@ const useQuestion = useQuestionStore();
 }
 .sharedBuild_questions_content__brpUH
   .sharedBuild_build_content__A2KQg
-  .sharedBuild_toggle_input_row_wrapper__1KFOE
-  .sharedBuild_toggle_wrapper__R5w_y {
-  min-height: 1.25rem;
-}
-.sharedBuild_questions_content__brpUH
-  .sharedBuild_build_content__A2KQg
-  .sharedBuild_toggle_input_row_wrapper__1KFOE
-  .sharedBuild_toggle_wrapper__R5w_y
-  span {
-  max-width: 15rem !important;
-}
-.sharedBuild_questions_content__brpUH
-  .sharedBuild_build_content__A2KQg
   .sharedBuild_toggle_input_row_wrapper__1KFOE.sharedBuild_ltr__BELlV {
   direction: ltr;
+}
+.appreciation_link_button_wrapper__bndGB {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  font-size: 14px;
+}
+.appreciation_link_button_wrapper__bndGB .appreciation_toggle_wrapper__VOg6p {
+  min-height: 1.25rem;
 }
 </style>

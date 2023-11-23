@@ -5,7 +5,7 @@ import { Link } from "@ckeditor/ckeditor5-link";
 import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
 import { EditorConfig } from "@ckeditor/ckeditor5-core";
 import { Alignment } from "@ckeditor/ckeditor5-alignment";
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
 import defaultQuestionTypes from "@/utils/defaultQuestions";
 interface hasId {
   id: number;
@@ -27,6 +27,18 @@ function remove<T extends hasId>(id: number, array: T[]): T[] {
     array.splice(index, 1);
   }
   return array;
+}
+
+function getAsyncIcon(icon: string) {
+  return defineAsyncComponent(
+    () => import(`@/components/survey/icons/${icon}.vue`)
+  );
+}
+
+function getAsyncPreview(icon: string) {
+  return defineAsyncComponent(
+    () => import(`@/components/question/preview/${icon}.vue`)
+  );
 }
 
 function initEditor() {
@@ -107,4 +119,12 @@ function initEditor() {
   };
 }
 
-export { pushToArray, find, remove, initEditor, defaultQuestionTypes };
+export {
+  pushToArray,
+  find,
+  remove,
+  initEditor,
+  getAsyncIcon,
+  getAsyncPreview,
+  defaultQuestionTypes,
+};

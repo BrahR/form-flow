@@ -1,34 +1,31 @@
-<script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-
-const useQuestion = useQuestionStore();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div
     class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
   >
     <div class="sharedBuild_toggle_wrapper__R5w_y">
-      <div class="toggleButton_wrapper__dOusd">
+      <div class="toggleButton_wrapper__dOusd undefined false">
         <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Hide question number</span
-        >
-        <label class="toggleButton_switch__EF_q8">
-          <input
-            v-model="useQuestion.getHideQuestionNumber.on"
+          >Sort alphabetically</span
+        ><label class="toggleButton_switch__EF_q8"
+          ><input
+            name="alphabetical_order"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
-            type="checkbox"
-          />
-          <div class="toggleButton_slider_round__QN633"></div>
-        </label>
+            type="checkbox" />
+          <div
+            class="toggleButton_slider_round__QN633 undefined undefined"
+          ></div
+        ></label>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-* {
-  box-sizing: content-box;
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
+body :focus-visible {
+  outline: none;
 }
 /*! CSS Used from: Embedded */
 .toggleButton_wrapper__dOusd {

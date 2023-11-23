@@ -1,180 +1,215 @@
-import { defineAsyncComponent } from "vue";
-import { initEditor } from "@/utils";
+import { getAsyncIcon, getAsyncPreview, initEditor } from "@/utils";
+import WelcomeButton from "@/components/question/toggles/WelcomeButton.vue";
+import LabelEditor from "@/components/question/toggles/LabelEditor.vue";
+import DescriptionEditor from "@/components/question/toggles/DescriptionEditor.vue";
+import VideoOrImageToggle from "@/components/question/toggles/VideoOrImageToggle.vue";
+import RequiredToggle from "@/components/question/toggles/RequiredToggle.vue";
+import ChoicesPictureToggle from "@/components/question/toggles/ChoicesPictureToggle.vue";
+import HideQuestionNumberToggle from "@/components/question/toggles/HideQuestionNumberToggle.vue";
+import VerticalDisplayToggle from "@/components/question/toggles/VerticalDisplayToggle.vue";
+import MultipleAnswerToggle from "@/components/question/toggles/MultipleAnswerToggle.vue";
+import RandomizeToggle from "@/components/question/toggles/RandomizeToggle.vue";
+import MinMaxCharToggle from "@/components/question/toggles/MinMaxCharToggle.vue";
+import HideLabelToggle from "@/components/question/toggles/HideLabelToggle.vue";
+import DoubleDisplaySizeToggle from "@/components/question/toggles/DoubleDisplaySizeToggle.vue";
+import RandomizeGroupToggle from "@/components/question/toggles/RandomizeGroupToggle.vue";
+import AnswerOptionsToggle from "@/components/question/toggles/AnswerOptionsToggle.vue";
+import SortToggle from "@/components/question/toggles/SortToggle.vue";
+import AllowDecimalToggle from "@/components/question/toggles/AllowDecimalToggle.vue";
+import StartAtZeroToggle from "@/components/question/toggles/StartAtZeroToggle.vue";
+import ScaleToggle from "@/components/question/toggles/ScaleToggle.vue";
+import LabelButtonText from "@/components/question/toggles/LabelButtonText.vue";
+import FileTypeToggle from "@/components/question/toggles/FileTypeToggle.vue";
+import MaximaumSizeToggle from "@/components/question/toggles/MaximaumSizeToggle.vue";
+import AfterSubmitToggle from "@/components/question/toggles/AfterSubmitToggle.vue";
+import DefaultEndingToggle from "@/components/question/toggles/DefaultEndingToggle.vue";
+import ReloadRedirectToggle from "@/components/question/toggles/ReloadRedirectToggle.vue";
+import AutoReloadToggle from "@/components/question/toggles/AutoReloadToggle.vue";
+import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoicesToggle.vue";
+import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
+import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
+import ShortTextRulesToggle from "@/components/question/toggles/ShortTextRulesToggle.vue";
 
 const defaultQuestionTypes = {
   welcome: {
     name: "Welcome Page",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/WelcomePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/WelcomeIcon.vue")
-    ),
+    preview: getAsyncPreview("WelcomePreview"),
+    icon: getAsyncIcon("WelcomeIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     startButton: {
-      shown: true,
       value: "Start",
     },
+    components: [
+      VideoOrImageToggle,
+      LabelEditor,
+      DescriptionEditor,
+      WelcomeButton,
+    ],
   },
   shortText: {
     name: "Short Text",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/WelcomePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/WelcomeIcon.vue")
-    ),
+    preview: getAsyncPreview("ShortTextPreview"),
+    icon: getAsyncIcon("ShortTextIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     answerFormat: {
-      shown: true,
       on: false,
+      types: [
+        { value: "text", label: "Text" },
+        { value: "date", label: "Date" },
+        { value: "phone-number", label: "Phone number" },
+        { value: "numeric", label: "Numeric characters" },
+        { value: "english-letters", label: "English letter" },
+        { value: "time", label: "Time" },
+        { value: "ip", label: "IP" },
+        { value: "custom", label: "Custom pattern" },
+      ],
       format: "text",
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      ShortTextRulesToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   multipleChoice: {
     name: "Multiple Choice",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/MultipleChoicePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/MultipleChoiceIcon.vue")
-    ),
+    preview: getAsyncPreview("MultipleChoicePreview"),
+    icon: getAsyncIcon("MultipleChoiceIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     choices: [
       {
+        id: 1,
         hidden: false,
         value: "",
         checked: false,
       },
       {
+        id: 2,
         hidden: false,
         value: "",
         checked: false,
       },
     ],
     required: {
-      shown: true,
       on: false,
     },
     imageOrVideo: {
-      shown: true,
+      on: false,
+    },
+    randomize: {
       on: false,
     },
     verticalDisplay: {
-      shown: true,
       on: false,
     },
     multipleAnswers: {
-      shown: true,
       on: false,
       min: 1,
       max: 2,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      MultipleChoicesToggle,
+      RequiredToggle,
+      VideoOrImageToggle,
+      RandomizeToggle,
+      VerticalDisplayToggle,
+      MultipleAnswerToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   longText: {
     name: "Long Text",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/WelcomePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/WelcomeIcon.vue")
-    ),
+    preview: getAsyncPreview("LongTextPreview"),
+    icon: getAsyncIcon("LongTextIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     answerFormat: {
-      shown: true,
       on: false,
       format: "textarea",
     },
     minMaxChar: {
-      shown: true,
       min: 0,
       max: 100,
     },
     required: {
-      shown: true,
+      on: false,
+    },
+    imageOrVideo: {
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      MinMaxCharToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   pictureChoice: {
     name: "Picture Choice",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/PictureChoicePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/PictureChoiceIcon.vue")
-    ),
+    preview: getAsyncPreview("PictureChoicePreview"),
+    icon: getAsyncIcon("PictureChoiceIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -193,344 +228,326 @@ const defaultQuestionTypes = {
       },
     ],
     required: {
-      shown: true,
       on: false,
     },
     imageOrVideo: {
-      shown: true,
+      on: false,
+    },
+    randomize: {
       on: false,
     },
     hiddenLabel: {
-      shown: true,
       on: false,
     },
     doubleDisplaySize: {
-      shown: true,
       on: false,
     },
     multipleAnswers: {
-      shown: true,
       on: false,
       min: 1,
       max: 2,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      ChoicesPictureToggle,
+      RequiredToggle,
+      VideoOrImageToggle,
+      RandomizeToggle,
+      HideLabelToggle,
+      DoubleDisplaySizeToggle,
+      MultipleAnswerToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   questionGroup: {
     name: "Question Group",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/QuestionGroupPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/QuestionGroupIcon.vue")
-    ),
+    preview: getAsyncPreview("QuestionGroupPreview"),
+    icon: getAsyncIcon("QuestionGroupIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     required: {
-      shown: true,
       on: false,
     },
     button: {
-      shown: true,
       value: "Next",
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+      RandomizeGroupToggle,
+    ],
   },
   dropdown: {
     name: "Dropdown",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/DropdownPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/DropdownIcon.vue")
-    ),
+    preview: getAsyncPreview("DropdownPreview"),
+    icon: getAsyncIcon("DropdownIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     answerOptions: [],
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     randomize: {
-      shown: true,
       on: false,
     },
     sort: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      AnswerOptionsToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      RandomizeToggle,
+      SortToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   numerical: {
     name: "Numerical Answer",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/NumericalPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/NumericalAnswerIcon.vue")
-    ),
+    preview: getAsyncPreview("NumericalPreview"),
+    icon: getAsyncIcon("NumericalAnswerIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     minMax: {
-      shown: true,
       min: 0,
       max: 100,
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
     allowDecimal: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      MinMaxCharToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+      AllowDecimalToggle,
+    ],
   },
   opinionScale: {
     name: "Opinion Scale",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/OpinionScalePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/OpinionScaleIcon.vue")
-    ),
+    preview: getAsyncPreview("OpinionScalePreview"),
+    icon: getAsyncIcon("OpinionScaleIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     scaleType: {
       number: {
-        shown: true,
         on: false,
       },
       stars: {
-        shown: true,
         on: false,
       },
       slider: {
-        shown: true,
         on: false,
       },
     },
     minMax: {
-      shown: true,
       min: 0,
       max: 100,
     },
     labels: {
-      shown: true,
       on: false,
       left: "",
       right: "",
       center: "",
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     startAtZero: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      ScaleToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      StartAtZeroToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   email: {
     name: "Email",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/OpinionScalePreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/OpinionScaleIcon.vue")
-    ),
+    preview: getAsyncPreview("EmailPreview"),
+    icon: getAsyncIcon("EmailIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   rating: {
     rating: "Rating",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/RatingPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/RatingIcon.vue")
-    ),
+    preview: getAsyncPreview("RatingPreview"),
+    icon: getAsyncIcon("RatingIcon"),
     action: true,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: true,
       on: false,
       editor: initEditor(),
     },
     scaleType: {
       number: {
-        shown: true,
         on: false,
       },
       stars: {
-        shown: true,
         on: false,
       },
       slider: {
-        shown: true,
         on: false,
       },
     },
     minMax: {
-      shown: true,
       min: 0,
       max: 100,
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      ScaleToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   linkWeb: {
     name: "Link/Website",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/LinkWebPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/LinkWebsiteIcon.vue")
-    ),
+    preview: getAsyncPreview("LinkWebPreview"),
+    icon: getAsyncIcon("LinkWebsiteIcon"),
     action: false,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: false,
       on: false,
       editor: initEditor(),
     },
     link: {
-      shown: true,
       on: false,
       value: "",
     },
     imageOrVideo: {
-      shown: false,
       on: false,
     },
     required: {
-      shown: false,
       on: false,
     },
     hideQuestionNumber: {
-      shown: false,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   ranking: {
     name: "Ranking",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/RankingPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/RankingIcon.vue")
-    ),
+    preview: getAsyncPreview("RankingPreview"),
+    icon: getAsyncIcon("RankingIcon"),
     action: false,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: false,
       on: false,
       editor: initEditor(),
     },
@@ -547,63 +564,61 @@ const defaultQuestionTypes = {
       },
     ],
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     randomize: {
-      shown: true,
       on: false,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      RankingChoicesToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      RandomizeToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   statement: {
     name: "Statement",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/StatementPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/StatementIcon.vue")
-    ),
+    preview: getAsyncPreview("StatementPreview"),
+    icon: getAsyncIcon("StatementIcon"),
     action: false,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
-      shown: false,
       on: false,
       editor: initEditor(),
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     label: {
-      shown: true,
       on: false,
       value: "",
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      VideoOrImageToggle,
+      LabelButtonText,
+    ],
   },
   fileUpload: {
     name: "File Upload",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/FileUploadPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/FileUploadIcon.vue")
-    ),
+    preview: getAsyncPreview("FileUploadPreview"),
+    icon: getAsyncIcon("FileUploadIcon"),
     action: false,
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
@@ -612,46 +627,44 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     imageOrVideo: {
-      shown: true,
       on: false,
     },
     required: {
-      shown: true,
       on: false,
     },
     customExtension: {
-      shown: true,
       on: false,
       value: [],
       error: "",
     },
     maxFileSize: {
-      shown: true,
       on: false,
       type: "MB",
       value: 0,
     },
     hideQuestionNumber: {
-      shown: true,
       on: false,
     },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      VideoOrImageToggle,
+      RequiredToggle,
+      FileTypeToggle,
+      MaximaumSizeToggle,
+      HideQuestionNumberToggle,
+    ],
   },
   endings: {
     name: "Ending Page",
-    preview: defineAsyncComponent(
-      () => import("@/components/question/preview/EndingsPreview.vue")
-    ),
-    icon: defineAsyncComponent(
-      () => import("@/components/survey/icons/EndingsIcon.vue")
-    ),
+    preview: getAsyncPreview("EndingsPreview"),
+    icon: getAsyncIcon("EndingsIcon"),
     action: false,
     afterSubmit: {
-      shown: true,
       type: "custom", // custom, redirect
     },
     labeled: {
-      shown: true,
-      on: false,
+      on: true,
       editor: initEditor(),
     },
     described: {
@@ -660,33 +673,41 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     imageOrVideo: {
-      shown: true,
+      on: false,
+    },
+    required: {
+      shown: false,
       on: false,
     },
     shareButtons: {
-      shown: true,
       on: false,
     },
     defaultEndings: {
-      shown: true,
       on: false,
     },
     reloadRedirectButton: {
-      shown: true,
       on: false,
       label: "",
       type: 0, // button, link
     },
     label: {
-      shown: true,
       on: false,
       value: "",
     },
     autoReload: {
-      shown: true,
       on: false,
       timer: 10,
     },
+    components: [
+      AfterSubmitToggle,
+      VideoOrImageToggle,
+      LabelEditor,
+      DescriptionEditor,
+      ShareSurveyToggle,
+      DefaultEndingToggle,
+      ReloadRedirectToggle,
+      AutoReloadToggle,
+    ],
   },
 };
 

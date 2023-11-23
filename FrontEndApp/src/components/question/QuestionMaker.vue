@@ -74,30 +74,9 @@ watch(
                 <div v-if="!useQuestion.question.loading">
                   <div class="sharedBuild_questions_content__brpUH">
                     <div class="sharedBuild_build_content__A2KQg">
-                      <div
-                        v-if="useQuestion.getLabel."
-                        class="sharedBuild_title_row_wrapper__y3pqQ sharedBuild_ltr__BELlV"
-                      >
-                        <div class="questionTitle_title_wrapper__8jrx0">
-                          <div class="questionTitle_editor_wrapper__0lxhw">
-                            <div class="ck-show-toolbar-wrapper">
-                              <div
-                                class="newPipedTextInput_label__djMbi newPipedTextInput_bold__KtKEN"
-                              >
-                                Label
-                              </div>
-                              <ckeditor
-                                :editor="useQuestion.getLabelEditor"
-                                :config="useQuestion.getLabelConfig"
-                                @ready="useQuestion.getLabelReady"
-                              ></ckeditor>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
-                      ></div>
+                      <template v-for="component in useQuestion.getComponents">
+                        <component :is="{ ...component }"></component>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -208,9 +187,6 @@ watch(
   box-sizing: content-box;
 }
 
-body :focus-visible {
-  outline: none;
-}
 .ReactModal__Overlay {
   opacity: 0;
   transition: opacity 0.4s ease-in-out;
@@ -593,53 +569,5 @@ body :focus-visible {
     height: 100%;
     width: 100%;
   }
-}
-
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
-body :focus-visible {
-  outline: none;
-}
-.ck-editor__top {
-  display: none;
-}
-.ck-show-toolbar-wrapper .ck-editor__top {
-  display: block;
-}
-.ck-show-toolbar-wrapper .ck.ck-toolbar > .ck.ck-toolbar__items > * {
-  margin: 0.1rem;
-  min-height: 1.4rem;
-  min-width: 1.4rem;
-}
-.ck-show-toolbar-wrapper .ck.ck-toolbar > .ck.ck-toolbar__items > * svg {
-  width: 0.9rem;
-  height: 0.9rem;
-}
-.ck-show-toolbar-wrapper .ck-editor__main {
-  border-radius: 0 0 0.25rem 0.25rem;
-}
-/*! CSS Used from: Embedded */
-.questionTitle_editor_wrapper__0lxhw,
-.questionTitle_title_wrapper__8jrx0 {
-  width: 100%;
-}
-.sharedBuild_questions_content__brpUH
-  .sharedBuild_build_content__A2KQg
-  .sharedBuild_title_row_wrapper__y3pqQ {
-  font-size: 14px;
-  box-shadow: inset 0 -0.0625rem 0 0 #f0f2f5;
-  padding: 1.5rem 0 0.65rem;
-}
-.sharedBuild_questions_content__brpUH
-  .sharedBuild_build_content__A2KQg
-  .sharedBuild_title_row_wrapper__y3pqQ.sharedBuild_ltr__BELlV {
-  direction: ltr;
-}
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/fae0d74cb8e16e53.css */
-.newPipedTextInput_label__djMbi {
-  color: #3e434d;
-  margin-bottom: 0.25rem;
-}
-.newPipedTextInput_label__djMbi.newPipedTextInput_bold__KtKEN {
-  font-weight: 700;
 }
 </style>

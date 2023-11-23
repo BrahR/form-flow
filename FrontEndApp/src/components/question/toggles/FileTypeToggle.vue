@@ -1,36 +1,51 @@
-<script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-
-const useQuestion = useQuestionStore();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div
     class="sharedBuild_toggle_input_row_wrapper__1KFOE sharedBuild_ltr__BELlV"
   >
     <div class="sharedBuild_toggle_wrapper__R5w_y">
-      <div class="toggleButton_wrapper__dOusd">
-        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Hide question number</span
-        >
+      <div class="toggleButton_wrapper__dOusd undefined false">
+        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+          Set file type
+        </span>
         <label class="toggleButton_switch__EF_q8">
           <input
-            v-model="useQuestion.getHideQuestionNumber.on"
+            name="fileFormatToggle"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
-            type="checkbox"
-          />
-          <div class="toggleButton_slider_round__QN633"></div>
-        </label>
+            type="checkbox" />
+          <div
+            class="toggleButton_slider_round__QN633 undefined undefined"
+          ></div
+        ></label>
       </div>
     </div>
   </div>
 </template>
-
 <style scoped>
+/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
 * {
   box-sizing: content-box;
 }
 /*! CSS Used from: Embedded */
+.newFeatureLabel_container__CEmG_ {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 1rem;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+  padding: 0 0.5rem 0.125rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #f14499;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.newFeatureLabel_container__CEmG_.newFeatureLabel_ltr__Jgiuy {
+  padding: 0 0.5rem;
+}
 .toggleButton_wrapper__dOusd {
   width: 100%;
   display: flex;
@@ -39,6 +54,11 @@ const useQuestion = useQuestionStore();
 }
 .toggleButton_wrapper__dOusd > * {
   flex-shrink: 0;
+}
+.toggleButton_wrapper__dOusd .toggleButton_new_feature_label_wrapper__RvA1u {
+  margin: 0 0.25rem;
+  display: inline-block;
+  vertical-align: middle;
 }
 .toggleButton_wrapper__dOusd .toggleButton_title__zP_tP {
   max-width: 16.75rem;
