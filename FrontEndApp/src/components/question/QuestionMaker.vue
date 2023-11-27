@@ -11,6 +11,10 @@ const props = defineProps<{
   type: QuestionType;
 }>();
 
+defineEmits<{
+  (event: "close"): void;
+}>();
+
 const useQuestion = useQuestionStore();
 useQuestion.hydrate(props.type);
 
@@ -20,6 +24,10 @@ watch(
     useQuestion.hydrate(props.type);
   }
 );
+
+// const close = () => {
+//   emits("close");
+// };
 </script>
 
 <template>
@@ -27,7 +35,7 @@ watch(
     v-if="useQuestion.isHydrated"
     :show="open"
     :full="true"
-    @close="() => console.log('E')"
+    @close="$emit('close')"
   >
     <div
       class="ReactModal__Overlay ReactModal__Overlay--after-open addOrEditQuestionModal_modal_overlay__rgQs8"
@@ -86,7 +94,7 @@ watch(
               <button type="button" class="footer_save_button__NO8M2">
                 Save
               </button>
-              <button type="button" class="footer_cancel_button__XTxje">
+              <button type="button" class="footer_cancel_button__XTxje" @click="$emit('close')">
                 Cancel
               </button>
             </div>
