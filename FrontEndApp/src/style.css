@@ -549,3 +549,12 @@ body {
 .fade-leave-active {
   position: absolute;
 }
+
+.dp__input_wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.dp__icon.dp__clear_icon.dp__input_icons {
+  display: none;
+}
