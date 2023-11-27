@@ -35,6 +35,18 @@ function getAsyncIcon(icon: string) {
   );
 }
 
+function getAsyncAnswerType(type: string) {
+  return defineAsyncComponent(
+    () => import(`@/components/question/toggles/answer_types/${type}.vue`)
+  );
+}
+
+function getAsyncInputType(type: string) {
+  return defineAsyncComponent(
+    () => import(`@/components/question/preview/answer_input_types/${type}.vue`)
+  );
+}
+
 function getAsyncPreview(icon: string) {
   return defineAsyncComponent(
     () => import(`@/components/question/preview/${icon}.vue`)
@@ -126,5 +138,7 @@ export {
   initEditor,
   getAsyncIcon,
   getAsyncPreview,
+  getAsyncAnswerType,
+  getAsyncInputType,
   defaultQuestionTypes,
 };

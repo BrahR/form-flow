@@ -1,4 +1,10 @@
-import { getAsyncIcon, getAsyncPreview, initEditor } from "@/utils";
+import {
+  getAsyncAnswerType,
+  getAsyncIcon,
+  getAsyncInputType,
+  getAsyncPreview,
+  initEditor,
+} from "@/utils";
 import WelcomeButton from "@/components/question/toggles/WelcomeButton.vue";
 import LabelEditor from "@/components/question/toggles/LabelEditor.vue";
 import DescriptionEditor from "@/components/question/toggles/DescriptionEditor.vue";
@@ -29,6 +35,68 @@ import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoices
 import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
 import ShortTextRulesToggle from "@/components/question/toggles/ShortTextRulesToggle.vue";
+
+const types = [
+  {
+    value: "text",
+    label: "Text",
+    toggle: getAsyncAnswerType("TextAnswerType"),
+    input: getAsyncInputType("TextAnswerInput"),
+    model: "",
+    rules: {
+      min: 0,
+      max: 100,
+    },
+  },
+  {
+    value: "date",
+    label: "Date",
+    toggle: getAsyncAnswerType("DateAnswerType"),
+    input: getAsyncInputType("DateAnswerInput"),
+    model: "",
+    errorMessage: "Please enter a valid date",
+    rules: {
+      format: "yyyy/M/d",
+      error: "",
+    },
+  },
+  {
+    value: "phone-number",
+    label: "Phone number",
+    toggle: getAsyncAnswerType("PhoneAnswerType"),
+    input: getAsyncInputType("PhoneAnswerInput"),
+  },
+  {
+    value: "numeric",
+    label: "Numeric characters",
+    toggle: getAsyncAnswerType("NumericAnswerType"),
+    input: getAsyncInputType("NumericAnswerInput"),
+  },
+  {
+    value: "english-letters",
+    label: "English letter",
+    toggle: getAsyncAnswerType("EnglishLetterAnswerType"),
+    input: getAsyncInputType("EnglishLetterAnswerInput"),
+  },
+  {
+    value: "time",
+    label: "Time",
+    toggle: getAsyncAnswerType("TimeAnswerType"),
+    input: getAsyncInputType("TimeAnswerInput"),
+  },
+  {
+    value: "ip",
+    label: "IP",
+    toggle: getAsyncAnswerType("IPAnswerType"),
+    input: getAsyncInputType("IPAnswerInput"),
+  },
+  // {
+  //   value: "custom",
+  //   label: "Custom pattern",
+  //   toggle: getAsyncAnswerType("CustomAnswerType"),
+  //   input: getAsyncInputType("CustomAnswerInput"),
+  // },
+];
 
 const defaultQuestionTypes = {
   welcome: {
@@ -72,17 +140,8 @@ const defaultQuestionTypes = {
     },
     answerFormat: {
       on: false,
-      types: [
-        { value: "text", label: "Text" },
-        { value: "date", label: "Date" },
-        { value: "phone-number", label: "Phone number" },
-        { value: "numeric", label: "Numeric characters" },
-        { value: "english-letters", label: "English letter" },
-        { value: "time", label: "Time" },
-        { value: "ip", label: "IP" },
-        { value: "custom", label: "Custom pattern" },
-      ],
-      format: "text",
+      types,
+      selected: types[1],
     },
     imageOrVideo: {
       on: false,
