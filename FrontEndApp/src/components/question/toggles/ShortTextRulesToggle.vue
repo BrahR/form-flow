@@ -9,24 +9,17 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+import { useQuestionStore } from "@/store/question.ts";
 
-const people = [
-  { id: 1, name: "Wade Cooper" },
-  { id: 2, name: "Arlene Mccoy" },
-  { id: 3, name: "Devon Webb" },
-  { id: 4, name: "Tom Cook" },
-  { id: 5, name: "Tanya Fox" },
-  { id: 6, name: "Hellen Schmidt" },
-];
+const useQuestion = useQuestionStore();
+const types = useQuestion.getAnswerFormat.types;
+const query = ref("");
 
-let selected = ref(people[0]);
-let query = ref("");
-
-let filteredPeople = computed(() =>
+const filteredTypes = computed(() =>
   query.value === ""
-    ? people
-    : people.filter((person) =>
-        person.name
+    ? types
+    : types.filter((type: { value: string; label: string }) =>
+        type.label
           .toLowerCase()
           .replace(/\s+/g, "")
           .includes(query.value.toLowerCase().replace(/\s+/g, ""))
@@ -48,14 +41,14 @@ let filteredPeople = computed(() =>
         class="dropDownInput_main_wrapper__Nhc3q undefined"
       >
         <div>
-          <Combobox v-model="selected">
+          <Combobox v-model="useQuestion.getAnswerFormat.selected">
             <div class="relative mt-1">
               <div
                 class="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
               >
                 <ComboboxInput
                   class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 outline-none"
-                  :displayValue="(person) => person.name"
+                  :displayValue="(type) => type.label /* @ts-ignore */"
                   @change="query = $event.target.value"
                 />
                 <ComboboxButton
@@ -74,20 +67,20 @@ let filteredPeople = computed(() =>
                 @after-leave="query = ''"
               >
                 <ComboboxOptions
-                  class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                  class="absolute mt-1 max-h-80 z-10 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <div
-                    v-if="filteredPeople.length === 0 && query !== ''"
+                    v-if="filteredTypes.length === 0 && query !== ''"
                     class="relative cursor-default select-none px-4 py-2 text-gray-700"
                   >
                     Nothing found.
                   </div>
 
                   <ComboboxOption
-                    v-for="person in filteredPeople"
+                    v-for="(type, index) in filteredTypes"
                     as="template"
-                    :key="person.id"
-                    :value="person"
+                    :key="index"
+                    :value="type"
                     v-slot="{ selected, active }"
                   >
                     <li
@@ -104,7 +97,7 @@ let filteredPeople = computed(() =>
                           'font-normal': !selected,
                         }"
                       >
-                        {{ person.name }}
+                        {{ type.label }}
                       </span>
                       <span
                         v-if="selected"
@@ -125,41 +118,9 @@ let filteredPeople = computed(() =>
         </div>
       </div>
     </div>
-    <div>
-      <div>Min/Max characters</div>
-      <div
-        class="textQuestion_number_input_wrapper__rsaFR textQuestion_ltr__E3pny"
-      >
-        <p>Min</p>
-        <div class="numberInput_input_wrapper___GMei">
-          <input
-            class="numberInput_input__a2e6l undefined undefined"
-            type="number"
-            max="200"
-            min="0"
-            inputmode="decimal"
-            name="answer_min_length"
-            value="35"
-          />
-        </div>
-      </div>
-      <div
-        class="textQuestion_number_input_wrapper__rsaFR textQuestion_ltr__E3pny"
-      >
-        <p>Max</p>
-        <div class="numberInput_input_wrapper___GMei">
-          <input
-            class="numberInput_input__a2e6l undefined undefined"
-            type="number"
-            max="200"
-            min="0"
-            inputmode="decimal"
-            name="answer_max_length"
-            value="100"
-          />
-        </div>
-      </div>
-    </div>
+    <component
+      :is="{ ...useQuestion.getAnswerFormat.selected.toggle }"
+    ></component>
   </div>
 </template>
 

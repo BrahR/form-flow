@@ -350,6 +350,7 @@ const addParam = (title: QuestionType) => {
   <QuestionMaker
     :open="!!route.query?.type"
     :type="route.query?.type as QuestionType ?? null"
+    @close="router.push({ name: 'Survey.Build', params: route.params })"
   />
 </template>
 
