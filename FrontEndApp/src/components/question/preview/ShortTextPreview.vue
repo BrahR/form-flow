@@ -55,7 +55,7 @@ const useQuestion = useQuestionStore();
         class="questionIntro_question_intro_description__J0fpU"
       ></p>
     </div>
-    <span class="textQuestion_hotkey_wrapper__lceii">
+    <!-- <span class="textQuestion_hotkey_wrapper__lceii">
       <input
         inputmode="text"
         class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
@@ -68,7 +68,10 @@ const useQuestion = useQuestionStore();
       <div class="textQuestion_question_error__W6xqr">
         You can type between 35 and 100 characters.
       </div>
-    </div>
+    </div> -->
+    <component
+      :is="{ ...useQuestion.getAnswerFormat.selected.input }"
+    ></component>
   </div>
 </template>
 
