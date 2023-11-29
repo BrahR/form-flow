@@ -36,16 +36,50 @@ import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesTo
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
 import ShortTextRulesToggle from "@/components/question/toggles/ShortTextRulesToggle.vue";
 
-const types = [
+import ShortTextPreview from "@/components/question/preview/ShortTextPreview.vue";
+import ShortTextIcon from "@/components/survey/icons/ShortTextIcon.vue";
+
+import type {
+  Question,
+  ShortTextFormat,
+  ShortTextType,
+} from "@/types/store/question";
+
+const formats: ShortTextFormat[] = [
+  {
+    pattern: "(###) ###-####",
+    tokens: ["(", ") ", "-"],
+  },
+  {
+    pattern: "###-###-####",
+    tokens: ["", "-", "-"],
+  },
+  {
+    pattern: "###.###.####",
+    tokens: ["", ".", "."],
+  },
+  {
+    pattern: "### ### ####",
+    tokens: ["", " ", " "],
+  },
+  {
+    pattern: "##########",
+    tokens: ["", "", ""],
+  },
+];
+
+const types: ShortTextType[] = [
   {
     value: "text",
     label: "Text",
     toggle: getAsyncAnswerType("TextAnswerType"),
     input: getAsyncInputType("TextAnswerInput"),
     model: "",
+    errorMessage: "Please enter a valid date",
     rules: {
       min: 0,
       max: 100,
+      error: "",
     },
   },
   {
@@ -65,30 +99,41 @@ const types = [
     label: "Phone number",
     toggle: getAsyncAnswerType("PhoneAnswerType"),
     input: getAsyncInputType("PhoneAnswerInput"),
+    model: "",
+    errorMessage: "Please enter a valid phone number",
+    rules: {
+      formats: formats,
+      error: "",
+      selectedFormat: formats[3],
+    },
   },
   {
     value: "numeric",
     label: "Numeric characters",
     toggle: getAsyncAnswerType("NumericAnswerType"),
     input: getAsyncInputType("NumericAnswerInput"),
+    model: "",
   },
   {
     value: "english-letters",
     label: "English letter",
     toggle: getAsyncAnswerType("EnglishLetterAnswerType"),
     input: getAsyncInputType("EnglishLetterAnswerInput"),
+    model: "",
   },
   {
     value: "time",
     label: "Time",
     toggle: getAsyncAnswerType("TimeAnswerType"),
     input: getAsyncInputType("TimeAnswerInput"),
+    model: "",
   },
   {
     value: "ip",
     label: "IP",
     toggle: getAsyncAnswerType("IPAnswerType"),
     input: getAsyncInputType("IPAnswerInput"),
+    model: "",
   },
   // {
   //   value: "custom",
@@ -98,7 +143,7 @@ const types = [
   // },
 ];
 
-const defaultQuestionTypes = {
+const defaultQuestionTypes: Question = {
   welcome: {
     name: "Welcome Page",
     preview: getAsyncPreview("WelcomePreview"),
@@ -127,8 +172,8 @@ const defaultQuestionTypes = {
   },
   shortText: {
     name: "Short Text",
-    preview: getAsyncPreview("ShortTextPreview"),
-    icon: getAsyncIcon("ShortTextIcon"),
+    preview: ShortTextPreview,
+    icon: ShortTextIcon,
     action: true,
     labeled: {
       on: true,
@@ -141,7 +186,7 @@ const defaultQuestionTypes = {
     answerFormat: {
       on: false,
       types,
-      selected: types[1],
+      selected: types[0],
     },
     imageOrVideo: {
       on: false,
@@ -402,6 +447,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -441,6 +487,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -497,6 +544,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -518,7 +566,7 @@ const defaultQuestionTypes = {
     ],
   },
   rating: {
-    rating: "Rating",
+    name: "Rating",
     preview: getAsyncPreview("RatingPreview"),
     icon: getAsyncIcon("RatingIcon"),
     action: true,
@@ -527,19 +575,14 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
     scaleType: {
-      number: {
-        on: false,
-      },
-      stars: {
-        on: false,
-      },
-      slider: {
-        on: false,
-      },
+      number: true,
+      stars: false,
+      slider: false,
     },
     minMax: {
       min: 0,
@@ -573,6 +616,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -607,6 +651,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
@@ -654,6 +699,7 @@ const defaultQuestionTypes = {
       editor: initEditor(),
     },
     described: {
+      shown: true,
       on: false,
       editor: initEditor(),
     },
