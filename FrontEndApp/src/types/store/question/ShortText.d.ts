@@ -4,6 +4,7 @@ import type { Component } from "vue";
 type ShortTextFormat = {
   pattern: string;
   tokens: string[];
+  regex: RegExp;
 };
 
 type ShortTextType = {
@@ -12,12 +13,13 @@ type ShortTextType = {
   toggle: Component;
   input: Component;
   model: string;
+  defaultCountry?: string;
   errorMessage: string;
   rules?: {
     min?: number;
     max?: number;
     format?: string;
-    error?: string;
+    error?: boolean;
     formats?: ShortTextFormat[];
     selectedFormat?: ShortTextFormat;
   };

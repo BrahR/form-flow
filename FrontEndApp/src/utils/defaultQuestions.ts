@@ -45,29 +45,6 @@ import type {
   ShortTextType,
 } from "@/types/store/question";
 
-const formats: ShortTextFormat[] = [
-  {
-    pattern: "(###) ###-####",
-    tokens: ["(", ") ", "-"],
-  },
-  {
-    pattern: "###-###-####",
-    tokens: ["", "-", "-"],
-  },
-  {
-    pattern: "###.###.####",
-    tokens: ["", ".", "."],
-  },
-  {
-    pattern: "### ### ####",
-    tokens: ["", " ", " "],
-  },
-  {
-    pattern: "##########",
-    tokens: ["", "", ""],
-  },
-];
-
 const types: ShortTextType[] = [
   {
     value: "text",
@@ -79,7 +56,7 @@ const types: ShortTextType[] = [
     rules: {
       min: 0,
       max: 100,
-      error: "",
+      error: false,
     },
   },
   {
@@ -91,7 +68,7 @@ const types: ShortTextType[] = [
     errorMessage: "Please enter a valid date",
     rules: {
       format: "yyyy/M/d",
-      error: "",
+      error: false,
     },
   },
   {
@@ -99,12 +76,11 @@ const types: ShortTextType[] = [
     label: "Phone number",
     toggle: getAsyncAnswerType("PhoneAnswerType"),
     input: getAsyncInputType("PhoneAnswerInput"),
+    defaultCountry: "US",
     model: "",
     errorMessage: "Please enter a valid phone number",
     rules: {
-      formats: formats,
-      error: "",
-      selectedFormat: formats[3],
+      error: false,
     },
   },
   {
@@ -113,6 +89,7 @@ const types: ShortTextType[] = [
     toggle: getAsyncAnswerType("NumericAnswerType"),
     input: getAsyncInputType("NumericAnswerInput"),
     model: "",
+    errorMessage: "Please enter a valid phone number",
   },
   {
     value: "english-letters",
@@ -120,6 +97,7 @@ const types: ShortTextType[] = [
     toggle: getAsyncAnswerType("EnglishLetterAnswerType"),
     input: getAsyncInputType("EnglishLetterAnswerInput"),
     model: "",
+    errorMessage: "Please enter a valid phone number",
   },
   {
     value: "time",
@@ -127,6 +105,7 @@ const types: ShortTextType[] = [
     toggle: getAsyncAnswerType("TimeAnswerType"),
     input: getAsyncInputType("TimeAnswerInput"),
     model: "",
+    errorMessage: "Please enter a valid phone number",
   },
   {
     value: "ip",
@@ -134,6 +113,7 @@ const types: ShortTextType[] = [
     toggle: getAsyncAnswerType("IPAnswerType"),
     input: getAsyncInputType("IPAnswerInput"),
     model: "",
+    errorMessage: "Please enter a valid phone number",
   },
   // {
   //   value: "custom",
@@ -186,7 +166,7 @@ const defaultQuestionTypes: Question = {
     answerFormat: {
       on: false,
       types,
-      selected: types[0],
+      selected: types[2],
     },
     imageOrVideo: {
       on: false,

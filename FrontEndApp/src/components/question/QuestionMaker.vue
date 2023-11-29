@@ -530,7 +530,7 @@ watch(
   padding: 2rem 4rem;
   box-sizing: border-box;
   width: 100%;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   max-height: calc(100% - 4rem);
   scrollbar-width: none;
   font-family: var(--preview-theme-font-family) !important;

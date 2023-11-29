@@ -61,7 +61,7 @@ const onInput = (val: Event) => {
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
       <div class="textInput_input_title__ssXRr undefined">
-        Message to display when answer does not pass validation
+        Message to display when answer does not pass the validation
       </div>
       <input
         class="textInput_input__YzEWk false undefined false"

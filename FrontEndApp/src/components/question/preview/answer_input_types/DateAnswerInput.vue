@@ -13,7 +13,7 @@ const valid = ref(true);
 
 const validate = (val: string) => {
   if (!val || !useQuestion.getRulesFormat) {
-    useQuestion.getRulesError = useQuestion.getCustomError;
+    useQuestion.getIsAnswerError = useQuestion.getCustomError;
     valid.value = false;
     return valid.value;
   }
@@ -26,7 +26,7 @@ const validate = (val: string) => {
     valid.value = false;
   }
 
-  useQuestion.getRulesError = valid.value ? "" : useQuestion.getCustomError;
+  useQuestion.getIsAnswerError = valid.value ? "" : useQuestion.getCustomError;
   return valid.value;
 };
 
@@ -82,7 +82,9 @@ onMounted(() => {
               ($event.target as HTMLInputElement).value
             ) as string
           "
-          :class="{ textQuestion_hasError__19d2Q: useQuestion.getRulesError }"
+          :class="{
+            textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+          }"
           class="textQuestion_not_empty__sFAKu textQuestion_ltr__E3pny"
         />
 
@@ -137,11 +139,11 @@ onMounted(() => {
     </div>
   </span>
   <div
-    v-if="useQuestion.getRulesError"
+    v-if="useQuestion.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getRulesError }}
+      {{ useQuestion.getIsAnswerError }}
     </div>
   </div>
 </template>

@@ -1,38 +1,36 @@
 <script setup lang="ts">
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxButton,
-  ComboboxOptions,
-  ComboboxOption,
-  TransitionRoot,
-} from "@headlessui/vue";
-import { ref, computed } from "vue";
+// import {
+//   Combobox,
+//   ComboboxInput,
+//   ComboboxButton,
+//   ComboboxOptions,
+//   ComboboxOption,
+//   TransitionRoot,
+// } from "@headlessui/vue";
 import { useQuestionStore } from "@/store/question";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+// import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 
 const useQuestion = useQuestionStore();
-const selected = useQuestion.getAnswerFormat.selected;
-const formats = selected.rules.formats;
-const query = ref("");
+// const formats = selected.rules!.formats!;
+// const query = ref("");
 
-const filteredFormats = computed(() =>
-  query.value === ""
-    ? formats
-    : formats.filter((format: { pattern: string; tokens: string[] }) =>
-        format.pattern
-          .toLowerCase()
-          .replace(/\s+/g, "")
-          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
-      )
-);
+// const filteredFormats = computed(() =>
+//   query.value === ""
+//     ? formats
+//     : formats.filter((format: { pattern: string; tokens: string[] }) =>
+//         format.pattern
+//           .toLowerCase()
+//           .replace(/\s+/g, "")
+//           .includes(query.value.toLowerCase().replace(/\s+/g, ""))
+//       )
+// );
 </script>
 
 <template>
-  <div class="textQuestion_text_inputs__Hciae">
+  <!-- <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
-      <div class="textInput_input_title__ssXRr undefined">Example</div>
-      <Combobox v-model="selected.rules.selectedFormat">
+      <div class="textInput_input_title__ssXRr undefined">Example</div> -->
+  <!-- <Combobox v-model="useQuestion.getSelectedFormat">
         <div class="relative mt-1">
           <div
             class="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
@@ -105,23 +103,23 @@ const filteredFormats = computed(() =>
             </ComboboxOptions>
           </TransitionRoot>
         </div>
-      </Combobox>
-      <!-- <input
+      </Combobox> -->
+  <!-- <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
         value="447537155495"
       /> -->
-    </div>
-  </div>
+  <!-- </div>
+  </div> -->
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
       <div class="textInput_input_title__ssXRr undefined">
-        Message to display when answer does not pass RegEx
+        Message to display when answer does not pass the validation
       </div>
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        :value="selected.errorMessage"
+        v-model="useQuestion.getCustomError"
       />
     </div>
   </div>

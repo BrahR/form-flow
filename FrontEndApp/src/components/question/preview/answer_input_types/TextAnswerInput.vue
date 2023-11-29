@@ -30,10 +30,10 @@ const validate = () => {
   schema.value
     .validate(selected.model)
     .then(() => {
-      useQuestion.getRulesError = "";
+      useQuestion.getIsAnswerError = "";
     })
     .catch((err) => {
-      useQuestion.getRulesError = err.message;
+      useQuestion.getIsAnswerError = err.message;
     });
 };
 
@@ -45,7 +45,7 @@ watch(selected.rules!, () => validate(), { deep: true });
     <input
       class="textQuestion_not_empty__sFAKu false"
       :class="{
-        textQuestion_hasError__19d2Q: useQuestion.getRulesError,
+        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
       }"
       v-model="selected.model"
       @input="validate"
@@ -54,18 +54,18 @@ watch(selected.rules!, () => validate(), { deep: true });
   <div
     class="textQuestion_continue_button_wrapper__PBEZm"
     :class="{
-      textQuestion_text_question_error__Vp6AE: useQuestion.getRulesError,
+      textQuestion_text_question_error__Vp6AE: useQuestion.getIsAnswerError,
     }"
   >
     <div
-      v-if="useQuestion.getRulesError"
+      v-if="useQuestion.getIsAnswerError"
       class="textQuestion_question_error__W6xqr"
       :class="{
         'error-fade-enter-active': animate,
       }"
     >
       <!-- -->
-      {{ useQuestion.getRulesError }}
+      {{ useQuestion.getIsAnswerError }}
     </div>
   </div>
 </template>

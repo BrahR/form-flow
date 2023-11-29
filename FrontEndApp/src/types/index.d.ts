@@ -1,6 +1,7 @@
-import "vue-router"
+import "vue-router";
+import PhoneObject from "./PhoneObject";
 
-export {}
+export { PhoneObject };
 
 declare module "vue-router" {
   interface RouteMeta {
