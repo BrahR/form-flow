@@ -8,7 +8,7 @@ import { watch } from "vue";
 
 const props = defineProps<{
   open: boolean;
-  type: QuestionType;
+  type: QuestionType | null;
 }>();
 
 defineEmits<{
@@ -76,10 +76,10 @@ watch(
             </div>
             <div class="sharedIndex_content__3SCeJ">
               <div
-                :class="{ skeleton: useQuestion.question.loading }"
+                :class="{ skeleton: useQuestion.isLoading }"
                 class="sharedIndex_questions_content__TPf69"
               >
-                <div v-if="!useQuestion.question.loading">
+                <div v-if="!useQuestion.isLoading">
                   <div class="sharedBuild_questions_content__brpUH">
                     <div class="sharedBuild_build_content__A2KQg">
                       <template v-for="component in useQuestion.getComponents">
@@ -94,7 +94,11 @@ watch(
               <button type="button" class="footer_save_button__NO8M2">
                 Save
               </button>
-              <button type="button" class="footer_cancel_button__XTxje" @click="$emit('close')">
+              <button
+                type="button"
+                class="footer_cancel_button__XTxje"
+                @click="$emit('close')"
+              >
                 Cancel
               </button>
             </div>
