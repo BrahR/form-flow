@@ -2,6 +2,7 @@
 import { useQuestionStore } from "@/store/question.ts";
 
 const useQuestion = useQuestionStore();
+useQuestion.getDescModel = "";
 </script>
 
 <template>
@@ -30,9 +31,9 @@ const useQuestion = useQuestionStore();
       class="ck-show-toolbar-wrapper mt-3"
     >
       <ckeditor
-        :editor="useQuestion.getDescEditor"
-        :config="useQuestion.getDescConfig"
-        @ready="useQuestion.getDescReady"
+        :editor="useQuestion.getDescribed.editor.editor"
+        :config="useQuestion.getDescribed.editor.config"
+        @ready="useQuestion.getDescribed.editor.ready"
       ></ckeditor>
     </div>
   </div>

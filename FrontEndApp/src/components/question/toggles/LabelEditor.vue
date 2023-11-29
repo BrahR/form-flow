@@ -2,6 +2,7 @@
 import { useQuestionStore } from "@/store/question";
 
 const useQuestion = useQuestionStore();
+useQuestion.getLabelModel = "";
 </script>
 
 <template>
@@ -11,9 +12,9 @@ const useQuestion = useQuestionStore();
     <div class="questionDescription_description_Wrapper__auABf">
       <div>
         <div class="toggleButton_wrapper__dOusd">
-          <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-            >Label</span
-          >
+          <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+            Label
+          </span>
           <label class="toggleButton_switch__EF_q8">
             <input
               v-model="useQuestion.getLabeled.on"
@@ -30,9 +31,9 @@ const useQuestion = useQuestionStore();
       class="ck-show-toolbar-wrapper mt-3"
     >
       <ckeditor
-        :editor="useQuestion.getLabelEditor"
-        :config="useQuestion.getLabelConfig"
-        @ready="useQuestion.getLabelReady"
+        :editor="useQuestion.getLabeled.editor.editor"
+        :config="useQuestion.getLabeled.editor.config"
+        @ready="useQuestion.getLabeled.editor.ready"
       ></ckeditor>
     </div>
   </div>

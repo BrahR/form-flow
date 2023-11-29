@@ -46,6 +46,36 @@
   --preview-theme-accent-color: #118eb7;
   --preview-theme-accent-color-contrast: #ffffff;
   --preview-line-height: 1.75rem;
+  --ck-highlight-marker-yellow: #fffd38;
+  --ck-highlight-marker-green: #72ff00;
+  --ck-highlight-marker-pink: #ff00e9;
+  --ck-highlight-marker-blue: #00ffff;
+  --ck-highlight-marker-red: #ff0000;
+  --ck-highlight-marker-green: #00ff00;
+}
+
+.marker-yellow {
+  background-color: var(--ck-highlight-marker-yellow);
+}
+
+.marker-green {
+  background-color: var(--ck-highlight-marker-green);
+}
+
+.marker-pink {
+  background-color: var(--ck-highlight-marker-pink);
+}
+
+.marker-blue {
+  background-color: var(--ck-highlight-marker-blue);
+}
+
+.marker-red {
+  background-color: var(--ck-highlight-marker-red);
+}
+
+.marker-green {
+  background-color: var(--ck-highlight-marker-green);
 }
 
 body {
