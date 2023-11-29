@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, Ref, watch, computed } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { format, parse, isValid } from "date-fns";
 import { useQuestionStore } from "@/store/question";
-import * as yup from "yup";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -10,27 +9,25 @@ import "@vuepic/vue-datepicker/dist/main.css";
 const useQuestion = useQuestionStore();
 const selected = useQuestion.getAnswerFormat.selected;
 const datepicker = ref(null);
-const error: Ref<string> = ref("");
+const valid = ref(true);
 
-const schema = computed(() =>
-  yup.string().test("is-valid-date", selected.errorMessage, (value) => {
-    return isValid(parse(value ?? "", selected.rules.format, new Date()));
-  })
-);
+const validate = (val: string) => {
+  if (!val || !useQuestion.getRulesFormat) {
+    useQuestion.getRulesError = useQuestion.getCustomError;
+    valid.value = false;
+    return valid.value;
+  }
 
-const validate = (val: string): boolean => {
-  let valid = false;
-  schema.value
-    .validate(val)
-    .then(() => {
-      error.value = "";
-      valid = true;
-    })
-    .catch((err) => {
-      error.value = err.message;
-    });
+  try {
+    valid.value = isValid(
+      parse(val ?? "", useQuestion.getRulesFormat, new Date())
+    );
+  } catch (err) {
+    valid.value = false;
+  }
 
-  return valid;
+  useQuestion.getRulesError = valid.value ? "" : useQuestion.getCustomError;
+  return valid.value;
 };
 
 const formatDateInput = (date: Date | string) => {
@@ -39,7 +36,7 @@ const formatDateInput = (date: Date | string) => {
 
   let formated = "";
   try {
-    formated = format(date as Date, selected.rules.format);
+    formated = format(date as Date, useQuestion.getRulesFormat);
   } catch (err) {
     selected.model = "";
   }
@@ -56,7 +53,18 @@ const validateInput = (input: string) => {
   return new Date(input);
 };
 
-watch(selected.rules, () => validate(selected.model as string), { deep: true });
+watch(
+  [() => useQuestion.getRulesFormat, () => selected.rules?.selectedFormat],
+  () => validate(selected.model as string),
+  {
+    deep: true,
+  }
+);
+
+onMounted(() => {
+  if (selected.model === "") return;
+  validate(selected.model as string);
+});
 </script>
 
 <template>
@@ -66,15 +74,15 @@ watch(selected.rules, () => validate(selected.model as string), { deep: true });
         class="textQuestion_datepicker_input__uuCFd textQuestion_ltr__E3pny false"
       >
         <input
-          :placeholder="selected.rules.format.toUpperCase()"
+          :placeholder="selected.rules!.format!.toUpperCase()"
           type="text"
           :value="formatDateInput(selected.model)"
           @input="
             selected.model = validateInput(
               ($event.target as HTMLInputElement).value
-            )
+            ) as string
           "
-          :class="{ textQuestion_hasError__19d2Q: error }"
+          :class="{ textQuestion_hasError__19d2Q: useQuestion.getRulesError }"
           class="textQuestion_not_empty__sFAKu textQuestion_ltr__E3pny"
         />
 
@@ -86,7 +94,7 @@ watch(selected.rules, () => validate(selected.model as string), { deep: true });
             ref="datepicker"
             v-model="selected.model"
             :teleport="true"
-            :format="selected.rules.format"
+            :format="selected.rules!.format"
             text-input
           >
             <template #dp-input="{}">
@@ -128,13 +136,12 @@ watch(selected.rules, () => validate(selected.model as string), { deep: true });
       </div>
     </div>
   </span>
-  {{ selected.model }}
   <div
-    v-if="error"
+    v-if="useQuestion.getRulesError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ error }}
+      {{ useQuestion.getRulesError }}
     </div>
   </div>
 </template>
@@ -195,7 +202,6 @@ body :focus-visible {
 
 .textQuestion_text_question_wrapper__WmtqL input.textQuestion_hasError__19d2Q {
   border-color: #d9426e;
-  animation: textQuestion_shake__k4nDZ 0.4s linear 1;
 }
 
 .textQuestion_text_question_wrapper__WmtqL
@@ -307,33 +313,6 @@ body :focus-visible {
   }
 }
 
-/*! CSS Used keyframes */
-@keyframes textQuestion_shake__k4nDZ {
-  0% {
-    -webkit-transform: translate(15px);
-  }
-
-  20% {
-    -webkit-transform: translate(-15px);
-  }
-
-  40% {
-    -webkit-transform: translate(7px);
-  }
-
-  60% {
-    -webkit-transform: translate(-7px);
-  }
-
-  80% {
-    -webkit-transform: translate(4px);
-  }
-
-  to {
-    -webkit-transform: translate(0);
-  }
-}
-
 /*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
 body :focus-visible {
   outline: none;
@@ -361,17 +340,5 @@ body :focus-visible {
   color: #fff;
   display: table;
   line-height: 1.25rem !important;
-  animation: textQuestion_fade__ZYVn3 0.3s linear 1;
-}
-
-/*! CSS Used keyframes */
-@keyframes textQuestion_fade__ZYVn3 {
-  0% {
-    -webkit-opacity: 0;
-  }
-
-  to {
-    -webkit-opacity: 1;
-  }
 }
 </style>

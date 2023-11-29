@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { useQuestionStore } from "@/store/question";
-import { computed, ref, watch } from "vue";
+import { computed, watch, ref } from "vue";
 import * as yup from "yup";
 
 const useQuestion = useQuestionStore();
 const selected = useQuestion.getAnswerFormat.selected;
-const error = ref("");
-// const error = computed(() => selected.rules.min > selected.model.length);
+const animate = ref(false);
 
 const errMessage = computed(() => {
-  let message = `You can type between ${selected.rules.min} and
-      ${selected.rules.max} characters.`;
+  let message = `You can type between ${selected.rules!.min} and
+      ${selected.rules!.max} characters.`;
 
-  if (selected.rules.min === selected.rules.max) {
-    message = `Your input must be ${selected.rules.min} character${
-      selected.rules.min == 1 ? "" : "s"
+  if (selected.rules!.min === selected.rules!.max) {
+    message = `Your input must be ${selected.rules!.min} character${
+      selected.rules!.min == 1 ? "" : "s"
     }`;
   }
   return message;
@@ -23,40 +22,50 @@ const errMessage = computed(() => {
 const schema = computed(() =>
   yup
     .string()
-    .min(selected.rules.min, errMessage.value)
-    .max(selected.rules.max, errMessage.value)
+    .min(selected.rules!.min ?? 0, errMessage.value)
+    .max(selected.rules!.max ?? 200, errMessage.value)
 );
 
 const validate = () => {
   schema.value
     .validate(selected.model)
     .then(() => {
-      error.value = "";
+      useQuestion.getRulesError = "";
     })
     .catch((err) => {
-      error.value = err.message;
+      useQuestion.getRulesError = err.message;
     });
 };
 
-watch(selected.rules, () => validate(), { deep: true });
+watch(selected.rules!, () => validate(), { deep: true });
 </script>
 
 <template>
   <span class="textQuestion_hotkey_wrapper__lceii">
     <input
       class="textQuestion_not_empty__sFAKu false"
-      :class="{ textQuestion_hasError__19d2Q: error }"
+      :class="{
+        textQuestion_hasError__19d2Q: useQuestion.getRulesError,
+      }"
       v-model="selected.model"
       @input="validate"
     />
   </span>
   <div
     class="textQuestion_continue_button_wrapper__PBEZm"
-    :class="{ textQuestion_text_question_error__Vp6AE: error }"
+    :class="{
+      textQuestion_text_question_error__Vp6AE: useQuestion.getRulesError,
+    }"
   >
-    <div v-if="error" class="textQuestion_question_error__W6xqr">
+    <div
+      v-if="useQuestion.getRulesError"
+      class="textQuestion_question_error__W6xqr"
+      :class="{
+        'error-fade-enter-active': animate,
+      }"
+    >
       <!-- -->
-      {{ error }}
+      {{ useQuestion.getRulesError }}
     </div>
   </div>
 </template>
@@ -81,16 +90,6 @@ watch(selected.rules, () => validate(), { deep: true });
   color: #fff;
   display: table;
   line-height: 1.25rem !important;
-  animation: textQuestion_fade__ZYVn3 0.3s linear 1;
-}
-/*! CSS Used keyframes */
-@keyframes textQuestion_fade__ZYVn3 {
-  0% {
-    -webkit-opacity: 0;
-  }
-  to {
-    -webkit-opacity: 1;
-  }
 }
 /*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/2a2e4efde05c354a.css */
 .textQuestion_text_question_wrapper__WmtqL .textQuestion_hotkey_wrapper__lceii {
@@ -131,8 +130,8 @@ watch(selected.rules, () => validate(), { deep: true });
 }
 .textQuestion_text_question_wrapper__WmtqL input.textQuestion_hasError__19d2Q {
   border-color: #d9426e;
-  animation: textQuestion_shake__k4nDZ 0.4s linear 1;
 }
+
 .textQuestion_text_question_wrapper__WmtqL
   input.textQuestion_hasError__19d2Q:hover {
   box-shadow: inset 0 0 0 0.125rem #d9426e;
@@ -145,27 +144,6 @@ watch(selected.rules, () => validate(), { deep: true });
 @media (max-width: 1024px) {
   .textQuestion_text_question_wrapper__WmtqL input {
     width: 16.8125rem;
-  }
-}
-/*! CSS Used keyframes */
-@keyframes textQuestion_shake__k4nDZ {
-  0% {
-    -webkit-transform: translate(15px);
-  }
-  20% {
-    -webkit-transform: translate(-15px);
-  }
-  40% {
-    -webkit-transform: translate(7px);
-  }
-  60% {
-    -webkit-transform: translate(-7px);
-  }
-  80% {
-    -webkit-transform: translate(4px);
-  }
-  to {
-    -webkit-transform: translate(0);
   }
 }
 </style>

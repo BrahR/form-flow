@@ -10,10 +10,7 @@ const useQuestion = useQuestionStore();
   >
     <div class="questionIntro_question_intro_wrapper__93qE0">
       <div class="questionIntro_question_intro_title__soL_1">
-        <div
-          v-if="useQuestion.getLabel"
-          class="questionIntro_question_intro_title_text_wrapper__FjDMC"
-        >
+        <div class="questionIntro_question_intro_title_text_wrapper__FjDMC">
           <span
             v-if="useQuestion.getRequired"
             class="questionIntro_ltr__PbYmc questionIntro_answer_required_icon__xsNa1"
@@ -44,31 +41,17 @@ const useQuestion = useQuestionStore();
           </div>
           <span
             class="questionIntro_question_intro_title_text__YurZo"
-            v-html="useQuestion.getLabel"
+            v-html="useQuestion.getLabelModel"
           >
           </span>
         </div>
       </div>
       <p
-        v-if="useQuestion.getDescribed.on && useQuestion.getDesc"
-        v-html="useQuestion.getDesc"
+        v-if="useQuestion.getDescribed.on && useQuestion.getDescModel"
+        v-html="useQuestion.getDescModel"
         class="questionIntro_question_intro_description__J0fpU"
       ></p>
     </div>
-    <!-- <span class="textQuestion_hotkey_wrapper__lceii">
-      <input
-        inputmode="text"
-        class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
-        value="dsadasdasdsadasdasdd"
-      />
-    </span>
-    <div
-      class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
-    >
-      <div class="textQuestion_question_error__W6xqr">
-        You can type between 35 and 100 characters.
-      </div>
-    </div> -->
     <component
       :is="{ ...useQuestion.getAnswerFormat.selected.input }"
     ></component>

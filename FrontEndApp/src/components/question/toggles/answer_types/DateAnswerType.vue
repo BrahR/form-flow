@@ -3,11 +3,12 @@ import InputError from "@/components/form/InputError.vue";
 
 import { useQuestionStore } from "@/store/question";
 import { format, isValid, parse } from "date-fns";
-import { watch, ref } from "vue";
+import { ref } from "vue";
 
 const useQuestion = useQuestionStore();
 const selected = useQuestion.getAnswerFormat.selected;
 const patternWarning = ref("");
+const error = ref("");
 
 const validate = (val: string) =>
   isValid(parse(format(new Date(), val), val, new Date()));
@@ -16,28 +17,28 @@ const onFocusOut = (val: string) => {
   try {
     validate(val);
   } catch (err) {
-    selected.rules.format = "yyyy-MM-dd";
-    patternWarning.value = "You must enter a valid format";
+    selected.rules!.format = "yyyy-MM-dd";
+    patternWarning.value = "You must enter a valid pattern";
   }
+  error.value = "";
 };
 
-watch(
-  () => selected.rules.format,
-  (newValue: string, oldValue: string) => {
-    if (newValue === oldValue) return;
+const onInput = (val: Event) => {
+  const value = (val.target as HTMLInputElement).value;
+  selected.rules!.format = value;
 
-    try {
-      if (!validate(newValue)) {
-        selected.rules.error = "Invalid date pattern";
-        return;
-      }
-
-      selected.rules.error = "";
-    } catch (error) {
-      selected.rules.error = "Invalid date pattern";
+  try {
+    if (!validate(value)) {
+      error.value = "Invalid date pattern";
+      return;
     }
+  } catch (err) {
+    error.value = "Invalid date pattern";
+    return;
   }
-);
+
+  error.value = "";
+};
 </script>
 
 <template>
@@ -47,26 +48,32 @@ watch(
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="selected.rules.format"
+        :value="selected.rules!.format"
+        @input="onInput"
         @focusin="patternWarning = ''"
         @focusout="onFocusOut(($event.target as HTMLInputElement).value)"
       />
     </div>
-    <InputError :error="selected.rules.error" />
+    <InputError :error="error" />
+    {{ error }}
     <InputError :error="patternWarning" />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
       <div class="textInput_input_title__ssXRr undefined">
-        Message to display when answer does not pass RegEx
+        Message to display when answer does not pass validation
       </div>
       <input
         class="textInput_input__YzEWk false undefined false"
         name="regex_validation_message"
         type="text"
-        value="Please enter a valid date."
+        v-model="selected.errorMessage"
       />
     </div>
+    <InputError
+      v-if="selected.errorMessage == ''"
+      error="You have to enter a validation message"
+    />
   </div>
 </template>
 

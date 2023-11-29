@@ -12,12 +12,12 @@ const useQuestion = useQuestionStore();
       <div class="welcome_welcome_page_detail_text__Vt6Fe">
         <p
           class="welcome_welcome_page_detail_title__YCOka"
-          v-html="useQuestion.getLabel"
+          v-html="useQuestion.getLabelModel"
         ></p>
         <p
-          v-if="useQuestion.getDescribed.on && useQuestion.getDesc"
+          v-if="useQuestion.getDescribed.on && useQuestion.getDescModel !== ''"
           class="welcome_welcome_page_detail_description__Csczl welcome_ltr___Sfvu"
-          v-html="useQuestion.getDesc"
+          v-html="useQuestion.getDescModel"
         ></p>
       </div>
     </div>

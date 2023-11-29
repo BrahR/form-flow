@@ -1,15 +1,108 @@
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+import { computed } from "vue";
+
+const useQuestion = useQuestionStore();
+const selected = useQuestion.getAnswerFormat.selected;
+const selectedToken = selected.rules!.selectedFormat!.tokens;
+const tokenLength = computed(() => {
+  return selectedToken
+    .map((t: string) => t.length)
+    .reduce((a: number, b: number) => a + b);
+});
+
+const onInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+
+  if (target.value.length - tokenLength.value === 11) {
+    console.log("wut");
+    target.value = selected.model;
+    return;
+  }
+
+  selected.model = target.value;
+};
+
+// https://stackoverflow.com/questions/30058927/format-a-phone-number-as-a-user-types-using-pure-javascript
+const isNumericInput = (event: KeyboardEvent) => {
+  const key = event.keyCode;
+  return (key >= 48 && key <= 57) || (key >= 96 && key <= 105);
+};
+
+const isModifierKey = (event: KeyboardEvent) => {
+  const key = event.keyCode;
+  return (
+    event.shiftKey === true ||
+    key === 35 ||
+    key === 36 ||
+    key === 8 ||
+    key === 9 ||
+    key === 13 ||
+    key === 46 ||
+    (key > 36 && key < 41) ||
+    ((event.ctrlKey === true || event.metaKey === true) &&
+      (key === 65 || key === 67 || key === 86 || key === 88 || key === 90))
+  );
+};
+
+const enforceFormat = (event: KeyboardEvent) => {
+  if (!isNumericInput(event) && !isModifierKey(event)) {
+    event.preventDefault();
+  }
+};
+
+const formatToPhone = (event: KeyboardEvent) => {
+  if (isModifierKey(event)) return;
+
+  const target = event.target as HTMLInputElement;
+  const input = target.value.replace(/\D/g, "").substring(0, 10);
+  const areaCode = input.substring(0, 3);
+  const middle = input.substring(3, 6);
+  const last = input.substring(6, 10);
+
+  if (input.length > 6) {
+    target.value =
+      selectedToken[0] +
+      areaCode +
+      selectedToken[1] +
+      middle +
+      selectedToken[2] +
+      last;
+    selected.model = target.value;
+
+    return;
+  }
+
+  if (input.length > 3) {
+    target.value = selectedToken[0] + areaCode + selectedToken[1] + middle;
+    selected.model = target.value;
+    return;
+  }
+
+  if (input.length > 0) target.value = selectedToken[0] + areaCode;
+  selected.model = target.value;
+};
+</script>
+
 <template>
-  <span class="textQuestion_hotkey_wrapper__lceii"
-    ><input
-      placeholder="447537155495"
+  <span class="textQuestion_hotkey_wrapper__lceii">
+    <input
+      :placeholder="selected.rules.selectedFormat.pattern"
       inputmode="text"
       class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
-  /></span>
+      maxlength="16"
+      :value="selected.model"
+      @input="onInput"
+      @keydown="enforceFormat"
+      @keyup="formatToPhone"
+    />
+  </span>
   <div
+    v-if="selected.errorMessage"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      Please enter a valid mobile number.
+      {{ selected.errorMessage }}
     </div>
   </div>
 </template>
