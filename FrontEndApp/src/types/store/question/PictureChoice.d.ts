@@ -1,7 +1,7 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type MultipleChoice = {
+type PictureChoice = {
   name: string;
   preview: Component;
   icon: Component;
@@ -15,9 +15,9 @@ type MultipleChoice = {
     editor: EditorType;
   };
   choices: {
-    id: number;
     hidden: boolean;
-    value: string;
+    label: string;
+    image: string;
     checked: boolean;
   }[];
   required: {
@@ -29,7 +29,10 @@ type MultipleChoice = {
   randomize: {
     on: boolean;
   };
-  verticalDisplay: {
+  hiddenLabel: {
+    on: boolean;
+  };
+  doubleDisplaySize: {
     on: boolean;
   };
   multipleAnswers: {
@@ -43,4 +46,4 @@ type MultipleChoice = {
   components: Component[];
 };
 
-export default MultipleChoice;
+export default PictureChoice;

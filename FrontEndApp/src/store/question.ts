@@ -1,138 +1,204 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import type {} from "vite";
 import { computed, ref } from "vue";
-import { QuestionType } from "@/types/store/question";
+import type {
+  MultipleChoice,
+  Question,
+  QuestionType,
+  ShortText,
+  Welcome,
+  hasHideQuestionNumber,
+  hasImageOrVideo,
+  hasRandomize,
+  hasRequired,
+} from "@/types/store/question";
 import { defaultQuestionTypes } from "@/utils";
 
 export const useQuestionStore = defineStore("question", () => {
-  const question = ref({
-    data: {} as any,
-    selected: null,
-    loading: false,
-    hydrated: false,
-  });
+  const questions = ref<Question>(defaultQuestionTypes);
+  const selected = ref<Question[QuestionType]>(null as any);
+  const loading = ref(false);
+  const hydrated = ref(false);
 
-  const hydrate = async (type: QuestionType) => {
+  // const question = ref({
+  //   data: {} as Question[QuestionType],
+  //   selected: null,
+  //   loading: false,
+  //   hydrated: false,
+  // });
+
+  const hydrate = async (type: QuestionType | null) => {
     if (type == null) return;
-    question.value.loading = true;
-    question.value.data = defaultQuestionTypes[type];
-    question.value.loading = false;
-    question.value.hydrated = true;
+    loading.value = true;
+    selected.value = questions.value[type];
+    loading.value = false;
+    hydrated.value = true;
   };
 
   const dehydrate = () => {};
 
-  const isLoading = computed(() => question.value.loading);
-  const isHydrated = computed(() => question.value.hydrated);
-  const getPreview = computed(() => question.value.data.preview);
-  const getIcon = computed(() => question.value.data.icon);
-  const getName = computed(() => question.value.data.name);
-  const getComponents = computed(() => question.value.data.components);
-  const getLabeled = computed(() => question.value.data.labeled);
-  const getRandomize = computed(() => question.value.data.randomize);
-  const getAnswerFormat = computed(() => question.value.data.answerFormat);
-  // WELCOME
-  const getStartButton = computed(() => question.value.data.startButton);
-  // WELCOME
-
-  // MULTIPLE CHOICE
-  const getDescribed = computed(() => question.value.data.described);
-  const getChoices = computed(() => question.value.data.choices);
-  const getRequired = computed(() => question.value.data.required);
-  const getVideoOrImage = computed(() => question.value.data.imageOrVideo);
+  const isLoading = computed(() => loading.value);
+  const isHydrated = computed(() => hydrated.value);
+  const getPreview = computed(() => selected.value.preview);
+  const getIcon = computed(() => selected.value.icon);
+  const getName = computed(() => selected.value.name);
+  const getComponents = computed(() => selected.value.components);
+  const getLabeled = computed(() => selected.value.labeled);
+  const getLabelModel = computed({
+    get() {
+      return selected.value.labeled.editor.model;
+    },
+    set(value) {
+      selected.value.labeled.editor.model = value;
+    },
+  });
+  const getDescribed = computed(() => selected.value.described);
+  const getDescModel = computed({
+    get() {
+      return selected.value.described.editor.model;
+    },
+    set(value) {
+      selected.value.described.editor.model = value;
+    },
+  });
+  const getStartButton = computed(
+    () => (selected.value as Welcome).startButton
+  );
+  const getAnswerFormat = computed(
+    () => (selected.value as ShortText).answerFormat
+  );
+  const getCustomError = computed({
+    get() {
+      return (selected.value as ShortText).answerFormat.selected.errorMessage;
+    },
+    set(value) {
+      (selected.value as ShortText).answerFormat.selected.errorMessage = value;
+    },
+  });
+  const getRulesFormat = computed({
+    get() {
+      return (
+        (selected.value as ShortText).answerFormat.selected.rules?.format ?? ""
+      );
+    },
+    set(value) {
+      (selected.value as ShortText).answerFormat.selected.rules!.format = value;
+    },
+  });
+  const getRulesError = computed({
+    get() {
+      return (selected.value as ShortText).answerFormat.selected.rules?.error;
+    },
+    set(value) {
+      (selected.value as ShortText).answerFormat.selected.rules!.error = value;
+    },
+  });
   const getVerticalDisplay = computed(
-    () => question.value.data.verticalDisplay
+    () => (selected.value as MultipleChoice).verticalDisplay
   );
   const getMultipleAnswers = computed(
-    () => question.value.data.multipleAnswers
+    () => (selected.value as MultipleChoice).multipleAnswers
   );
-  const getMultipleAnswersText = computed(() => {
-    const multipleAnswers = getMultipleAnswers.value;
-
-    if (!multipleAnswers.on) return "Choose one answer";
-    return `${multipleAnswers.min} - ${multipleAnswers.max}`;
-  });
+  const getVideoOrImage = computed(
+    () => (selected.value as hasImageOrVideo).imageOrVideo
+  );
+  const getRequired = computed(() => (selected.value as hasRequired).required);
   const getHideQuestionNumber = computed(
-    () => question.value.data.hideQuestionNumber
+    () => (selected.value as hasHideQuestionNumber).hideQuestionNumber
   );
-  // MULTIPLE CHOICE
+  const getRandomize = computed(
+    () => (selected.value as hasRandomize).randomize
+  );
 
-  // had to be done xd
-  const getLabelEditor = computed(
-    () => question.value.data.labeled.editor.editor
-  );
-  const getLabelConfig = computed(
-    () => question.value.data.labeled.editor.config
-  );
-  const getLabelReady = computed(
-    () => question.value.data.labeled.editor.ready
-  );
-  const getLabel = computed(() => question.value.data.labeled.editor.model);
-  const getDescEditor = computed(
-    () => question.value.data.described.editor.editor
-  );
-  const getDescConfig = computed(
-    () => question.value.data.described.editor.config
-  );
-  const getDescReady = computed(
-    () => question.value.data.described.editor.ready
-  );
-  const getDesc = computed(() => question.value.data.described.editor.model);
+  // const getChoices = computed(() => question.value.data.choices);
+  // const getVideoOrImage = computed(() => question.value.data.imageOrVideo);
+  // const getVerticalDisplay = computed(
+  //   () => question.value.data.verticalDisplay
+  // );
+  // const getMultipleAnswers = computed(
+  //   () => question.value.data.multipleAnswers
+  // );
+  // const getMultipleAnswersText = computed(() => {
+  //   const multipleAnswers = getMultipleAnswers.value;
 
-  const appendChoice = (index: number) => {
-    const maxId = getChoices.value.reduce(
-      (max: number, choice: any) => Math.max(max, choice.id),
-      0
-    );
+  //   if (!multipleAnswers.on) return "Choose one answer";
+  //   return `${multipleAnswers.min} - ${multipleAnswers.max}`;
+  // });
 
-    // get last bigged id
+  // // MULTIPLE CHOICE
 
-    getChoices.value.splice(index + 1, 0, {
-      id: maxId + 1,
-      hidden: false,
-      value: "",
-      checked: false,
-    });
-  };
+  // const getDesc = computed(() => question.value.data.described.editor.model);
 
-  const deleteChoice = (index: number) => {
-    if (getChoices.value.length <= 2) return;
-    getChoices.value.splice(index, 1);
-  };
+  // const appendChoice = (index: number) => {
+  //   const maxId = getChoices.value.reduce(
+  //     (max: number, choice: any) => Math.max(max, choice.id),
+  //     0
+  //   );
+
+  //   // get last bigged id
+
+  //   getChoices.value.splice(index + 1, 0, {
+  //     id: maxId + 1,
+  //     hidden: false,
+  //     value: "",
+  //     checked: false,
+  //   });
+  // };
+
+  // const deleteChoice = (index: number) => {
+  //   if (getChoices.value.length <= 2) return;
+  //   getChoices.value.splice(index, 1);
+  // };
 
   return {
-    question,
+    questions,
+    selected,
 
     getPreview,
-    getStartButton,
     getIcon,
     getName,
     getComponents,
     getLabeled,
-    getRandomize,
-    getAnswerFormat,
+    getLabelModel,
     getDescribed,
-    getChoices,
-    getRequired,
-    getVideoOrImage,
+    getDescModel,
+    getStartButton,
+    getAnswerFormat,
+    getCustomError,
+    getRulesFormat,
+    getRulesError,
     getVerticalDisplay,
     getMultipleAnswers,
-    getMultipleAnswersText,
+    getVideoOrImage,
+    getRequired,
     getHideQuestionNumber,
+    getRandomize,
+    // getComponents,
+    // getLabeled,
+    // getRandomize,
+    // getAnswerFormat,
+    // getDescribed,
+    // getChoices,
+    // getRequired,
+    // getVideoOrImage,
+    // getVerticalDisplay,
+    // getMultipleAnswers,
+    // getMultipleAnswersText,
+    // getHideQuestionNumber,
 
-    getLabelEditor,
-    getLabelConfig,
-    getLabelReady,
-    getLabel,
-    getDescEditor,
-    getDescConfig,
-    getDescReady,
-    getDesc,
+    // getLabelEditor,
+    // getLabelConfig,
+    // getLabelReady,
+    // getLabel,
+    // getDescEditor,
+    // getDescConfig,
+    // getDescReady,
+    // getDesc,
     isLoading,
     isHydrated,
 
-    appendChoice,
-    deleteChoice,
+    // appendChoice,
+    // deleteChoice,
 
     hydrate,
     dehydrate,

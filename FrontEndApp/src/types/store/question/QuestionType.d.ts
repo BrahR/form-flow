@@ -1,4 +1,4 @@
-export type QuestionType =
+type QuestionType =
   | "welcome"
   | "shortText"
   | "multipleChoice"
@@ -14,5 +14,6 @@ export type QuestionType =
   | "ranking"
   | "statement"
   | "fileUpload"
-  | "endings"
-  | null;
+  | "endings";
+
+export default QuestionType;

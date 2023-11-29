@@ -1,46 +1,50 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type MultipleChoice = {
+type Endings = {
   name: string;
   preview: Component;
   icon: Component;
   action: boolean;
+  afterSubmit: {
+    type: string;
+  };
   labeled: {
     on: boolean;
     editor: EditorType;
   };
   described: {
+    shown: boolean;
     on: boolean;
     editor: EditorType;
-  };
-  choices: {
-    id: number;
-    hidden: boolean;
-    value: string;
-    checked: boolean;
-  }[];
-  required: {
-    on: boolean;
   };
   imageOrVideo: {
     on: boolean;
   };
-  randomize: {
+  required: {
+    shown: boolean;
     on: boolean;
   };
-  verticalDisplay: {
+  shareButtons: {
     on: boolean;
   };
-  multipleAnswers: {
+  defaultEndings: {
     on: boolean;
-    min: number;
-    max: number;
   };
-  hideQuestionNumber: {
+  reloadRedirectButton: {
     on: boolean;
+    label: string;
+    type: number;
+  };
+  label: {
+    on: boolean;
+    value: string;
+  };
+  autoReload: {
+    on: boolean;
+    timer: number;
   };
   components: Component[];
 };
 
-export default MultipleChoice;
+export default Endings;

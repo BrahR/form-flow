@@ -1,7 +1,7 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type MultipleChoice = {
+type OpinionScale = {
   name: string;
   preview: Component;
   icon: Component;
@@ -11,31 +11,39 @@ type MultipleChoice = {
     editor: EditorType;
   };
   described: {
+    shown: boolean;
     on: boolean;
     editor: EditorType;
   };
-  choices: {
-    id: number;
-    hidden: boolean;
-    value: string;
-    checked: boolean;
-  }[];
-  required: {
+  scaleType: {
+    number: {
+      on: boolean;
+    };
+    stars: {
+      on: boolean;
+    };
+    slider: {
+      on: boolean;
+    };
+  };
+  minMax: {
+    min: number;
+    max: number;
+  };
+  labels: {
     on: boolean;
+    left: string;
+    right: string;
+    center: string;
   };
   imageOrVideo: {
     on: boolean;
   };
-  randomize: {
+  required: {
     on: boolean;
   };
-  verticalDisplay: {
+  startAtZero: {
     on: boolean;
-  };
-  multipleAnswers: {
-    on: boolean;
-    min: number;
-    max: number;
   };
   hideQuestionNumber: {
     on: boolean;
@@ -43,4 +51,4 @@ type MultipleChoice = {
   components: Component[];
 };
 
-export default MultipleChoice;
+export default OpinionScale;

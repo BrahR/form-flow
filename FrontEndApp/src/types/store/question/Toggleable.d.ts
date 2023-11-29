@@ -1,4 +1,6 @@
-export type Toggleable = {
-  shown: boolean,
-  on: boolean,
-}
+type Toggleable = {
+  shown: boolean;
+  on: boolean;
+};
+
+export default Toggleable;

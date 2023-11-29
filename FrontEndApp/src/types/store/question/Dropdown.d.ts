@@ -1,7 +1,7 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type MultipleChoice = {
+type Dropdown = {
   name: string;
   preview: Component;
   icon: Component;
@@ -14,28 +14,21 @@ type MultipleChoice = {
     on: boolean;
     editor: EditorType;
   };
-  choices: {
-    id: number;
-    hidden: boolean;
+  answerOptions: {
     value: string;
     checked: boolean;
   }[];
-  required: {
+  imageOrVideo: {
     on: boolean;
   };
-  imageOrVideo: {
+  required: {
     on: boolean;
   };
   randomize: {
     on: boolean;
   };
-  verticalDisplay: {
+  sort: {
     on: boolean;
-  };
-  multipleAnswers: {
-    on: boolean;
-    min: number;
-    max: number;
   };
   hideQuestionNumber: {
     on: boolean;
@@ -43,4 +36,4 @@ type MultipleChoice = {
   components: Component[];
 };
 
-export default MultipleChoice;
+export default Dropdown;
