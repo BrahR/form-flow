@@ -4,10 +4,9 @@ import { computed } from "vue";
 
 const useQuestion = useQuestionStore();
 const selected = useQuestion.getAnswerFormat.selected;
-const selectedToken = selected.rules!.selectedFormat!.tokens;
 const tokenLength = computed(() => {
-  return selectedToken
-    .map((t: string) => t.length)
+  return useQuestion
+    .getSelectedFormat!.tokens.map((t: string) => t.length)
     .reduce((a: number, b: number) => a + b);
 });
 
@@ -15,7 +14,6 @@ const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
 
   if (target.value.length - tokenLength.value === 11) {
-    console.log("wut");
     target.value = selected.model;
     return;
   }
@@ -31,17 +29,12 @@ const isNumericInput = (event: KeyboardEvent) => {
 
 const isModifierKey = (event: KeyboardEvent) => {
   const key = event.keyCode;
+  const isModifiers = [35, 36, 8, 9, 13, 46, 65, 67, 86, 88, 90].includes(key);
   return (
     event.shiftKey === true ||
-    key === 35 ||
-    key === 36 ||
-    key === 8 ||
-    key === 9 ||
-    key === 13 ||
-    key === 46 ||
+    isModifiers ||
     (key > 36 && key < 41) ||
-    ((event.ctrlKey === true || event.metaKey === true) &&
-      (key === 65 || key === 67 || key === 86 || key === 88 || key === 90))
+    ((event.ctrlKey === true || event.metaKey === true) && isModifiers)
   );
 };
 
@@ -62,11 +55,11 @@ const formatToPhone = (event: KeyboardEvent) => {
 
   if (input.length > 6) {
     target.value =
-      selectedToken[0] +
+      useQuestion.getSelectedFormat!.tokens[0] +
       areaCode +
-      selectedToken[1] +
+      useQuestion.getSelectedFormat!.tokens[1] +
       middle +
-      selectedToken[2] +
+      useQuestion.getSelectedFormat!.tokens[2] +
       last;
     selected.model = target.value;
 
@@ -74,12 +67,17 @@ const formatToPhone = (event: KeyboardEvent) => {
   }
 
   if (input.length > 3) {
-    target.value = selectedToken[0] + areaCode + selectedToken[1] + middle;
+    target.value =
+      useQuestion.getSelectedFormat!.tokens[0] +
+      areaCode +
+      useQuestion.getSelectedFormat!.tokens[1] +
+      middle;
     selected.model = target.value;
     return;
   }
 
-  if (input.length > 0) target.value = selectedToken[0] + areaCode;
+  if (input.length > 0)
+    target.value = useQuestion.getSelectedFormat!.tokens[0] + areaCode;
   selected.model = target.value;
 };
 </script>
@@ -87,10 +85,13 @@ const formatToPhone = (event: KeyboardEvent) => {
 <template>
   <span class="textQuestion_hotkey_wrapper__lceii">
     <input
-      :placeholder="selected.rules.selectedFormat.pattern"
       inputmode="text"
-      class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
+      class="textQuestion_not_empty__sFAKu"
       maxlength="16"
+      :placeholder="useQuestion.getSelectedFormat!.pattern"
+      :class="{
+        textQuestion_hasError__19d2Q: useQuestion.getRulesError,
+      }"
       :value="selected.model"
       @input="onInput"
       @keydown="enforceFormat"
@@ -98,11 +99,11 @@ const formatToPhone = (event: KeyboardEvent) => {
     />
   </span>
   <div
-    v-if="selected.errorMessage"
+    v-if="useQuestion.getRulesError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ selected.errorMessage }}
+      {{ useQuestion.getRulesError }}
     </div>
   </div>
 </template>
