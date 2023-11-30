@@ -35,7 +35,20 @@ import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoices
 import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
 import ShortTextRulesToggle from "@/components/question/toggles/ShortTextRulesToggle.vue";
-
+import TextAnswerType from "@/components/question/toggles/answer_types/TextAnswerType.vue";
+import TextAnswerInput from "@/components/question/preview/answer_input_types/TextAnswerInput.vue";
+import DateAnswerType from "@/components/question/toggles/answer_types/DateAnswerType.vue";
+import DateAnswerInput from "@/components/question/preview/answer_input_types/DateAnswerInput.vue";
+import PhoneAnswerType from "@/components/question/toggles/answer_types/PhoneAnswerType.vue";
+import PhoneAnswerInput from "@/components/question/preview/answer_input_types/PhoneAnswerInput.vue";
+import NumericAnswerType from "@/components/question/toggles/answer_types/NumericAnswerType.vue";
+import NumericAnswerInput from "@/components/question/preview/answer_input_types/NumericAnswerInput.vue";
+import EnglishLetterAnswerType from "@/components/question/toggles/answer_types/EnglishLetterAnswerType.vue";
+import EnglishLetterAnswerInput from "@/components/question/preview/answer_input_types/EnglishLetterAnswerInput.vue";
+import TimeAnswerType from "@/components/question/toggles/answer_types/TimeAnswerType.vue";
+import TimeAnswerInput from "@/components/question/preview/answer_input_types/TimeAnswerInput.vue";
+import CustomAnswerType from "@/components/question/toggles/answer_types/CustomAnswerType.vue";
+import CustomAnswerInput from "@/components/question/preview/answer_input_types/CustomAnswerInput.vue";
 import ShortTextPreview from "@/components/question/preview/ShortTextPreview.vue";
 import ShortTextIcon from "@/components/survey/icons/ShortTextIcon.vue";
 
@@ -49,10 +62,10 @@ const types: ShortTextType[] = [
   {
     value: "text",
     label: "Text",
-    toggle: getAsyncAnswerType("TextAnswerType"),
-    input: getAsyncInputType("TextAnswerInput"),
+    toggle: TextAnswerType,
+    input: TextAnswerInput,
     model: "",
-    errorMessage: "Please enter a valid date",
+    errorMessage: "",
     rules: {
       min: 0,
       max: 100,
@@ -62,8 +75,8 @@ const types: ShortTextType[] = [
   {
     value: "date",
     label: "Date",
-    toggle: getAsyncAnswerType("DateAnswerType"),
-    input: getAsyncInputType("DateAnswerInput"),
+    toggle: DateAnswerType,
+    input: DateAnswerInput,
     model: "",
     errorMessage: "Please enter a valid date",
     rules: {
@@ -74,53 +87,68 @@ const types: ShortTextType[] = [
   {
     value: "phone-number",
     label: "Phone number",
-    toggle: getAsyncAnswerType("PhoneAnswerType"),
-    input: getAsyncInputType("PhoneAnswerInput"),
+    toggle: PhoneAnswerType,
+    input: PhoneAnswerInput,
     defaultCountry: "US",
     model: "",
     errorMessage: "Please enter a valid phone number",
     rules: {
+      placeholder: "Enter a phone number",
       error: false,
     },
   },
   {
     value: "numeric",
     label: "Numeric characters",
-    toggle: getAsyncAnswerType("NumericAnswerType"),
-    input: getAsyncInputType("NumericAnswerInput"),
+    toggle: NumericAnswerType,
+    input: NumericAnswerInput,
     model: "",
-    errorMessage: "Please enter a valid phone number",
+    errorMessage: "Please enter only numerical values",
+    rules: {
+      placeholder: "Enter a number",
+      min: 0,
+      max: 100,
+      error: false,
+      displayError: "",
+    },
   },
   {
     value: "english-letters",
     label: "English letter",
-    toggle: getAsyncAnswerType("EnglishLetterAnswerType"),
-    input: getAsyncInputType("EnglishLetterAnswerInput"),
+    toggle: EnglishLetterAnswerType,
+    input: EnglishLetterAnswerInput,
     model: "",
     errorMessage: "Please enter a valid phone number",
+    rules: {
+      placeholder: "Enter a letter",
+      error: false,
+    },
   },
   {
     value: "time",
     label: "Time",
-    toggle: getAsyncAnswerType("TimeAnswerType"),
-    input: getAsyncInputType("TimeAnswerInput"),
+    toggle: TimeAnswerType,
+    input: TimeAnswerInput,
     model: "",
     errorMessage: "Please enter a valid phone number",
+    rules: {
+      placeholder: "Enter a letter",
+      error: false,
+    },
   },
   {
-    value: "ip",
-    label: "IP",
-    toggle: getAsyncAnswerType("IPAnswerType"),
-    input: getAsyncInputType("IPAnswerInput"),
+    value: "custom",
+    label: "Custom pattern",
+    toggle: CustomAnswerType,
+    input: CustomAnswerInput,
     model: "",
-    errorMessage: "Please enter a valid phone number",
+    errorMessage: "",
+    rules: {
+      placeholder: "",
+      format: "",
+      error: false,
+    },
   },
-  // {
-  //   value: "custom",
-  //   label: "Custom pattern",
-  //   toggle: getAsyncAnswerType("CustomAnswerType"),
-  //   input: getAsyncInputType("CustomAnswerInput"),
-  // },
 ];
 
 const defaultQuestionTypes: Question = {
@@ -166,7 +194,7 @@ const defaultQuestionTypes: Question = {
     answerFormat: {
       on: false,
       types,
-      selected: types[2],
+      selected: types[0],
     },
     imageOrVideo: {
       on: false,
