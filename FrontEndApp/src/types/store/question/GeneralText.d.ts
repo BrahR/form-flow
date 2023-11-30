@@ -1,13 +1,13 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type ShortTextFormat = {
+type GeneralTextFormat = {
   pattern: string;
   tokens: string[];
   regex: RegExp;
 };
 
-type ShortTextType = {
+type GeneralTextType = {
   value: string;
   label: string;
   toggle: Component;
@@ -20,15 +20,15 @@ type ShortTextType = {
     max?: number;
     format?: string;
     error?: boolean;
-    formats?: ShortTextFormat[];
-    selectedFormat?: ShortTextFormat;
+    formats?: GeneralTextFormat[];
+    selectedFormat?: GeneralTextFormat;
     placeholder?: string;
     displayError?: string;
     regex?: RegExp;
   };
 };
 
-type ShortText = {
+type GeneralText = {
   name: string;
   preview: Component;
   icon: Component;
@@ -43,8 +43,8 @@ type ShortText = {
   };
   answerFormat: {
     on: boolean;
-    types: ShortTextType[];
-    selected: ShortTextType;
+    types: GeneralTextType[];
+    selected: GeneralTextType;
   };
   imageOrVideo: {
     on: boolean;
@@ -58,5 +58,5 @@ type ShortText = {
   components: Component[];
 };
 
-export default ShortText;
-export { ShortTextType, ShortTextFormat };
+export default GeneralText;
+export { GeneralTextType, GeneralTextFormat };

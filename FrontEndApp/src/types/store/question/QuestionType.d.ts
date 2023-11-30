@@ -1,6 +1,6 @@
 type QuestionType =
   | "welcome"
-  | "shortText"
+  | "generalText"
   | "multipleChoice"
   | "longText"
   | "pictureChoice"

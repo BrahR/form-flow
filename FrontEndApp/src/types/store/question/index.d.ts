@@ -1,6 +1,6 @@
 import type QuestionType from "./QuestionType";
 import type Welcome from "./Welcome";
-import type ShortText from "./ShortText";
+import type GeneralText from "./GeneralText";
 import type MultipleChoice from "./MultipleChoice";
 import type LongText from "./LongText";
 import type PictureChoice from "./PictureChoice";
@@ -16,11 +16,11 @@ import type Statement from "./Statement";
 import type FileUpload from "./FileUpload";
 import type Endings from "./Endings";
 
-import type { ShortTextFormat, ShortTextType } from "./ShortText";
+import type { GeneralTextFormat, GeneralTextType } from "./GeneralText";
 
 type Question = {
   welcome: Welcome;
-  shortText: ShortText;
+  generalText: GeneralText;
   multipleChoice: MultipleChoice;
   longText: LongText;
   pictureChoice: PictureChoice;
@@ -39,7 +39,7 @@ type Question = {
 
 type hasImageOrVideo =
   | Welcome
-  | ShortText
+  | GeneralText
   | MultipleChoice
   | LongText
   | PictureChoice
@@ -53,17 +53,17 @@ type hasImageOrVideo =
   | Statement
   | FileUpload
   | Endings;
-type hasRequired = ShortText | MultipleChoice | LongText | PictureChoice;
-type hasHideQuestionNumber = ShortText | MultipleChoice | LongText;
+type hasRequired = GeneralText | MultipleChoice | LongText | PictureChoice;
+type hasHideQuestionNumber = GeneralText | MultipleChoice | LongText;
 type hasRandomize = MultipleChoice | PictureChoice | Dropdown | Ranking;
 
 export {
-  ShortTextFormat,
-  ShortTextType,
+  GeneralTextFormat,
+  GeneralTextType,
   Question,
   QuestionType,
   Welcome,
-  ShortText,
+  GeneralText,
   MultipleChoice,
   LongText,
   PictureChoice,

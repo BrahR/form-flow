@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import WelcomeIcon from "@/components/survey/icons/WelcomeIcon.vue";
-import ShortTextIcon from "@/components/survey/icons/ShortTextIcon.vue";
+import GeneralTextIcon from "@/components/survey/icons/GeneralTextIcon.vue";
 import MultipleChoiceIcon from "@/components/survey/icons/MultipleChoiceIcon.vue";
-import LongTextIcon from "@/components/survey/icons/LongTextIcon.vue";
+// import LongTextIcon from "@/components/survey/icons/LongTextIcon.vue";
 import PictureChoiceIcon from "@/components/survey/icons/PictureChoiceIcon.vue";
 import QuestionGroupIcon from "@/components/survey/icons/QuestionGroupIcon.vue";
 import DropdownIcon from "@/components/survey/icons/DropdownIcon.vue";
@@ -41,10 +41,10 @@ const buttons: SurveyButton[] = [
     type: "welcome",
   },
   {
-    title: "Short Text",
-    component: ShortTextIcon,
+    title: "General Text",
+    component: GeneralTextIcon,
     fullWidth: false,
-    type: "shortText",
+    type: "generalText",
   },
   {
     title: "Multiple Choice",
@@ -52,12 +52,12 @@ const buttons: SurveyButton[] = [
     fullWidth: false,
     type: "multipleChoice",
   },
-  {
-    title: "Long Text",
-    component: LongTextIcon,
-    fullWidth: false,
-    type: "longText",
-  },
+  // {
+  //   title: "Long Text",
+  //   component: LongTextIcon,
+  //   fullWidth: false,
+  //   type: "longText",
+  // },
   {
     title: "Picture Choice",
     component: PictureChoiceIcon,
@@ -128,13 +128,13 @@ const buttons: SurveyButton[] = [
     title: "Payment",
     component: PaymentIcon,
     fullWidth: false,
-    type: null,
+    type: null as never,
   },
   {
     title: "Matrix",
     component: MatrixIcon,
     fullWidth: false,
-    type: null,
+    type: null as never,
   },
   {
     title: "Endings",
