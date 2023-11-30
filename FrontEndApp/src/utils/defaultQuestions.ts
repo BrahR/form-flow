@@ -1,10 +1,4 @@
-import {
-  getAsyncAnswerType,
-  getAsyncIcon,
-  getAsyncInputType,
-  getAsyncPreview,
-  initEditor,
-} from "@/utils";
+import { getAsyncIcon, getAsyncPreview, initEditor } from "@/utils";
 import WelcomeButton from "@/components/question/toggles/WelcomeButton.vue";
 import LabelEditor from "@/components/question/toggles/LabelEditor.vue";
 import DescriptionEditor from "@/components/question/toggles/DescriptionEditor.vue";
@@ -34,7 +28,7 @@ import AutoReloadToggle from "@/components/question/toggles/AutoReloadToggle.vue
 import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoicesToggle.vue";
 import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
-import ShortTextRulesToggle from "@/components/question/toggles/ShortTextRulesToggle.vue";
+import GeneralTextRulesToggle from "@/components/question/toggles/GeneralTextRulesToggle.vue";
 import TextAnswerType from "@/components/question/toggles/answer_types/TextAnswerType.vue";
 import TextAnswerInput from "@/components/question/preview/answer_input_types/TextAnswerInput.vue";
 import DateAnswerType from "@/components/question/toggles/answer_types/DateAnswerType.vue";
@@ -49,19 +43,17 @@ import TimeAnswerType from "@/components/question/toggles/answer_types/TimeAnswe
 import TimeAnswerInput from "@/components/question/preview/answer_input_types/TimeAnswerInput.vue";
 import CustomAnswerType from "@/components/question/toggles/answer_types/CustomAnswerType.vue";
 import CustomAnswerInput from "@/components/question/preview/answer_input_types/CustomAnswerInput.vue";
-import ShortTextPreview from "@/components/question/preview/ShortTextPreview.vue";
-import ShortTextIcon from "@/components/survey/icons/ShortTextIcon.vue";
+import LongTextAnswerType from "@/components/question/toggles/answer_types/LongTextAnswerType.vue";
+import LongTextAnswerInput from "@/components/question/preview/answer_input_types/LongTextAnswerInput.vue";
+import GeneralTextPreview from "@/components/question/preview/GeneralTextPreview.vue";
+import GeneralTextIcon from "@/components/survey/icons/GeneralTextIcon.vue";
 
-import type {
-  Question,
-  ShortTextFormat,
-  ShortTextType,
-} from "@/types/store/question";
+import type { Question, GeneralTextType } from "@/types/store/question";
 
-const types: ShortTextType[] = [
+const types: GeneralTextType[] = [
   {
     value: "text",
-    label: "Text",
+    label: "Short text",
     toggle: TextAnswerType,
     input: TextAnswerInput,
     model: "",
@@ -69,6 +61,19 @@ const types: ShortTextType[] = [
     rules: {
       min: 0,
       max: 100,
+      error: false,
+    },
+  },
+  {
+    value: "long-text",
+    label: "Long text",
+    toggle: LongTextAnswerType,
+    input: LongTextAnswerInput,
+    model: "",
+    errorMessage: "",
+    rules: {
+      min: 0,
+      max: 5000,
       error: false,
     },
   },
@@ -118,7 +123,7 @@ const types: ShortTextType[] = [
     toggle: EnglishLetterAnswerType,
     input: EnglishLetterAnswerInput,
     model: "",
-    errorMessage: "Please enter a valid phone number",
+    errorMessage: "Please enter english letters only",
     rules: {
       placeholder: "Enter a letter",
       error: false,
@@ -130,7 +135,7 @@ const types: ShortTextType[] = [
     toggle: TimeAnswerType,
     input: TimeAnswerInput,
     model: "",
-    errorMessage: "Please enter a valid phone number",
+    errorMessage: "Please enter a valid time",
     rules: {
       placeholder: "Enter a letter",
       error: false,
@@ -178,10 +183,10 @@ const defaultQuestionTypes: Question = {
       WelcomeButton,
     ],
   },
-  shortText: {
-    name: "Short Text",
-    preview: ShortTextPreview,
-    icon: ShortTextIcon,
+  generalText: {
+    name: "General Text",
+    preview: GeneralTextPreview,
+    icon: GeneralTextIcon,
     action: true,
     labeled: {
       on: true,
@@ -208,7 +213,7 @@ const defaultQuestionTypes: Question = {
     components: [
       LabelEditor,
       DescriptionEditor,
-      ShortTextRulesToggle,
+      GeneralTextRulesToggle,
       VideoOrImageToggle,
       RequiredToggle,
       HideQuestionNumberToggle,

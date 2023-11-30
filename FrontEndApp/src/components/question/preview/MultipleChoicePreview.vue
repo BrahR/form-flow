@@ -67,7 +67,7 @@ const useQuestion = useQuestionStore();
       <template v-for="(choice, index) in useQuestion.getChoices" :key="index">
         <div
           v-if="choice.value && !choice.hidden"
-          :class="{ preview_selected_choice__fQxbn: choice.selected }"
+          :class="{ preview_selected_choice__fQxbn: choice.checked }"
           class="preview_multichoice_item__im8xB preview_ltr__Yc2N7"
         >
           <div class="preview_question_number_and_label_wrapper__Bj0ev">
@@ -79,7 +79,7 @@ const useQuestion = useQuestionStore();
             <div class="preview_choice_label__41CYt">{{ choice.value }}</div>
           </div>
           <div class="preview_selected_choice_icon_wrapper__7VOl3">
-            <div v-if="choice.selected" class="preview_selected_choice__fQxbn">
+            <div v-if="choice.checked" class="preview_selected_choice__fQxbn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

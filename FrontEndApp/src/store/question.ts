@@ -5,7 +5,7 @@ import type {
   MultipleChoice,
   Question,
   QuestionType,
-  ShortText,
+  GeneralText,
   Welcome,
   hasHideQuestionNumber,
   hasImageOrVideo,
@@ -61,78 +61,6 @@ export const useQuestionStore = defineStore("question", () => {
       selected.value.described.editor.model = value;
     },
   });
-  const getStartButton = computed(
-    () => (selected.value as Welcome).startButton
-  );
-  const getAnswerFormat = computed(
-    () => (selected.value as ShortText).answerFormat
-  );
-  const getCustomError = computed({
-    get() {
-      return (selected.value as ShortText).answerFormat.selected.errorMessage;
-    },
-    set(value) {
-      (selected.value as ShortText).answerFormat.selected.errorMessage = value;
-    },
-  });
-  const getRulesFormat = computed({
-    get() {
-      return (
-        (selected.value as ShortText).answerFormat.selected.rules?.format ?? ""
-      );
-    },
-    set(value) {
-      (selected.value as ShortText).answerFormat.selected.rules!.format = value;
-    },
-  });
-  const getIsAnswerError = computed({
-    get() {
-      return (selected.value as ShortText).answerFormat.selected.rules?.error;
-    },
-    set(value) {
-      (selected.value as ShortText).answerFormat.selected.rules!.error = value;
-    },
-  });
-  const getRules = computed(
-    () => (selected.value as ShortText).answerFormat.selected.rules
-  );
-  const getSelectedFormat = computed({
-    get() {
-      return (selected.value as ShortText).answerFormat.selected.rules!
-        .selectedFormat;
-    },
-    set(value) {
-      (
-        selected.value as ShortText
-      ).answerFormat.selected.rules!.selectedFormat = value;
-    },
-  });
-  const getRulesPlaceholder = computed({
-    get() {
-      return (
-        (selected.value as ShortText).answerFormat.selected.rules
-          ?.placeholder ?? ""
-      );
-    },
-    set(value) {
-      (selected.value as ShortText).answerFormat.selected.rules!.placeholder =
-        value;
-    },
-  });
-  const getRulesRegex = computed({
-    get() {
-      return (selected.value as ShortText).answerFormat.selected.rules?.regex;
-    },
-    set(value) {
-      (selected.value as ShortText).answerFormat.selected.rules!.regex = value;
-    },
-  });
-  const getVerticalDisplay = computed(
-    () => (selected.value as MultipleChoice).verticalDisplay
-  );
-  const getMultipleAnswers = computed(
-    () => (selected.value as MultipleChoice).multipleAnswers
-  );
   const getVideoOrImage = computed(
     () => (selected.value as hasImageOrVideo).imageOrVideo
   );
@@ -144,7 +72,91 @@ export const useQuestionStore = defineStore("question", () => {
     () => (selected.value as hasRandomize).randomize
   );
 
-  // const getChoices = computed(() => question.value.data.choices);
+  // question data getters
+  const getStartButton = computed(
+    () => (selected.value as Welcome).startButton
+  );
+  const getAnswerFormat = computed(
+    () => (selected.value as GeneralText).answerFormat
+  );
+  const getCustomError = computed({
+    get() {
+      return (selected.value as GeneralText).answerFormat.selected.errorMessage;
+    },
+    set(value) {
+      (selected.value as GeneralText).answerFormat.selected.errorMessage =
+        value;
+    },
+  });
+  const getRulesFormat = computed({
+    get() {
+      return (
+        (selected.value as GeneralText).answerFormat.selected.rules?.format ??
+        ""
+      );
+    },
+    set(value) {
+      (selected.value as GeneralText).answerFormat.selected.rules!.format =
+        value;
+    },
+  });
+  const getIsAnswerError = computed({
+    get() {
+      return (selected.value as GeneralText).answerFormat.selected.rules?.error;
+    },
+    set(value) {
+      (selected.value as GeneralText).answerFormat.selected.rules!.error =
+        value;
+    },
+  });
+  const getRules = computed(
+    () => (selected.value as GeneralText).answerFormat.selected.rules
+  );
+  const getSelectedFormat = computed({
+    get() {
+      return (selected.value as GeneralText).answerFormat.selected.rules!
+        .selectedFormat;
+    },
+    set(value) {
+      (
+        selected.value as GeneralText
+      ).answerFormat.selected.rules!.selectedFormat = value;
+    },
+  });
+  const getRulesPlaceholder = computed({
+    get() {
+      return (
+        (selected.value as GeneralText).answerFormat.selected.rules
+          ?.placeholder ?? ""
+      );
+    },
+    set(value) {
+      (selected.value as GeneralText).answerFormat.selected.rules!.placeholder =
+        value;
+    },
+  });
+  const getRulesRegex = computed({
+    get() {
+      return (selected.value as GeneralText).answerFormat.selected.rules?.regex;
+    },
+    set(value) {
+      (selected.value as GeneralText).answerFormat.selected.rules!.regex =
+        value;
+    },
+  });
+  const getVerticalDisplay = computed(
+    () => (selected.value as MultipleChoice).verticalDisplay
+  );
+  const getMultipleAnswers = computed(
+    () => (selected.value as MultipleChoice).multipleAnswers
+  );
+  const getMultipleAnswersText = computed(() => {
+    const multipleAnswers = getMultipleAnswers.value;
+
+    if (!multipleAnswers.on) return "Choose one answer";
+    return `${multipleAnswers.min} - ${multipleAnswers.max}`;
+  });
+  const getChoices = computed(() => (selected.value as MultipleChoice).choices);
   // const getVideoOrImage = computed(() => question.value.data.imageOrVideo);
   // const getVerticalDisplay = computed(
   //   () => question.value.data.verticalDisplay
@@ -152,37 +164,31 @@ export const useQuestionStore = defineStore("question", () => {
   // const getMultipleAnswers = computed(
   //   () => question.value.data.multipleAnswers
   // );
-  // const getMultipleAnswersText = computed(() => {
-  //   const multipleAnswers = getMultipleAnswers.value;
-
-  //   if (!multipleAnswers.on) return "Choose one answer";
-  //   return `${multipleAnswers.min} - ${multipleAnswers.max}`;
-  // });
 
   // // MULTIPLE CHOICE
 
   // const getDesc = computed(() => question.value.data.described.editor.model);
 
-  // const appendChoice = (index: number) => {
-  //   const maxId = getChoices.value.reduce(
-  //     (max: number, choice: any) => Math.max(max, choice.id),
-  //     0
-  //   );
+  const appendChoice = (index: number) => {
+    const maxId = getChoices.value.reduce(
+      (max: number, choice: any) => Math.max(max, choice.id),
+      0
+    );
 
-  //   // get last bigged id
+    // get highest id
 
-  //   getChoices.value.splice(index + 1, 0, {
-  //     id: maxId + 1,
-  //     hidden: false,
-  //     value: "",
-  //     checked: false,
-  //   });
-  // };
+    getChoices.value.splice(index + 1, 0, {
+      id: maxId + 1,
+      hidden: false,
+      value: "",
+      checked: false,
+    });
+  };
 
-  // const deleteChoice = (index: number) => {
-  //   if (getChoices.value.length <= 2) return;
-  //   getChoices.value.splice(index, 1);
-  // };
+  const deleteChoice = (index: number) => {
+    if (getChoices.value.length <= 2) return;
+    getChoices.value.splice(index, 1);
+  };
 
   return {
     questions,
@@ -207,6 +213,8 @@ export const useQuestionStore = defineStore("question", () => {
     getRulesRegex,
     getVerticalDisplay,
     getMultipleAnswers,
+    getMultipleAnswersText,
+    getChoices,
     getVideoOrImage,
     getRequired,
     getHideQuestionNumber,
@@ -235,8 +243,8 @@ export const useQuestionStore = defineStore("question", () => {
     isLoading,
     isHydrated,
 
-    // appendChoice,
-    // deleteChoice,
+    appendChoice,
+    deleteChoice,
 
     hydrate,
     dehydrate,

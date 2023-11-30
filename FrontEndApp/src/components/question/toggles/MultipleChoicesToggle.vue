@@ -6,6 +6,7 @@ import { useDraggable } from "vue-draggable-plus";
 const useQuestion = useQuestionStore();
 const el = ref(null as unknown as HTMLElement);
 
+// @ts-ignore
 useDraggable(el, useQuestion.getChoices, {
   handle: ".dragable",
 });
