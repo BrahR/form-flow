@@ -2,6 +2,8 @@
 import { useQuestionStore } from "@/store/question";
 
 const useQuestion = useQuestionStore();
+
+
 </script>
 
 <template>

@@ -1,25 +1,43 @@
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+
+const useQuestion = useQuestionStore();
+const validate = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+  const regex = /^[A-Za-z][A-Za-z]*$/;
+
+  if (regex.test(value)) {
+    useQuestion.getIsAnswerError = false;
+    return;
+  }
+
+  useQuestion.getIsAnswerError = true;
+};
+</script>
+
 <template>
-  <span class="textQuestion_hotkey_wrapper__lceii"
-    ><input
+  <span class="textQuestion_hotkey_wrapper__lceii">
+    <input
       inputmode="text"
-      class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
-      placeholder="English letters"
-  /></span>
+      class="textQuestion_not_empty__sFAKu false"
+      :placeholder="useQuestion.getRulesPlaceholder"
+      :class="{
+        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+      }"
+      @input="validate"
+    />
+  </span>
   <div
+    v-if="useQuestion.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      Numeric characters only
+      {{ useQuestion.getCustomError }}
     </div>
   </div>
 </template>
 
 <style scoped>
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
-body :focus-visible {
-  outline: none;
-}
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/2a2e4efde05c354a.css */
 .textQuestion_text_question_wrapper__WmtqL .textQuestion_hotkey_wrapper__lceii {
   position: relative;
   display: inline-flex;
