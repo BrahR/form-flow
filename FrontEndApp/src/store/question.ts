@@ -93,6 +93,9 @@ export const useQuestionStore = defineStore("question", () => {
       (selected.value as ShortText).answerFormat.selected.rules!.error = value;
     },
   });
+  const getRules = computed(
+    () => (selected.value as ShortText).answerFormat.selected.rules
+  );
   const getSelectedFormat = computed({
     get() {
       return (selected.value as ShortText).answerFormat.selected.rules!
@@ -102,6 +105,26 @@ export const useQuestionStore = defineStore("question", () => {
       (
         selected.value as ShortText
       ).answerFormat.selected.rules!.selectedFormat = value;
+    },
+  });
+  const getRulesPlaceholder = computed({
+    get() {
+      return (
+        (selected.value as ShortText).answerFormat.selected.rules
+          ?.placeholder ?? ""
+      );
+    },
+    set(value) {
+      (selected.value as ShortText).answerFormat.selected.rules!.placeholder =
+        value;
+    },
+  });
+  const getRulesRegex = computed({
+    get() {
+      return (selected.value as ShortText).answerFormat.selected.rules?.regex;
+    },
+    set(value) {
+      (selected.value as ShortText).answerFormat.selected.rules!.regex = value;
     },
   });
   const getVerticalDisplay = computed(
@@ -178,7 +201,10 @@ export const useQuestionStore = defineStore("question", () => {
     getCustomError,
     getRulesFormat,
     getIsAnswerError,
+    getRules,
     getSelectedFormat,
+    getRulesPlaceholder,
+    getRulesRegex,
     getVerticalDisplay,
     getMultipleAnswers,
     getVideoOrImage,
