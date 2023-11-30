@@ -15,13 +15,16 @@ type ShortTextType = {
   model: string;
   defaultCountry?: string;
   errorMessage: string;
-  rules?: {
+  rules: {
     min?: number;
     max?: number;
     format?: string;
     error?: boolean;
     formats?: ShortTextFormat[];
     selectedFormat?: ShortTextFormat;
+    placeholder?: string;
+    displayError?: string;
+    regex?: RegExp;
   };
 };
 
