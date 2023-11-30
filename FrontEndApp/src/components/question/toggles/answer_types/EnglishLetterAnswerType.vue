@@ -1,25 +1,29 @@
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+
+const useQuestion = useQuestionStore();
+</script>
+
 <template>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
-      <div class="textInput_input_title__ssXRr undefined">Example</div>
+      <div class="textInput_input_title__ssXRr undefined">Placeholder</div>
       <input
         class="textInput_input__YzEWk false undefined false"
-        name="regex_placeholder"
         type="text"
-        value="English letters"
+        v-model="useQuestion.getRulesPlaceholder"
       />
     </div>
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
       <div class="textInput_input_title__ssXRr undefined">
-        Message to display when answer does not pass RegEx
+        Message to display when answer does not the validation
       </div>
       <input
         class="textInput_input__YzEWk false undefined false"
-        name="regex_validation_message"
         type="text"
-        value="English letters only"
+        v-model="useQuestion.getCustomError"
       />
     </div>
   </div>

@@ -2,7 +2,6 @@
 import { useQuestionStore } from "@/store/question";
 
 const useQuestion = useQuestionStore();
-const selected = useQuestion.getAnswerFormat.selected;
 </script>
 
 <template>
@@ -17,11 +16,14 @@ const selected = useQuestion.getAnswerFormat.selected;
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="selected.rules.min"
+          v-model="useQuestion.getRules!.min"
           @input="
-            selected.rules.min = Math.max(
+            useQuestion.getRules!.min = Math.max(
               0,
-              Math.min(selected.rules.max, Math.min(200, selected.rules.min))
+              Math.min(
+                useQuestion.getRules?.max ?? 0,
+                Math.min(200, useQuestion.getRules?.min ?? 0)
+              )
             )
           "
         />
@@ -36,11 +38,14 @@ const selected = useQuestion.getAnswerFormat.selected;
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="selected.rules.max"
+          v-model="useQuestion.getRules!.max"
           @input="
-            selected.rules.max = Math.min(
+            useQuestion.getRules!.max = Math.min(
               200,
-              Math.max(selected.rules.min, selected.rules.max)
+              Math.max(
+                useQuestion.getRules?.min ?? 0,
+                useQuestion.getRules?.max ?? 0
+              )
             )
           "
         />

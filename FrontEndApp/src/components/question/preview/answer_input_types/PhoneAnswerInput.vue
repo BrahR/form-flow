@@ -5,16 +5,20 @@ import "vue-tel-input/vue-tel-input.css";
 import { useQuestionStore } from "@/store/question";
 import { isValidNumber, parse } from "libphonenumber-js";
 import { PhoneObject } from "@/types";
-import { computed } from "vue";
 
 const useQuestion = useQuestionStore();
 const selected = useQuestion.getAnswerFormat.selected;
 
-const onInput = (_event: Event, phoneObject: PhoneObject) => {
-  const { number, formatted } = phoneObject;
+const onInput = (event: string, phoneObject: PhoneObject) => {
+  const { number, country } = phoneObject;
   const regex = /^\+?[1-9]\d{1,14}$/;
 
-  if (!regex.test(formatted)) {
+  if (!country) {
+    useQuestion.getIsAnswerError = true;
+    return;
+  }
+
+  if (!regex.test(event)) {
     useQuestion.getIsAnswerError = true;
     return;
   }
@@ -28,20 +32,21 @@ const onInput = (_event: Event, phoneObject: PhoneObject) => {
     <VueTelInput
       v-model="selected.model"
       defaultCountry=" "
+      :autoFormat="false"
       :autoDefaultCountry="false"
       :inputOptions="{
-        placeholder: 'Enter phone number',
+        placeholder: useQuestion.getRules?.placeholder,
         styleClasses: {
           textQuestion_not_empty__sFAKu: true,
           textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
         },
-        showDialCode: true,
       }"
       :dropdownOptions="{
         showSearchBox: true,
         showDialCodeInList: true,
         showFlags: true,
         tabindex: 0,
+        showDialCodeInSelection: true,
       }"
       @onInput="onInput"
     />

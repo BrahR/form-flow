@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+
+const useQuestion = useQuestionStore();
+</script>
+
 <template>
   <div>
     <div>Min/Max characters</div>
@@ -9,11 +15,17 @@
         <input
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
-          max="200"
-          min="0"
           inputmode="decimal"
-          name="answer_min_length"
-          value="0"
+          v-model="useQuestion.getRules!.min"
+          @input="
+            useQuestion.getRules!.min = Math.max(
+              0,
+              Math.min(
+                useQuestion.getRules?.max ?? 0,
+                Math.min(200, useQuestion.getRules?.min ?? 0)
+              )
+            )
+          "
         />
       </div>
     </div>
@@ -25,36 +37,41 @@
         <input
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
-          max="200"
-          min="0"
           inputmode="decimal"
-          name="answer_max_length"
-          value="100"
+          v-model="useQuestion.getRules!.max"
+          @input="
+            useQuestion.getRules!.max = Math.min(
+              200,
+              Math.max(
+                useQuestion.getRules?.min ?? 0,
+                useQuestion.getRules?.max ?? 0
+              )
+            )
+          "
         />
       </div>
     </div>
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
-      <div class="textInput_input_title__ssXRr undefined">Example</div>
+      <div class="textInput_input_title__ssXRr undefined">Placeholder</div>
       <input
         class="textInput_input__YzEWk false undefined false"
         name="regex_placeholder"
         type="text"
-        value="1234567891"
+        v-model="useQuestion.getRulesPlaceholder"
       />
     </div>
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
       <div class="textInput_input_title__ssXRr undefined">
-        Message to display when answer does not pass RegEx
+        Message to display when answer does not pass validation
       </div>
       <input
         class="textInput_input__YzEWk false undefined false"
-        name="regex_validation_message"
         type="text"
-        value="Numeric characters only"
+        v-model="useQuestion.getCustomError"
       />
     </div>
   </div>

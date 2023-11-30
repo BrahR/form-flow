@@ -44,7 +44,7 @@ const onInput = (val: Event) => {
 <template>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
-      <div class="textInput_input_title__ssXRr undefined">Example</div>
+      <div class="textInput_input_title__ssXRr undefined">Placeholder</div>
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
@@ -55,7 +55,6 @@ const onInput = (val: Event) => {
       />
     </div>
     <InputError :error="error" />
-    {{ error }}
     <InputError :error="patternWarning" />
   </div>
   <div class="textQuestion_text_inputs__Hciae">

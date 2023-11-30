@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { useQuestionStore } from "@/store/question";
-import { computed, watch, ref } from "vue";
+import { computed, watch } from "vue";
 import * as yup from "yup";
 
 const useQuestion = useQuestionStore();
-const selected = useQuestion.getAnswerFormat.selected;
-const animate = ref(false);
 
 const errMessage = computed(() => {
-  let message = `You can type between ${selected.rules!.min} and
-      ${selected.rules!.max} characters.`;
+  let message = `You can type between ${useQuestion.getRules!.min} and
+      ${useQuestion.getRules!.max} characters.`;
 
-  if (selected.rules!.min === selected.rules!.max) {
-    message = `Your input must be ${selected.rules!.min} character${
-      selected.rules!.min == 1 ? "" : "s"
+  if (useQuestion.getRules!.min === useQuestion.getRules!.max) {
+    message = `Your input must be ${useQuestion.getRules!.min} character${
+      useQuestion.getRules!.min == 1 ? "" : "s"
     }`;
   }
   return message;
@@ -22,22 +20,33 @@ const errMessage = computed(() => {
 const schema = computed(() =>
   yup
     .string()
-    .min(selected.rules!.min ?? 0, errMessage.value)
-    .max(selected.rules!.max ?? 200, errMessage.value)
+    .min(useQuestion.getRules!.min ?? 0, errMessage.value)
+    .max(useQuestion.getRules!.max ?? 200, errMessage.value)
 );
 
 const validate = () => {
+  console.log("HAHH");
+
+  const value = useQuestion.getAnswerFormat.selected.model;
+  useQuestion.getCustomError = errMessage.value;
+
   schema.value
-    .validate(selected.model)
+    .validate(value)
     .then(() => {
-      useQuestion.getIsAnswerError = "";
+      useQuestion.getIsAnswerError = false;
     })
-    .catch((err) => {
-      useQuestion.getIsAnswerError = err.message;
+    .catch((_err) => {
+      useQuestion.getIsAnswerError = true;
     });
 };
 
-watch(selected.rules!, () => validate(), { deep: true });
+watch(
+  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  () => {
+    if (useQuestion.getAnswerFormat.selected.value !== "text") return;
+    validate();
+  }
+);
 </script>
 
 <template>
@@ -47,25 +56,20 @@ watch(selected.rules!, () => validate(), { deep: true });
       :class="{
         textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
       }"
-      v-model="selected.model"
+      v-model="useQuestion.getAnswerFormat.selected.model"
       @input="validate"
     />
   </span>
   <div
+    v-if="useQuestion.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm"
     :class="{
       textQuestion_text_question_error__Vp6AE: useQuestion.getIsAnswerError,
     }"
   >
-    <div
-      v-if="useQuestion.getIsAnswerError"
-      class="textQuestion_question_error__W6xqr"
-      :class="{
-        'error-fade-enter-active': animate,
-      }"
-    >
+    <div class="textQuestion_question_error__W6xqr">
       <!-- -->
-      {{ useQuestion.getIsAnswerError }}
+      {{ useQuestion.getCustomError }}
     </div>
   </div>
 </template>

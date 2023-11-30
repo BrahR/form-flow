@@ -1,15 +1,85 @@
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+import { computed, watch } from "vue";
+import * as yup from "yup";
+
+const useQuestion = useQuestionStore();
+
+const errMessage = computed(() => {
+  let message = `You can type between ${useQuestion.getRules!.min} and
+      ${useQuestion.getRules!.max} characters.`;
+
+  if (useQuestion.getRules!.min === useQuestion.getRules!.max) {
+    message = `Your input must be ${useQuestion.getRules!.min} character${
+      useQuestion.getRules!.min == 1 ? "" : "s"
+    }`;
+  }
+  return message;
+});
+
+const schema = computed(() =>
+  yup
+    .string()
+    .min(useQuestion.getRules!.min ?? 0, errMessage.value)
+    .max(useQuestion.getRules!.max ?? 200, errMessage.value)
+);
+
+const validate = () => {
+  const regex = /^\d+$/;
+  const value = useQuestion.getAnswerFormat.selected.model;
+  if (!regex.test(value)) {
+    useQuestion.getIsAnswerError = true;
+
+    useQuestion.getRules!.displayError = useQuestion.getCustomError;
+    return;
+  }
+
+  schema.value
+    .validate(value)
+    .then(() => {
+      useQuestion.getIsAnswerError = false;
+      useQuestion.getRules!.displayError = "";
+    })
+    .catch((err) => {
+      useQuestion.getIsAnswerError = true;
+      useQuestion.getRules!.displayError = err.message;
+    });
+};
+
+watch(
+  [
+    () => useQuestion.getAnswerFormat.selected.model,
+    () => useQuestion.getCustomError,
+    () => useQuestion.getRules,
+  ],
+  () => {
+    if (useQuestion.getAnswerFormat.selected.value !== "numeric") return;
+    validate();
+  },
+  {
+    deep: true,
+  }
+);
+</script>
+
 <template>
-  <span class="textQuestion_hotkey_wrapper__lceii"
-    ><input
-      placeholder="1234567891"
+  <span class="textQuestion_hotkey_wrapper__lceii">
+    <input
       inputmode="text"
-      class="textQuestion_not_empty__sFAKu false textQuestion_hasError__19d2Q"
+      class="textQuestion_not_empty__sFAKu false"
+      :placeholder="useQuestion.getRulesPlaceholder"
+      :class="{
+        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+      }"
+      v-model="useQuestion.getAnswerFormat.selected.model"
+      @input="validate"
   /></span>
   <div
+    v-if="useQuestion.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      Numeric characters only
+      {{ useQuestion.getRules!.displayError }}
     </div>
   </div>
 </template>
@@ -58,7 +128,6 @@ body :focus-visible {
 }
 .textQuestion_text_question_wrapper__WmtqL input.textQuestion_hasError__19d2Q {
   border-color: #d9426e;
-  animation: textQuestion_shake__k4nDZ 0.4s linear 1;
 }
 .textQuestion_text_question_wrapper__WmtqL
   input.textQuestion_hasError__19d2Q:hover {
@@ -74,33 +143,6 @@ body :focus-visible {
     width: 16.8125rem;
   }
 }
-/*! CSS Used keyframes */
-@keyframes textQuestion_shake__k4nDZ {
-  0% {
-    -webkit-transform: translate(15px);
-  }
-  20% {
-    -webkit-transform: translate(-15px);
-  }
-  40% {
-    -webkit-transform: translate(7px);
-  }
-  60% {
-    -webkit-transform: translate(-7px);
-  }
-  80% {
-    -webkit-transform: translate(4px);
-  }
-  to {
-    -webkit-transform: translate(0);
-  }
-}
-
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
-body :focus-visible {
-  outline: none;
-}
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/2a2e4efde05c354a.css */
 .textQuestion_text_question_wrapper__WmtqL
   .textQuestion_continue_button_wrapper__PBEZm {
   height: 2.5rem;
@@ -120,15 +162,5 @@ body :focus-visible {
   color: #fff;
   display: table;
   line-height: 1.25rem !important;
-  animation: textQuestion_fade__ZYVn3 0.3s linear 1;
-}
-/*! CSS Used keyframes */
-@keyframes textQuestion_fade__ZYVn3 {
-  0% {
-    -webkit-opacity: 0;
-  }
-  to {
-    -webkit-opacity: 1;
-  }
 }
 </style>

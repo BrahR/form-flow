@@ -13,7 +13,7 @@ const valid = ref(true);
 
 const validate = (val: string) => {
   if (!val || !useQuestion.getRulesFormat) {
-    useQuestion.getIsAnswerError = useQuestion.getCustomError;
+    useQuestion.getIsAnswerError = true;
     valid.value = false;
     return valid.value;
   }
@@ -26,7 +26,7 @@ const validate = (val: string) => {
     valid.value = false;
   }
 
-  useQuestion.getIsAnswerError = valid.value ? "" : useQuestion.getCustomError;
+  useQuestion.getIsAnswerError = valid.value ? false : true;
   return valid.value;
 };
 
@@ -55,7 +55,11 @@ const validateInput = (input: string) => {
 
 watch(
   [() => useQuestion.getRulesFormat, () => selected.rules?.selectedFormat],
-  () => validate(selected.model as string),
+  () => {
+    if (useQuestion.getAnswerFormat.selected.value !== "date") return;
+
+    validate(selected.model as string);
+  },
   {
     deep: true,
   }
@@ -143,7 +147,7 @@ onMounted(() => {
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getIsAnswerError }}
+      {{ useQuestion.getCustomError }}
     </div>
   </div>
 </template>
