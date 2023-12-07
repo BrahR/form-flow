@@ -332,15 +332,17 @@ const defaultQuestionTypes: Question = {
     },
     choices: [
       {
+        id: 1,
         hidden: false,
-        label: "",
-        image: "",
+        label: "boe",
+        image: "https://i.ebayimg.com/images/g/Dv0AAOSwl9BWL6v9/s-l1200.webp",
         checked: false,
       },
       {
+        id: 2,
         hidden: false,
-        label: "",
-        image: "",
+        label: "jiden",
+        image: "https://i.ebayimg.com/images/g/Dv0AAOSwl9BWL6v9/s-l1200.webp",
         checked: false,
       },
     ],

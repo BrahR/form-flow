@@ -6,11 +6,11 @@ import MultipleChoiceIcon from "@/components/survey/icons/MultipleChoiceIcon.vue
 import PictureChoiceIcon from "@/components/survey/icons/PictureChoiceIcon.vue";
 import QuestionGroupIcon from "@/components/survey/icons/QuestionGroupIcon.vue";
 import DropdownIcon from "@/components/survey/icons/DropdownIcon.vue";
-import NumericalAnswerIcon from "@/components/survey/icons/NumericalAnswerIcon.vue";
+// import NumericalAnswerIcon from "@/components/survey/icons/NumericalAnswerIcon.vue";
 import OpinionScaleIcon from "@/components/survey/icons/OpinionScaleIcon.vue";
-import EmailIcon from "@/components/survey/icons/EmailIcon.vue";
+// import EmailIcon from "@/components/survey/icons/EmailIcon.vue";
 import RatingIcon from "@/components/survey/icons/RatingIcon.vue";
-import LinkWebsiteIcon from "@/components/survey/icons/LinkWebsiteIcon.vue";
+// import LinkWebsiteIcon from "@/components/survey/icons/LinkWebsiteIcon.vue";
 import RankingIcon from "@/components/survey/icons/RankingIcon.vue";
 import StatementIcon from "@/components/survey/icons/StatementIcon.vue";
 import FileUploadIcon from "@/components/survey/icons/FileUploadIcon.vue";
@@ -71,41 +71,41 @@ const buttons: SurveyButton[] = [
     type: "questionGroup",
   },
   {
-    title: "Dropwdown",
+    title: "Link options",
     component: DropdownIcon,
     fullWidth: false,
     type: "dropdown",
   },
-  {
-    title: "Numerical Answer",
-    component: NumericalAnswerIcon,
-    fullWidth: false,
-    type: "numerical",
-  },
+  // {
+  //   title: "Numerical Answer",
+  //   component: NumericalAnswerIcon,
+  //   fullWidth: false,
+  //   type: "numerical",
+  // },
   {
     title: "Opinion Scale",
     component: OpinionScaleIcon,
     fullWidth: false,
     type: "opinionScale",
   },
-  {
-    title: "Email",
-    component: EmailIcon,
-    fullWidth: false,
-    type: "email",
-  },
+  // {
+  //   title: "Email",
+  //   component: EmailIcon,
+  //   fullWidth: false,
+  //   type: "email",
+  // },
   {
     title: "Rating",
     component: RatingIcon,
     fullWidth: false,
     type: "rating",
   },
-  {
-    title: "Link Website",
-    component: LinkWebsiteIcon,
-    fullWidth: false,
-    type: "linkWeb",
-  },
+  // {
+  //   title: "Link Website",
+  //   component: LinkWebsiteIcon,
+  //   fullWidth: false,
+  //   type: "linkWeb",
+  // },
   {
     title: "Ranking",
     component: RankingIcon,
