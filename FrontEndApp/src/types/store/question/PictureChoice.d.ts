@@ -15,6 +15,7 @@ type PictureChoice = {
     editor: EditorType;
   };
   choices: {
+    id: number;
     hidden: boolean;
     label: string;
     image: string;

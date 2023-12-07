@@ -7,7 +7,7 @@ const useQuestion = useQuestionStore();
 const el = ref(null as unknown as HTMLElement);
 
 // @ts-ignore
-useDraggable(el, useQuestion.getChoices, {
+useDraggable(el, useQuestion.getMultipleChoices, {
   handle: ".dragable",
 });
 </script>
@@ -24,11 +24,11 @@ useDraggable(el, useQuestion.getChoices, {
         </div>
       </div>
     </div>
-    <TransitionGroup ref="el" type="transition" tag="div" name="fade">
+    <transition-group ref="el" type="transition" tag="div" name="fade">
       <div
-        v-for="(element, index) in useQuestion.getChoices"
-        class="buildChoice_choice_row__T3p8q"
+        v-for="(element, index) in useQuestion.getMultipleChoices"
         :key="element.id"
+        class="buildChoice_choice_row__T3p8q"
       >
         <div
           :class="{
@@ -70,7 +70,17 @@ useDraggable(el, useQuestion.getChoices, {
           <div class="buildChoice_choice_actions__Nufet">
             <div
               class="buildChoice_action_right__5Cgii buildChoice_ltr__k8APe"
-              @click="useQuestion.appendChoice(index)"
+              @click="
+                useQuestion.appendChoice(
+                  index,
+                  useQuestion.getMultipleChoices,
+                  {
+                    hidden: false,
+                    value: '',
+                    checked: false,
+                  }
+                )
+              "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
@@ -135,10 +145,13 @@ useDraggable(el, useQuestion.getChoices, {
             </div>
             <div
               :class="{
-                buildChoice_disable__w99rm: useQuestion.getChoices.length <= 2,
+                buildChoice_disable__w99rm:
+                  useQuestion.getMultipleChoices.length <= 2,
               }"
               class="buildChoice_action_left__0V4PE buildChoice_ltr__k8APe"
-              @click="useQuestion.deleteChoice(index)"
+              @click="
+                useQuestion.deleteChoice(index, useQuestion.getMultipleChoices)
+              "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
@@ -159,7 +172,7 @@ useDraggable(el, useQuestion.getChoices, {
           </div>
         </div>
       </div>
-    </TransitionGroup>
+    </transition-group>
     <!-- </template> -->
     <!-- </div> -->
   </div>
@@ -387,18 +400,12 @@ useDraggable(el, useQuestion.getChoices, {
   margin-left: 0;
   margin-right: 0.5rem;
 }
-/*! CSS Used from: Embedded */
 .dragable {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   touch-action: manipulation;
-}
-.dragable {
-  overflow-anchor: none;
-}
-/*! CSS Used from: Embedded */
-.dragable {
   cursor: -webkit-grab;
   cursor: grab;
+  overflow-anchor: none;
 }
 </style>

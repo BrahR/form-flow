@@ -53,9 +53,14 @@ type hasImageOrVideo =
   | Statement
   | FileUpload
   | Endings;
+
 type hasRequired = GeneralText | MultipleChoice | LongText | PictureChoice;
 type hasHideQuestionNumber = GeneralText | MultipleChoice | LongText;
 type hasRandomize = MultipleChoice | PictureChoice | Dropdown | Ranking;
+type hasHiddenLabel = PictureChoice;
+type hasDoubleDisplay = PictureChoice;
+type hasVerticalDisplay = MultipleChoice;
+type hasMultipleAnswers = MultipleChoice | PictureChoice;
 
 export {
   GeneralTextFormat,
@@ -82,4 +87,8 @@ export {
   hasRequired,
   hasHideQuestionNumber,
   hasRandomize,
+  hasHiddenLabel,
+  hasDoubleDisplay,
+  hasVerticalDisplay,
+  hasMultipleAnswers,
 };

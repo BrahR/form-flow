@@ -2,15 +2,20 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 import type {} from "vite";
 import { computed, ref } from "vue";
 import type {
+  Welcome,
+  GeneralText,
   MultipleChoice,
+  PictureChoice,
   Question,
   QuestionType,
-  GeneralText,
-  Welcome,
   hasHideQuestionNumber,
   hasImageOrVideo,
   hasRandomize,
   hasRequired,
+  hasHiddenLabel,
+  hasDoubleDisplay,
+  hasVerticalDisplay,
+  hasMultipleAnswers,
 } from "@/types/store/question";
 import { defaultQuestionTypes } from "@/utils";
 
@@ -70,6 +75,33 @@ export const useQuestionStore = defineStore("question", () => {
   );
   const getRandomize = computed(
     () => (selected.value as hasRandomize).randomize
+  );
+  const getIsHiddenLabel = computed({
+    get() {
+      return (selected.value as hasHiddenLabel).hiddenLabel.on;
+    },
+    set(value) {
+      (selected.value as hasHiddenLabel).hiddenLabel.on = value;
+    },
+  });
+  const getIsDoubleDisplaySize = computed({
+    get() {
+      return (selected.value as hasDoubleDisplay).doubleDisplaySize.on;
+    },
+    set(value) {
+      (selected.value as hasDoubleDisplay).doubleDisplaySize.on = value;
+    },
+  });
+  const getIsVerticalDisplay = computed({
+    get() {
+      return (selected.value as hasVerticalDisplay).verticalDisplay.on;
+    },
+    set(value) {
+      (selected.value as hasVerticalDisplay).verticalDisplay.on = value;
+    },
+  });
+  const getMultipleAnswers = computed(
+    () => (selected.value as hasMultipleAnswers).multipleAnswers
   );
 
   // question data getters
@@ -144,51 +176,73 @@ export const useQuestionStore = defineStore("question", () => {
         value;
     },
   });
-  const getVerticalDisplay = computed(
-    () => (selected.value as MultipleChoice).verticalDisplay
-  );
-  const getMultipleAnswers = computed(
-    () => (selected.value as MultipleChoice).multipleAnswers
-  );
+
   const getMultipleAnswersText = computed(() => {
     const multipleAnswers = getMultipleAnswers.value;
 
     if (!multipleAnswers.on) return "Choose one answer";
     return `${multipleAnswers.min} - ${multipleAnswers.max}`;
   });
-  const getChoices = computed(() => (selected.value as MultipleChoice).choices);
-  // const getVideoOrImage = computed(() => question.value.data.imageOrVideo);
-  // const getVerticalDisplay = computed(
-  //   () => question.value.data.verticalDisplay
-  // );
-  // const getMultipleAnswers = computed(
-  //   () => question.value.data.multipleAnswers
-  // );
+  const getMultipleChoices = computed(
+    () => (selected.value as MultipleChoice).choices
+  );
 
-  // // MULTIPLE CHOICE
+  const getPictureChoices = computed(
+    () => (selected.value as PictureChoice).choices
+  );
 
-  // const getDesc = computed(() => question.value.data.described.editor.model);
-
-  const appendChoice = (index: number) => {
-    const maxId = getChoices.value.reduce(
+  const appendChoice = <T>(index: number, array: T[], data: unknown) => {
+    const maxId = array.reduce(
       (max: number, choice: any) => Math.max(max, choice.id),
       0
     );
 
-    // get highest id
-
-    getChoices.value.splice(index + 1, 0, {
+    array.splice(index + 1, 0, {
       id: maxId + 1,
       hidden: false,
-      value: "",
-      checked: false,
+      ...(data as T),
     });
   };
 
-  const deleteChoice = (index: number) => {
-    if (getChoices.value.length <= 2) return;
-    getChoices.value.splice(index, 1);
+  const deleteChoice = <T>(index: number, array: T[]) => {
+    if (array.length <= 2) return;
+    array.splice(index, 1);
   };
+
+  // const appendMultipleChoice = (index: number) => {
+  //   const maxId = getMultipleChoices.value.reduce(
+  //     (max: number, choice: any) => Math.max(max, choice.id),
+  //     0
+  //   );
+
+  //   getMultipleChoices.value.splice(index + 1, 0, {
+  //     id: maxId + 1,
+  //     hidden: false,
+  //     value: "",
+  //     checked: false,
+  //   });
+  // };
+
+  // const appendPictureChoice = (index: number) => {
+  //   const maxId = getMultipleChoices.value.reduce(
+  //     (max: number, choice: any) => Math.max(max, choice.id),
+  //     0
+  //   );
+
+  //   getPictureChoices.value.splice(index + 1, 0, {
+  //     id: maxId + 1,
+  //     hidden: false,
+  //     label: "",
+  //     image: "https://i.ebayimg.com/images/g/Dv0AAOSwl9BWL6v9/s-l1200.webp",
+  //     checked: false,
+  //   });
+  // };
+
+  // const deletePictureChoice = (index: number) => {
+  //   if (getPictureChoices.value.length <= 2) return;
+  //   getPictureChoices.value.splice(index, 1);
+  //   // getPictureChoices.value;
+  // };
 
   return {
     questions,
@@ -211,20 +265,23 @@ export const useQuestionStore = defineStore("question", () => {
     getSelectedFormat,
     getRulesPlaceholder,
     getRulesRegex,
-    getVerticalDisplay,
+    getIsVerticalDisplay,
     getMultipleAnswers,
     getMultipleAnswersText,
-    getChoices,
+    getMultipleChoices,
+    getPictureChoices,
     getVideoOrImage,
     getRequired,
     getHideQuestionNumber,
     getRandomize,
+    getIsHiddenLabel,
+    getIsDoubleDisplaySize,
     // getComponents,
     // getLabeled,
     // getRandomize,
     // getAnswerFormat,
     // getDescribed,
-    // getChoices,
+    // getMultipleChoices,
     // getRequired,
     // getVideoOrImage,
     // getVerticalDisplay,
