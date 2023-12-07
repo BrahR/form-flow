@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useQuestionStore } from "@/store/question";
+
+const useQuestion = useQuestionStore();
+</script>
 
 <template>
   <div
@@ -6,17 +10,19 @@
   >
     <div class="sharedBuild_toggle_wrapper__R5w_y">
       <div class="toggleButton_wrapper__dOusd undefined false">
-        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Double display size</span
-        ><label class="toggleButton_switch__EF_q8"
-          ><input
-            name="super_size_choice"
+        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+          Double display size
+        </span>
+        <label class="toggleButton_switch__EF_q8">
+          <input
             class="toggleButton_toggle_button_checkbox__a2Pr8"
-            type="checkbox" />
+            type="checkbox"
+            v-model="useQuestion.getIsDoubleDisplaySize"
+          />
           <div
             class="toggleButton_slider_round__QN633 undefined undefined"
-          ></div
-        ></label>
+          ></div>
+        </label>
       </div>
     </div>
   </div>
