@@ -16,6 +16,8 @@ import type {
   hasDoubleDisplay,
   hasVerticalDisplay,
   hasMultipleAnswers,
+  hasButton,
+  QuestionGroup,
 } from "@/types/store/question";
 import { defaultQuestionTypes } from "@/utils";
 
@@ -73,9 +75,14 @@ export const useQuestionStore = defineStore("question", () => {
   const getHideQuestionNumber = computed(
     () => (selected.value as hasHideQuestionNumber).hideQuestionNumber
   );
-  const getRandomize = computed(
-    () => (selected.value as hasRandomize).randomize
-  );
+  const getIsRandomize = computed({
+    get() {
+      return (selected.value as hasRandomize).randomize.on;
+    },
+    set(value) {
+      (selected.value as hasRandomize).randomize.on = value;
+    },
+  });
   const getIsHiddenLabel = computed({
     get() {
       return (selected.value as hasHiddenLabel).hiddenLabel.on;
@@ -98,6 +105,30 @@ export const useQuestionStore = defineStore("question", () => {
     },
     set(value) {
       (selected.value as hasVerticalDisplay).verticalDisplay.on = value;
+    },
+  });
+  const getIsButton = computed({
+    get() {
+      return (selected.value as hasButton).button.on;
+    },
+    set(value) {
+      (selected.value as hasButton).button.on = value;
+    },
+  });
+  const getButtonLabel = computed({
+    get() {
+      return (selected.value as hasButton).button.value;
+    },
+    set(value) {
+      (selected.value as hasButton).button.value = value;
+    },
+  });
+  const getSelectedRandmoize = computed({
+    get() {
+      return (selected.value as QuestionGroup).randomize.selected;
+    },
+    set(value) {
+      (selected.value as QuestionGroup).randomize.selected = value;
     },
   });
   const getMultipleAnswers = computed(
@@ -273,9 +304,12 @@ export const useQuestionStore = defineStore("question", () => {
     getVideoOrImage,
     getRequired,
     getHideQuestionNumber,
-    getRandomize,
+    getIsRandomize,
+    getIsButton,
+    getButtonLabel,
     getIsHiddenLabel,
     getIsDoubleDisplaySize,
+    getSelectedRandmoize,
     // getComponents,
     // getLabeled,
     // getRandomize,

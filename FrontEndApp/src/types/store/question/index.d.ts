@@ -56,11 +56,17 @@ type hasImageOrVideo =
 
 type hasRequired = GeneralText | MultipleChoice | LongText | PictureChoice;
 type hasHideQuestionNumber = GeneralText | MultipleChoice | LongText;
-type hasRandomize = MultipleChoice | PictureChoice | Dropdown | Ranking;
+type hasRandomize =
+  | MultipleChoice
+  | PictureChoice
+  | QuestionGroup
+  | Dropdown
+  | Ranking;
 type hasHiddenLabel = PictureChoice;
 type hasDoubleDisplay = PictureChoice;
 type hasVerticalDisplay = MultipleChoice;
 type hasMultipleAnswers = MultipleChoice | PictureChoice;
+type hasButton = QuestionGroup;
 
 export {
   GeneralTextFormat,
@@ -91,4 +97,5 @@ export {
   hasDoubleDisplay,
   hasVerticalDisplay,
   hasMultipleAnswers,
+  hasButton,
 };

@@ -17,11 +17,20 @@ type QuestionGroup = {
   required: {
     on: boolean;
   };
-  button: {
-    value: string;
-  };
   hideQuestionNumber: {
     on: boolean;
+  };
+  randomize: {
+    on: boolean;
+    selected: {
+      id: number;
+      name: string;
+      value: number;
+    };
+  };
+  button: {
+    on: boolean;
+    value: string;
   };
   components: Component[];
 };

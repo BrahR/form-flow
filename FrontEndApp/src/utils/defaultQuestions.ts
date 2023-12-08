@@ -29,6 +29,7 @@ import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoices
 import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
 import GeneralTextRulesToggle from "@/components/question/toggles/GeneralTextRulesToggle.vue";
+import ButtonToggle from "@/components/question/toggles/ButtonToggle.vue";
 import TextAnswerType from "@/components/question/toggles/answer_types/TextAnswerType.vue";
 import TextAnswerInput from "@/components/question/preview/answer_input_types/TextAnswerInput.vue";
 import DateAnswerType from "@/components/question/toggles/answer_types/DateAnswerType.vue";
@@ -398,15 +399,21 @@ const defaultQuestionTypes: Question = {
     required: {
       on: false,
     },
-    button: {
-      value: "Next",
-    },
     hideQuestionNumber: {
       on: false,
+    },
+    randomize: {
+      on: false,
+      selected: null as never,
+    },
+    button: {
+      on: false,
+      value: "Continue",
     },
     components: [
       LabelEditor,
       DescriptionEditor,
+      ButtonToggle,
       RequiredToggle,
       HideQuestionNumberToggle,
       RandomizeGroupToggle,
