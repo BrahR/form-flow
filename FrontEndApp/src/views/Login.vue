@@ -7,30 +7,38 @@ import AuthSubmit from "@/components/form/AuthSubmit.vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
-import {computed, ref} from "vue";
-import {useUserStore} from "@/store/user.ts";
+import { computed, ref } from "vue";
+import { useUserStore } from "@/store/user.ts";
 
 type loginForm = {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 };
 
 const router = useRouter();
-const userStore = useUserStore()
-const { errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta } = useForm<loginForm>({
+const userStore = useUserStore();
+const {
+  errors,
+  isSubmitting,
+  handleSubmit,
+  resetForm,
+  defineComponentBinds,
+  meta,
+} = useForm<loginForm>({
   validationSchema: yup.object({
     email: yup.string().required().email().label("Email"),
     password: yup.string().required().min(8).label("Password"),
   }),
-})
+});
 
 const email = defineComponentBinds("email");
 const password = defineComponentBinds("password");
 const error = ref("");
 
-const login = handleSubmit(values => {
-  return new Promise(resolve => {
-    userStore.loginUser(values as User)
+const login = handleSubmit((values) => {
+  return new Promise((resolve) => {
+    userStore
+      .loginUser(values as User)
       .then(() => {
         router.push({ name: "Dashboard" });
         resolve(true);
@@ -42,20 +50,22 @@ const login = handleSubmit(values => {
             email: values.email,
             password: "",
           },
-        })
+        });
         error.value = err.response.data.message;
         resolve(false);
       });
   });
 });
 
-const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid)
-const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
+const isSubmitting_ = computed(() => isSubmitting.value && meta.value.valid);
+const disabled = computed(
+  () => !meta.value.valid && (meta.value.dirty || meta.value.touched)
+);
 </script>
 
 <template>
   <div class="login-wrapper">
-    <img src="" alt="">
+    <img src="" alt="" />
     <div class="login-form">
       <div class="login-form-title">login</div>
       <InputError class="mb-1" :error="error" :show="!meta.touched" />
@@ -74,21 +84,20 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
           <InputError :error="errors.password" />
         </div>
 
-        <div class="login-form-policy">
-          Policy stuff
-        </div>
+        <div class="login-form-policy">Policy stuff</div>
 
         <AuthSubmit
-            type="submit"
-            :isSubmitting="isSubmitting_"
-            :disabled="disabled"
+          type="submit"
+          :isSubmitting="isSubmitting_"
+          :disabled="disabled"
         >
           login
         </AuthSubmit>
       </form>
     </div>
     <div class="login-footer">
-      Don't have an account? <router-link :to="{ name: 'Register' }">Register to DET-form</router-link>
+      Don't have an account?
+      <router-link :to="{ name: 'Register' }">Register to DET-form</router-link>
     </div>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/user.ts";
+import { useUserStore } from "@/store/user";
 import {
   createRouter,
   createWebHistory,
