@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 
-import { useQuestionStore } from "@/store/question";
 import { useDraggable } from "vue-draggable-plus";
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 const el = ref(null as never as HTMLElement);
 
 const shownChoices = computed(() => {

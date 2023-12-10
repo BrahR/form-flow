@@ -26,7 +26,8 @@ type OpinionScale = {
       on: boolean;
     };
   };
-  minMax: {
+  parameters: {
+    value: number;
     min: number;
     max: number;
   };

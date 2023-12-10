@@ -157,7 +157,7 @@ const types: GeneralTextType[] = [
   },
 ];
 
-const defaultQuestionTypes: Question = {
+const defaultQuestions: Question = {
   welcome: {
     name: "Welcome Page",
     preview: getAsyncPreview("WelcomePreview"),
@@ -524,9 +524,10 @@ const defaultQuestionTypes: Question = {
         on: false,
       },
     },
-    minMax: {
+    parameters: {
+      value: 3,
       min: 0,
-      max: 100,
+      max: 10,
     },
     labels: {
       on: false,
@@ -838,4 +839,4 @@ const defaultQuestionTypes: Question = {
   },
 };
 
-export default defaultQuestionTypes;
+export { defaultQuestions };

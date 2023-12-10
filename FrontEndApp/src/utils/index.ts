@@ -9,7 +9,7 @@ import { Alignment } from "@ckeditor/ckeditor5-alignment";
 import { defineAsyncComponent, ref } from "vue";
 import type { Component } from "vue";
 
-import defaultQuestionTypes from "@/utils/defaultQuestions";
+import { defaultQuestions } from "@/utils/defaultQuestions";
 interface hasId {
   id: number;
 }
@@ -188,5 +188,5 @@ export {
   getAsyncPreview,
   getAsyncAnswerType,
   getAsyncInputType,
-  defaultQuestionTypes,
+  defaultQuestions,
 };

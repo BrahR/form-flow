@@ -18,11 +18,12 @@ import type {
   hasMultipleAnswers,
   hasButton,
   QuestionGroup,
+  OpinionScale,
 } from "@/types/store/question";
-import { defaultQuestionTypes } from "@/utils";
+import { defaultQuestions } from "@/utils";
 
 export const useQuestionStore = defineStore("question", () => {
-  const questions = ref<Question>(defaultQuestionTypes);
+  const questions = ref<Question>(defaultQuestions);
   const selected = ref<Question[QuestionType]>(null as any);
   const loading = ref(false);
   const hydrated = ref(false);
@@ -123,14 +124,6 @@ export const useQuestionStore = defineStore("question", () => {
       (selected.value as hasButton).button.value = value;
     },
   });
-  const getSelectedRandmoize = computed({
-    get() {
-      return (selected.value as QuestionGroup).randomize.selected;
-    },
-    set(value) {
-      (selected.value as QuestionGroup).randomize.selected = value;
-    },
-  });
   const getMultipleAnswers = computed(
     () => (selected.value as hasMultipleAnswers).multipleAnswers
   );
@@ -207,7 +200,6 @@ export const useQuestionStore = defineStore("question", () => {
         value;
     },
   });
-
   const getMultipleAnswersText = computed(() => {
     const multipleAnswers = getMultipleAnswers.value;
 
@@ -217,10 +209,25 @@ export const useQuestionStore = defineStore("question", () => {
   const getMultipleChoices = computed(
     () => (selected.value as MultipleChoice).choices
   );
-
   const getPictureChoices = computed(
     () => (selected.value as PictureChoice).choices
   );
+  const getSelectedRandmoize = computed({
+    get() {
+      return (selected.value as QuestionGroup).randomize.selected;
+    },
+    set(value) {
+      (selected.value as QuestionGroup).randomize.selected = value;
+    },
+  });
+  const getOpinionParameters = computed({
+    get() {
+      return (selected.value as OpinionScale).parameters;
+    },
+    set(value) {
+      (selected.value as OpinionScale).parameters = value;
+    },
+  });
 
   const appendChoice = <T>(index: number, array: T[], data: unknown) => {
     const maxId = array.reduce(
@@ -310,27 +317,8 @@ export const useQuestionStore = defineStore("question", () => {
     getIsHiddenLabel,
     getIsDoubleDisplaySize,
     getSelectedRandmoize,
-    // getComponents,
-    // getLabeled,
-    // getRandomize,
-    // getAnswerFormat,
-    // getDescribed,
-    // getMultipleChoices,
-    // getRequired,
-    // getVideoOrImage,
-    // getVerticalDisplay,
-    // getMultipleAnswers,
-    // getMultipleAnswersText,
-    // getHideQuestionNumber,
+    getOpinionParameters,
 
-    // getLabelEditor,
-    // getLabelConfig,
-    // getLabelReady,
-    // getLabel,
-    // getDescEditor,
-    // getDescConfig,
-    // getDescReady,
-    // getDesc,
     isLoading,
     isHydrated,
 
@@ -341,6 +329,8 @@ export const useQuestionStore = defineStore("question", () => {
     dehydrate,
   };
 });
+
+export type QuestionStore = ReturnType<typeof useQuestionStore>;
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useQuestionStore, import.meta.hot));

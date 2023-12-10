@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 </script>
 
 <template>
@@ -11,9 +12,9 @@ const useQuestion = useQuestionStore();
     <div class="addImageOrVideo_wrapper__7Q3RW">
       <div>
         <div class="toggleButton_wrapper__dOusd">
-          <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-            >Image or Video</span
-          >
+          <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+            Image or Videos
+          </span>
           <label class="toggleButton_switch__EF_q8">
             <input
               v-model="useQuestion.getVideoOrImage.on"

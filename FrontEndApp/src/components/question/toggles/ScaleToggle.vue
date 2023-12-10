@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Slider from "vue3-slider";
+
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
+
+const useQuestion = inject("question") as QuestionStore;
+</script>
 
 <template>
   <div
@@ -7,24 +14,14 @@
     <div class="rangeInput_slider_main_wrapper__2AOqz">
       <div class="rangeInput_slider_info_wrapper__THWn0">
         <span>Scale</span>
-        <div class="rangeInput_slider_value__nG5d0">5</div>
+        <div class="rangeInput_slider_value__nG5d0">
+          {{ useQuestion.getOpinionParameters.value }}
+        </div>
       </div>
-      <input
-        type="range"
-        min="3"
-        max="11"
-        step="1"
-        class="rangeInput_slider_input__cOgVu"
-        value="5"
-        style="
-          background-image: -webkit-gradient(
-            linear,
-            0% 0%,
-            100% 0%,
-            color-stop(0.25, rgb(62, 67, 77)),
-            color-stop(0.25, rgb(216, 219, 224))
-          );
-        "
+      <Slider
+        v-model="useQuestion.getOpinionParameters.value"
+        color="#FB278D"
+        track-color="rgb(16, 16, 16)"
       />
     </div>
     <div class="opinionScaleQuestion_labels_wrapper__2s4iM">

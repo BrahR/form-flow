@@ -2,9 +2,9 @@
 import Dialog from "@/components/Dialog.vue";
 import CloseModal from "@/components/question/CloseModal.vue";
 
-import { useQuestionStore } from "@/store/question.ts";
-import { QuestionType } from "@/types/store/question";
-import { watch } from "vue";
+import { useQuestionStore } from "@/store/question";
+import type { QuestionType } from "@/types/store/question";
+import { watch, provide } from "vue";
 
 const props = defineProps<{
   open: boolean;
@@ -25,9 +25,7 @@ watch(
   }
 );
 
-// const close = () => {
-//   emits("close");
-// };
+provide("question", useQuestion);
 </script>
 
 <template>
@@ -82,8 +80,12 @@ watch(
                 <div v-if="!useQuestion.isLoading">
                   <div class="sharedBuild_questions_content__brpUH">
                     <div class="sharedBuild_build_content__A2KQg">
-                      <template v-for="component in useQuestion.getComponents">
-                        <component :is="{ ...component }"></component>
+                      <template
+                        v-for="(component, index) in useQuestion.getComponents"
+                      >
+                        <component
+                          :is="{ ...component, key: index }"
+                        ></component>
                       </template>
                     </div>
                   </div>

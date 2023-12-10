@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question.ts";
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const useQuestion = useQuestionStore();
         </span>
         <label class="toggleButton_switch__EF_q8">
           <input
-            v-model="useQuestion.getRandomize.on"
+            v-model="useQuestion.getIsRandomize"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
           />

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 
-import { useQuestionStore } from "@/store/question";
+import type { QuestionStore } from "@/store/question";
 import { format, isValid, parse } from "date-fns";
-import { ref } from "vue";
+import { ref, inject } from "vue";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 const selected = useQuestion.getAnswerFormat.selected;
 const patternWarning = ref("");
 const error = ref("");

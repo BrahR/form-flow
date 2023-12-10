@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 
-import { useQuestionStore } from "@/store/question";
-import { ref } from "vue";
+import { ref, inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 const isRegExDirty = ref(false);
 const isCustomErrorDirty = ref(false);
 </script>

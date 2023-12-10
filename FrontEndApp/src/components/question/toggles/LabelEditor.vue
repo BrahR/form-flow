@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 useQuestion.getLabelModel = "";
 </script>
 

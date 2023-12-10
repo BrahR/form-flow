@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { useDraggable } from "vue-draggable-plus";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 const el = ref(null as unknown as HTMLElement);
 
 // @ts-ignore
