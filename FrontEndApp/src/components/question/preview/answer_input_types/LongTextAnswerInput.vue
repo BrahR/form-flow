@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-import { computed, watch } from "vue";
+import { computed, watch, inject } from "vue";
 import * as yup from "yup";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 
 const errMessage = computed(() => {
   let message = `You can type between ${useQuestion.getRules!.min} and
@@ -129,10 +129,12 @@ watch(
   color: var(--preview-theme-answer-color-light);
   -webkit-text-fill-color: var(--preview-theme-answer-color-light);
 }
-.textQuestion_text_question_wrapper__WmtqL textarea.textQuestion_not_empty__sFAKu {
+.textQuestion_text_question_wrapper__WmtqL
+  textarea.textQuestion_not_empty__sFAKu {
   background-color: transparent;
 }
-.textQuestion_text_question_wrapper__WmtqL textarea.textQuestion_hasError__19d2Q {
+.textQuestion_text_question_wrapper__WmtqL
+  textarea.textQuestion_hasError__19d2Q {
   border-color: #d9426e;
 }
 

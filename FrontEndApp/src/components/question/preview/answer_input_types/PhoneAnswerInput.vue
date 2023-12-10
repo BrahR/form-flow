@@ -2,11 +2,12 @@
 import { VueTelInput } from "vue-tel-input";
 import "vue-tel-input/vue-tel-input.css";
 
-import { useQuestionStore } from "@/store/question";
 import { isValidNumber, parse } from "libphonenumber-js";
 import { PhoneObject } from "@/types";
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 const selected = useQuestion.getAnswerFormat.selected;
 
 const onInput = (event: string, phoneObject: PhoneObject) => {

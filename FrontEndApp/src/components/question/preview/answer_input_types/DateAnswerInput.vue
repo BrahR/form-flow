@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
-import { format, parse, isValid } from "date-fns";
-import { useQuestionStore } from "@/store/question";
-
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-const useQuestion = useQuestionStore();
+import { ref, watch, onMounted, inject } from "vue";
+import { format, parse, isValid } from "date-fns";
+import type { QuestionStore } from "@/store/question";
+
+const useQuestion = inject("question") as QuestionStore;
 const selected = useQuestion.getAnswerFormat.selected;
 const datepicker = ref(null);
 const valid = ref(true);

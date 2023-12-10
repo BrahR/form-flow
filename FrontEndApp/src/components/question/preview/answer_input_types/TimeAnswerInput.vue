@@ -1,7 +1,7 @@
 <template>
-  <span class="textQuestion_hotkey_wrapper__lceii"
-    ><input placeholder="11:11:11" inputmode="text" class="false"
-  /></span>
+  <span class="textQuestion_hotkey_wrapper__lceii">
+    <input placeholder="11:11:11" inputmode="text" class="false" />
+  </span>
   <div
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >

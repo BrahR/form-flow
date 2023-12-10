@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
-import { computed, watch } from "vue";
 import * as yup from "yup";
+import { computed, watch, inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 
 const errMessage = computed(() => {
   let message = `You can type between ${useQuestion.getRules!.min} and
