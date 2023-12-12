@@ -6,6 +6,9 @@ import type {
   GeneralText,
   MultipleChoice,
   PictureChoice,
+  QuestionGroup,
+  OpinionScale,
+  Rating,
   Question,
   QuestionType,
   hasHideQuestionNumber,
@@ -17,10 +20,10 @@ import type {
   hasVerticalDisplay,
   hasMultipleAnswers,
   hasButton,
-  QuestionGroup,
-  OpinionScale,
+  hasScale,
 } from "@/types/store/question";
-import { defaultQuestions } from "@/utils";
+// import { defaultQuestions } from "@/utils";
+import { defaultQuestions } from "@/utils/defaultQuestions";
 
 export const useQuestionStore = defineStore("question", () => {
   const questions = ref<Question>(defaultQuestions);
@@ -127,6 +130,14 @@ export const useQuestionStore = defineStore("question", () => {
   const getMultipleAnswers = computed(
     () => (selected.value as hasMultipleAnswers).multipleAnswers
   );
+  const getScaleParameters = computed({
+    get() {
+      return (selected.value as hasScale).parameters;
+    },
+    set(value) {
+      (selected.value as hasScale).parameters = value;
+    },
+  });
 
   // question data getters
   const getStartButton = computed(
@@ -220,12 +231,23 @@ export const useQuestionStore = defineStore("question", () => {
       (selected.value as QuestionGroup).randomize.selected = value;
     },
   });
-  const getOpinionParameters = computed({
+  const getIsStartZero = computed({
     get() {
-      return (selected.value as OpinionScale).parameters;
+      return (selected.value as OpinionScale).startAtZero.on;
     },
     set(value) {
-      (selected.value as OpinionScale).parameters = value;
+      (selected.value as OpinionScale).startAtZero.on = value;
+    },
+  });
+  const getScaleLabels = computed(() => {
+    return (selected.value as OpinionScale).labels;
+  });
+  const getRatingType = computed({
+    get() {
+      return (selected.value as Rating).shapeType;
+    },
+    set(value) {
+      (selected.value as Rating).shapeType = value;
     },
   });
 
@@ -317,7 +339,10 @@ export const useQuestionStore = defineStore("question", () => {
     getIsHiddenLabel,
     getIsDoubleDisplaySize,
     getSelectedRandmoize,
-    getOpinionParameters,
+    getScaleParameters,
+    getIsStartZero,
+    getScaleLabels,
+    getRatingType,
 
     isLoading,
     isHydrated,

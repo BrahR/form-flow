@@ -67,6 +67,7 @@ type hasDoubleDisplay = PictureChoice;
 type hasVerticalDisplay = MultipleChoice;
 type hasMultipleAnswers = MultipleChoice | PictureChoice;
 type hasButton = QuestionGroup;
+type hasScale = OpinionScale | Rating;
 
 export {
   GeneralTextFormat,
@@ -98,4 +99,5 @@ export {
   hasVerticalDisplay,
   hasMultipleAnswers,
   hasButton,
+  hasScale,
 };

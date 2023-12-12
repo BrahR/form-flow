@@ -15,6 +15,7 @@ export default defineConfig({
     vue(),
   ],
   resolve: {
+    // extensions: [".js", ".ts", ".vue", ".json"],
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },

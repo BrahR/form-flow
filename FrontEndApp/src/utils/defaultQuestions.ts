@@ -18,6 +18,7 @@ import SortToggle from "@/components/question/toggles/SortToggle.vue";
 import AllowDecimalToggle from "@/components/question/toggles/AllowDecimalToggle.vue";
 import StartAtZeroToggle from "@/components/question/toggles/StartAtZeroToggle.vue";
 import ScaleToggle from "@/components/question/toggles/ScaleToggle.vue";
+import RatingToggle from "@/components/question/toggles/RatingToggle.vue";
 import LabelButtonText from "@/components/question/toggles/LabelButtonText.vue";
 import FileTypeToggle from "@/components/question/toggles/FileTypeToggle.vue";
 import MaximaumSizeToggle from "@/components/question/toggles/MaximaumSizeToggle.vue";
@@ -157,7 +158,7 @@ const types: GeneralTextType[] = [
   },
 ];
 
-const defaultQuestions: Question = {
+export const defaultQuestions: Question = {
   welcome: {
     name: "Welcome Page",
     preview: getAsyncPreview("WelcomePreview"),
@@ -526,14 +527,13 @@ const defaultQuestions: Question = {
     },
     parameters: {
       value: 3,
-      min: 0,
-      max: 10,
+      min: 3, // unused for now
+      max: 10, // unused for now
     },
     labels: {
-      on: false,
-      left: "",
-      right: "",
-      center: "",
+      right: "right",
+      center: "center",
+      left: "left",
     },
     imageOrVideo: {
       on: false,
@@ -602,14 +602,11 @@ const defaultQuestions: Question = {
       on: false,
       editor: initEditor(),
     },
-    scaleType: {
-      number: true,
-      stars: false,
-      slider: false,
-    },
-    minMax: {
-      min: 0,
-      max: 100,
+    shapeType: 0, // 0 = thumbs-up 1 = stars, 2 = heart,
+    parameters: {
+      value: 1,
+      min: 1, // unused for now
+      max: 10, // unused for now
     },
     imageOrVideo: {
       on: false,
@@ -623,7 +620,7 @@ const defaultQuestions: Question = {
     components: [
       LabelEditor,
       DescriptionEditor,
-      ScaleToggle,
+      RatingToggle,
       VideoOrImageToggle,
       RequiredToggle,
       HideQuestionNumberToggle,
@@ -839,4 +836,6 @@ const defaultQuestions: Question = {
   },
 };
 
-export { defaultQuestions };
+if (import.meta.hot) {
+  import.meta.hot.accept(() => location.reload());
+}

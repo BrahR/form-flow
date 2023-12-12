@@ -15,12 +15,9 @@ type Rating = {
     on: boolean;
     editor: EditorType;
   };
-  scaleType: {
-    number: boolean;
-    stars: boolean;
-    slider: boolean;
-  };
-  minMax: {
+  shapeType: number;
+  parameters: {
+    value: number;
     min: number;
     max: number;
   };
