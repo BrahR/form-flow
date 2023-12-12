@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --debug hmr",
         "build": "vue-tsc && vite build",
         "stage": "vue-tsc && vite build --mode staging",
         "preview": "vite preview"
@@ -35,10 +35,10 @@
         "pinia": "^2.1.7",
         "vee-validate": "^4.11.8",
         "vue": "^3.3.4",
+        "vue-3-slider-component": "^0.1.2",
         "vue-draggable-plus": "^0.2.7",
         "vue-slider-component": "^4.1.0-beta.7",
         "vue-tel-input": "^8.2.0",
-        "vue3-slider": "^1.9.0",
         "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
