@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question.ts";
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-const useQuestion = useQuestionStore();
+const useQuestion = inject("question") as QuestionStore;
 </script>
 
 <template>
