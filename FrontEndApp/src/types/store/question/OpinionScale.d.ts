@@ -32,7 +32,6 @@ type OpinionScale = {
     max: number;
   };
   labels: {
-    on: boolean;
     left: string;
     right: string;
     center: string;

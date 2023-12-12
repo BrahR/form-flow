@@ -1,9 +1,43 @@
 <script setup lang="ts">
-import QuestionHeader from "./QuestionHeader.vue";
+import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
+import { inject, computed, ref } from "vue";
+import type { QuestionStore } from "@/store/question";
 
-// import { useQuestionStore } from "@/store/question.ts";
+const useQuestion = inject("question") as QuestionStore;
+const labels: ["right", "center", "left"] = ["right", "center", "left"];
 
-// const useQuestion = useQuestionStore();
+const activeScale = ref<number | null>(null);
+const active = computed({
+  get() {
+    return activeScale.value;
+  },
+  set(val) {
+    if (val == activeScale.value) {
+      activeScale.value = null;
+      return;
+    }
+    activeScale.value = val;
+  },
+});
+const sliderVals = computed(() => {
+  return Array.from(
+    {
+      length:
+        useQuestion.getScaleParameters.value +
+        (!useQuestion.getIsStartZero ? 0 : 1),
+    },
+    (_, i) => i + (useQuestion.getIsStartZero ? 0 : 1)
+  );
+});
+
+const getPosition = (val: number) => {
+  const length = sliderVals.value.length - 1;
+  if (val === 0) return 0;
+  if (val === length) return 2;
+  if ((val * 2) % length === 0) return 1;
+
+  return NaN;
+};
 </script>
 
 <template>
@@ -15,73 +49,22 @@ import QuestionHeader from "./QuestionHeader.vue";
     <div class="opinionScaleQuestion_opinion_scale_wrapper__Qsn2k">
       <div
         role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
+        class="opinionScaleQuestion_opinion_scale_item__BRHiH"
+        :class="{ opinionScaleQuestion_selected_choice___C24j: active == i }"
+        v-for="(i, key) in sliderVals"
+        :key="key"
+        @click="active = i"
       >
-        1
-        <div class="opinionScaleQuestion_label__xX1Vc"><p>low</p></div>
+        {{ i }}
+
+        <div
+          v-if="[0, 1, 2].includes(getPosition(key))"
+          class="opinionScaleQuestion_label__xX1Vc"
+        >
+          {{ useQuestion.getScaleLabels[labels[getPosition(key)]] }}
+        </div>
       </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        2
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        3
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        4
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        5
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        6
-        <div class="opinionScaleQuestion_label__xX1Vc"><p>mid</p></div>
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        7
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        8
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        9
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH opinionScaleQuestion_selected_choice___C24j opinionScaleQuestion_fade__igYFL"
-      >
-        10
-      </div>
-      <div
-        role="presentation"
-        class="opinionScaleQuestion_opinion_scale_item__BRHiH false false"
-      >
-        11
-        <div class="opinionScaleQuestion_label__xX1Vc"><p>high</p></div>
-      </div>
+      <!-- pinionScaleQuestion_fade__igYFL -->
     </div>
   </div>
 </template>

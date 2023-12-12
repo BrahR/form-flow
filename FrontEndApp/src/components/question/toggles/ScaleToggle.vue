@@ -1,10 +1,29 @@
 <script setup lang="ts">
-import Slider from "vue3-slider";
+import VueSlider from "vue-3-slider-component";
 
-import { inject } from "vue";
+import { inject, computed, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+const sliderMinMax = computed(() => {
+  return {
+    min: 2 + (useQuestion.getIsStartZero ? 0 : 1),
+    max: 10 + (useQuestion.getIsStartZero ? 0 : 1),
+  };
+});
+
+watch(
+  () => useQuestion.getIsStartZero,
+  () => {
+    if (
+      useQuestion.getScaleParameters.value === 2 ||
+      useQuestion.getScaleParameters.value === 11
+    ) {
+      useQuestion.getScaleParameters.value = 3;
+    }
+  }
+);
 </script>
 
 <template>
@@ -15,13 +34,15 @@ const useQuestion = inject("question") as QuestionStore;
       <div class="rangeInput_slider_info_wrapper__THWn0">
         <span>Scale</span>
         <div class="rangeInput_slider_value__nG5d0">
-          {{ useQuestion.getOpinionParameters.value }}
+          {{ useQuestion.getScaleParameters.value }}
         </div>
       </div>
-      <Slider
-        v-model="useQuestion.getOpinionParameters.value"
-        color="#FB278D"
-        track-color="rgb(16, 16, 16)"
+      <VueSlider
+        class="rangeInput_slider_input__cOgVu"
+        v-model="useQuestion.getScaleParameters.value"
+        :min="sliderMinMax.min"
+        :max="sliderMinMax.max"
+        marks
       />
     </div>
     <div class="opinionScaleQuestion_labels_wrapper__2s4iM">
@@ -31,7 +52,7 @@ const useQuestion = inject("question") as QuestionStore;
         <input
           name="right_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          value=""
+          v-model="useQuestion.getScaleLabels.right"
         />
       </div>
       <div class="opinionScaleQuestion_label_input_wrapper__RYacm">
@@ -39,7 +60,7 @@ const useQuestion = inject("question") as QuestionStore;
         <input
           name="center_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          value=""
+          v-model="useQuestion.getScaleLabels.center"
         />
       </div>
       <div class="opinionScaleQuestion_label_input_wrapper__RYacm">
@@ -47,7 +68,7 @@ const useQuestion = inject("question") as QuestionStore;
         <input
           name="left_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          value=""
+          v-model="useQuestion.getScaleLabels.left"
         />
       </div>
     </div>
@@ -96,6 +117,9 @@ const useQuestion = inject("question") as QuestionStore;
   flex-grow: 1;
   max-width: calc(100% - 5rem);
 }
+.rangeInput_slider_main_wrapper__2AOqz {
+  margin-bottom: 2rem;
+}
 .rangeInput_slider_main_wrapper__2AOqz .rangeInput_slider_info_wrapper__THWn0 {
   display: flex;
   flex-direction: row;
@@ -120,7 +144,7 @@ const useQuestion = inject("question") as QuestionStore;
   align-items: center;
 }
 .rangeInput_slider_main_wrapper__2AOqz .rangeInput_slider_input__cOgVu {
-  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 0.1875rem !important;
   border-radius: 0.125rem;
