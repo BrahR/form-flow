@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, inject } from "vue";
+import { useDraggable } from "vue-draggable-plus";
+import type { QuestionStore } from "@/store/question";
+
+const useQuestion = inject("question") as QuestionStore;
+const el = ref(null as unknown as HTMLElement);
+
+// @ts-ignore
+useDraggable(el, useQuestion.getRankingChoices, {
+  animation: 150,
+  handle: ".dragable",
+  easing: "ease-in-out",
+});
+</script>
 
 <template>
   <div
@@ -7,21 +21,18 @@
     <div class="ranking_choices_title__yJMQX sharedBuild_ltr__BELlV">
       Choices
     </div>
-    <div data-rbd-droppable-id="droppable" data-rbd-droppable-context-id="2">
+    <transition-group ref="el" type="transition" tag="div" name="fade">
       <div
-        data-rbd-draggable-context-id="2"
-        data-rbd-draggable-id="32e4a452-109c-4e9b-8343-b14067f10050"
+        v-for="(element, index) in useQuestion.getRankingChoices"
+        :key="element.id"
         class="ranking_choice_row__X3rte ranking_ltr__Z1q0z"
       >
         <div class="ranking_input_wrapper__LzrTN false ranking_ltr__Z1q0z">
           <div
-            class="ranking_index_wrapper__d1lI6"
+            class="ranking_index_wrapper__d1lI6 dragable"
             tabindex="-1"
             role="button"
             aria-describedby="rbd-hidden-text-2-hidden-text-8"
-            data-rbd-drag-handle-draggable-id="32e4a452-109c-4e9b-8343-b14067f10050"
-            data-rbd-drag-handle-context-id="2"
-            draggable="false"
           >
             <svg width="12" height="24" xmlns="http://www.w3.org/2000/svg">
               <g fill="none" fill-rule="evenodd">
@@ -36,17 +47,24 @@
                 </g>
               </g>
             </svg>
-            <div class="ranking_index__Ioo3w">1</div>
+            <div class="ranking_index__Ioo3w">{{ index + 1 }}</div>
           </div>
           <input
             class="ranking_input__NpVvO ranking_ltr__Z1q0z"
             type="text"
-            value=""
+            v-model="element.value"
           />
         </div>
         <div class="ranking_actions_wrapper__m6M6j ranking_ltr__Z1q0z">
           <div class="ranking_choice_actions__I4Akn">
-            <div class="ranking_action_right__0_oWe ranking_ltr__Z1q0z">
+            <div
+              class="ranking_action_right__0_oWe ranking_ltr__Z1q0z"
+              @click="
+                useQuestion.appendChoice(index, useQuestion.getRankingChoices, {
+                  value: '',
+                })
+              "
+            >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
                   <path d="M0 0h24v24H0z"></path>
@@ -62,7 +80,14 @@
               </svg>
             </div>
             <div
-              class="ranking_action_left__ITc0l ranking_ltr__Z1q0z ranking_disable__h_fAK"
+              :class="{
+                ranking_disable__h_fAK:
+                  useQuestion.getRankingChoices.length <= 2,
+              }"
+              class="ranking_action_left__ITc0l ranking_ltr__Z1q0z"
+              @click="
+                useQuestion.deleteChoice(index, useQuestion.getRankingChoices)
+              "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
@@ -83,82 +108,7 @@
           </div>
         </div>
       </div>
-      <div
-        data-rbd-draggable-context-id="2"
-        data-rbd-draggable-id="8cbb1cc0-8cef-4639-ae01-9236b869250f"
-        class="ranking_choice_row__X3rte ranking_ltr__Z1q0z"
-      >
-        <div class="ranking_input_wrapper__LzrTN false ranking_ltr__Z1q0z">
-          <div
-            class="ranking_index_wrapper__d1lI6"
-            tabindex="-1"
-            role="button"
-            aria-describedby="rbd-hidden-text-2-hidden-text-8"
-            data-rbd-drag-handle-draggable-id="8cbb1cc0-8cef-4639-ae01-9236b869250f"
-            data-rbd-drag-handle-context-id="2"
-            draggable="false"
-          >
-            <svg width="12" height="24" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" fill-rule="evenodd">
-                <path d="M0 0h12v24H0z"></path>
-                <g
-                  stroke="#6B7079"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                >
-                  <path d="m1 8 2-2 2 2M5 17l-2 2-2-2M3 7.5v10"></path>
-                </g>
-              </g>
-            </svg>
-            <div class="ranking_index__Ioo3w">2</div>
-          </div>
-          <input
-            class="ranking_input__NpVvO ranking_ltr__Z1q0z"
-            type="text"
-            value=""
-          />
-        </div>
-        <div class="ranking_actions_wrapper__m6M6j ranking_ltr__Z1q0z">
-          <div class="ranking_choice_actions__I4Akn">
-            <div class="ranking_action_right__0_oWe ranking_ltr__Z1q0z">
-              <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <path d="M0 0h24v24H0z"></path>
-                  <g
-                    stroke="#6B7079"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  >
-                    <path d="M12 7v10M7 12h10"></path>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <div
-              class="ranking_action_left__ITc0l ranking_ltr__Z1q0z ranking_disable__h_fAK"
-            >
-              <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <path d="M0 0h24v24H0z"></path>
-                  <g
-                    stroke="#6B7079"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.939"
-                  >
-                    <path
-                      d="m8.353 15.211 6.858-6.857M8.353 8.353l6.858 6.858"
-                    ></path>
-                  </g>
-                </g>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -330,18 +280,12 @@
   path:last-child {
   stroke: #fff;
 }
-/*! CSS Used from: Embedded */
-[data-rbd-drag-handle-context-id="2"] {
+.dragable {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   touch-action: manipulation;
-}
-[data-rbd-droppable-context-id="2"] {
-  overflow-anchor: none;
-}
-/*! CSS Used from: Embedded */
-[data-rbd-drag-handle-context-id="2"] {
   cursor: -webkit-grab;
   cursor: grab;
+  overflow-anchor: none;
 }
 </style>

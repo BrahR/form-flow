@@ -66,6 +66,7 @@ type hasHiddenLabel = PictureChoice;
 type hasDoubleDisplay = PictureChoice;
 type hasVerticalDisplay = MultipleChoice;
 type hasMultipleAnswers = MultipleChoice | PictureChoice;
+type hasChoices = MultipleChoice | PictureChoice | Ranking;
 type hasButton = QuestionGroup;
 type hasScale = OpinionScale | Rating;
 
@@ -98,6 +99,7 @@ export {
   hasDoubleDisplay,
   hasVerticalDisplay,
   hasMultipleAnswers,
+  hasChoices,
   hasButton,
   hasScale,
 };

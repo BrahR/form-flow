@@ -16,14 +16,16 @@ type Ranking = {
     editor: EditorType;
   };
   choices: {
-    hidden: boolean;
+    id: number;
     value: string;
-    checked: boolean;
   }[];
   imageOrVideo: {
     on: boolean;
   };
   required: {
+    on: boolean;
+  };
+  fixNumbers: {
     on: boolean;
   };
   randomize: {

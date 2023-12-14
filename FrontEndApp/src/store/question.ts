@@ -11,6 +11,7 @@ import type {
   Rating,
   Question,
   QuestionType,
+  Ranking,
   hasHideQuestionNumber,
   hasImageOrVideo,
   hasRandomize,
@@ -56,19 +57,19 @@ export const useQuestionStore = defineStore("question", () => {
   const getComponents = computed(() => selected.value.components);
   const getLabeled = computed(() => selected.value.labeled);
   const getLabelModel = computed({
-    get() {
+    get: () => {
       return selected.value.labeled.editor.model;
     },
-    set(value) {
+    set: (value) => {
       selected.value.labeled.editor.model = value;
     },
   });
   const getDescribed = computed(() => selected.value.described);
   const getDescModel = computed({
-    get() {
+    get: () => {
       return selected.value.described.editor.model;
     },
-    set(value) {
+    set: (value) => {
       selected.value.described.editor.model = value;
     },
   });
@@ -80,50 +81,50 @@ export const useQuestionStore = defineStore("question", () => {
     () => (selected.value as hasHideQuestionNumber).hideQuestionNumber
   );
   const getIsRandomize = computed({
-    get() {
+    get: () => {
       return (selected.value as hasRandomize).randomize.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasRandomize).randomize.on = value;
     },
   });
   const getIsHiddenLabel = computed({
-    get() {
+    get: () => {
       return (selected.value as hasHiddenLabel).hiddenLabel.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasHiddenLabel).hiddenLabel.on = value;
     },
   });
   const getIsDoubleDisplaySize = computed({
-    get() {
+    get: () => {
       return (selected.value as hasDoubleDisplay).doubleDisplaySize.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasDoubleDisplay).doubleDisplaySize.on = value;
     },
   });
   const getIsVerticalDisplay = computed({
-    get() {
+    get: () => {
       return (selected.value as hasVerticalDisplay).verticalDisplay.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasVerticalDisplay).verticalDisplay.on = value;
     },
   });
   const getIsButton = computed({
-    get() {
+    get: () => {
       return (selected.value as hasButton).button.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasButton).button.on = value;
     },
   });
   const getButtonLabel = computed({
-    get() {
+    get: () => {
       return (selected.value as hasButton).button.value;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasButton).button.value = value;
     },
   });
@@ -131,10 +132,10 @@ export const useQuestionStore = defineStore("question", () => {
     () => (selected.value as hasMultipleAnswers).multipleAnswers
   );
   const getScaleParameters = computed({
-    get() {
+    get: () => {
       return (selected.value as hasScale).parameters;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as hasScale).parameters = value;
     },
   });
@@ -147,31 +148,31 @@ export const useQuestionStore = defineStore("question", () => {
     () => (selected.value as GeneralText).answerFormat
   );
   const getCustomError = computed({
-    get() {
+    get: () => {
       return (selected.value as GeneralText).answerFormat.selected.errorMessage;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as GeneralText).answerFormat.selected.errorMessage =
         value;
     },
   });
   const getRulesFormat = computed({
-    get() {
+    get: () => {
       return (
         (selected.value as GeneralText).answerFormat.selected.rules?.format ??
         ""
       );
     },
-    set(value) {
+    set: (value) => {
       (selected.value as GeneralText).answerFormat.selected.rules!.format =
         value;
     },
   });
   const getIsAnswerError = computed({
-    get() {
+    get: () => {
       return (selected.value as GeneralText).answerFormat.selected.rules?.error;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as GeneralText).answerFormat.selected.rules!.error =
         value;
     },
@@ -180,33 +181,33 @@ export const useQuestionStore = defineStore("question", () => {
     () => (selected.value as GeneralText).answerFormat.selected.rules
   );
   const getSelectedFormat = computed({
-    get() {
+    get: () => {
       return (selected.value as GeneralText).answerFormat.selected.rules!
         .selectedFormat;
     },
-    set(value) {
+    set: (value) => {
       (
         selected.value as GeneralText
       ).answerFormat.selected.rules!.selectedFormat = value;
     },
   });
   const getRulesPlaceholder = computed({
-    get() {
+    get: () => {
       return (
         (selected.value as GeneralText).answerFormat.selected.rules
           ?.placeholder ?? ""
       );
     },
-    set(value) {
+    set: (value) => {
       (selected.value as GeneralText).answerFormat.selected.rules!.placeholder =
         value;
     },
   });
   const getRulesRegex = computed({
-    get() {
+    get: () => {
       return (selected.value as GeneralText).answerFormat.selected.rules?.regex;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as GeneralText).answerFormat.selected.rules!.regex =
         value;
     },
@@ -223,19 +224,20 @@ export const useQuestionStore = defineStore("question", () => {
   const getPictureChoices = computed(
     () => (selected.value as PictureChoice).choices
   );
+  const getRankingChoices = computed(() => (selected.value as Ranking).choices);
   const getSelectedRandmoize = computed({
-    get() {
+    get: () => {
       return (selected.value as QuestionGroup).randomize.selected;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as QuestionGroup).randomize.selected = value;
     },
   });
   const getIsStartZero = computed({
-    get() {
+    get: () => {
       return (selected.value as OpinionScale).startAtZero.on;
     },
-    set(value) {
+    set: (value) => {
       (selected.value as OpinionScale).startAtZero.on = value;
     },
   });
@@ -243,6 +245,14 @@ export const useQuestionStore = defineStore("question", () => {
     return (selected.value as OpinionScale).labels;
   });
   const getRating = computed(() => (selected.value as Rating).rating);
+  const getIsFixNumbers = computed({
+    get: () => {
+      return (selected.value as Rating).fixNumbers.on;
+    },
+    set: (value) => {
+      (selected.value as Rating).fixNumbers.on = value;
+    },
+  });
 
   const appendChoice = <T>(index: number, array: T[], data: unknown) => {
     const maxId = array.reduce(
@@ -261,41 +271,6 @@ export const useQuestionStore = defineStore("question", () => {
     if (array.length <= 2) return;
     array.splice(index, 1);
   };
-
-  // const appendMultipleChoice = (index: number) => {
-  //   const maxId = getMultipleChoices.value.reduce(
-  //     (max: number, choice: any) => Math.max(max, choice.id),
-  //     0
-  //   );
-
-  //   getMultipleChoices.value.splice(index + 1, 0, {
-  //     id: maxId + 1,
-  //     hidden: false,
-  //     value: "",
-  //     checked: false,
-  //   });
-  // };
-
-  // const appendPictureChoice = (index: number) => {
-  //   const maxId = getMultipleChoices.value.reduce(
-  //     (max: number, choice: any) => Math.max(max, choice.id),
-  //     0
-  //   );
-
-  //   getPictureChoices.value.splice(index + 1, 0, {
-  //     id: maxId + 1,
-  //     hidden: false,
-  //     label: "",
-  //     image: "https://i.ebayimg.com/images/g/Dv0AAOSwl9BWL6v9/s-l1200.webp",
-  //     checked: false,
-  //   });
-  // };
-
-  // const deletePictureChoice = (index: number) => {
-  //   if (getPictureChoices.value.length <= 2) return;
-  //   getPictureChoices.value.splice(index, 1);
-  //   // getPictureChoices.value;
-  // };
 
   return {
     questions,
@@ -323,6 +298,7 @@ export const useQuestionStore = defineStore("question", () => {
     getMultipleAnswersText,
     getMultipleChoices,
     getPictureChoices,
+    getRankingChoices,
     getVideoOrImage,
     getRequired,
     getHideQuestionNumber,
@@ -336,6 +312,7 @@ export const useQuestionStore = defineStore("question", () => {
     getIsStartZero,
     getScaleLabels,
     getRating,
+    getIsFixNumbers,
 
     isLoading,
     isHydrated,
