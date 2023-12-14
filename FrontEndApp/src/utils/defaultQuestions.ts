@@ -602,7 +602,10 @@ export const defaultQuestions: Question = {
       on: false,
       editor: initEditor(),
     },
-    shapeType: 0, // 0 = thumbs-up 1 = stars, 2 = heart,
+    rating: {
+      type: 0,
+      value: 0,
+    }, // 0 = thumbs-up 1 = stars, 2 = heart,
     parameters: {
       value: 1,
       min: 1, // unused for now

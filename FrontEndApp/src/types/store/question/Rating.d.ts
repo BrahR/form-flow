@@ -15,7 +15,10 @@ type Rating = {
     on: boolean;
     editor: EditorType;
   };
-  shapeType: number;
+  rating: {
+    type: number;
+    value: number;
+  };
   parameters: {
     value: number;
     min: number;

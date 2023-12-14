@@ -1,5 +1,5 @@
 <template>
-  <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
     <g fill-rule="evenodd">
       <path
         stroke-linecap="round"

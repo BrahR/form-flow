@@ -242,14 +242,7 @@ export const useQuestionStore = defineStore("question", () => {
   const getScaleLabels = computed(() => {
     return (selected.value as OpinionScale).labels;
   });
-  const getRatingType = computed({
-    get() {
-      return (selected.value as Rating).shapeType;
-    },
-    set(value) {
-      (selected.value as Rating).shapeType = value;
-    },
-  });
+  const getRating = computed(() => (selected.value as Rating).rating);
 
   const appendChoice = <T>(index: number, array: T[], data: unknown) => {
     const maxId = array.reduce(
@@ -342,7 +335,7 @@ export const useQuestionStore = defineStore("question", () => {
     getScaleParameters,
     getIsStartZero,
     getScaleLabels,
-    getRatingType,
+    getRating,
 
     isLoading,
     isHydrated,

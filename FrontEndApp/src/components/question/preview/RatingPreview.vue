@@ -4,12 +4,20 @@ import HeartIcon from "@/components/question/preview/rating_icons/HeartIcon.vue"
 import StarIcon from "@/components/question/preview/rating_icons/StarIcon.vue";
 import ThumbsUpIcon from "@/components/question/preview/rating_icons/ThumbsUpIcon.vue";
 
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import type { Component } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
 const icons: Component[] = [ThumbsUpIcon, HeartIcon, StarIcon];
+const hoverIndex = ref<number | null>(0);
+
+const isFilled = (val: number) => {
+  return (
+    (hoverIndex.value !== null && val <= hoverIndex.value) ||
+    (hoverIndex.value === null && val <= useQuestion.getRating.value)
+  );
+};
 </script>
 
 <template>
@@ -21,12 +29,20 @@ const icons: Component[] = [ThumbsUpIcon, HeartIcon, StarIcon];
         class="rating_icons_wrapper__uFEsr"
         v-for="(i, key) in useQuestion.getScaleParameters.value"
         :key="key"
+        @click="useQuestion.getRating.value = i"
+        @mouseover="hoverIndex = i"
+        @mouseleave="hoverIndex = null"
       >
         <div
-          class="rating_is_not_filled__1t6lf rating_ltr__B9SPT rating_icon__IrWZ1"
+          class="rating_is_filled__d2qfOlf6lf rating_ltr__B9SPT rating_icon__IrWZ1"
+          :class="[
+            isFilled(i)
+              ? 'rating_is_filled__d2qfO'
+              : 'rating_is_not_filled__1t6lf',
+          ]"
         >
           <!-- style="width: 34.1px" -->
-          <component :is="{ ...icons[useQuestion.getRatingType] }" />
+          <component :is="{ ...icons[useQuestion.getRating.type] }" />
         </div>
         <div class="rating_icon_number__DCbs1">
           <!-- style="width: 34.1px" -->
@@ -256,9 +272,6 @@ const icons: Component[] = [ThumbsUpIcon, HeartIcon, StarIcon];
 </style>
 
 <style scoped>
-* {
-  box-sizing: content-box;
-}
 .opinionScaleQuestion_main_wrapper__G02jI.opinionScaleQuestion_ltr__Rt0Kw {
   direction: ltr !important;
 }
