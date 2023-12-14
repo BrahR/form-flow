@@ -28,6 +28,7 @@ import ReloadRedirectToggle from "@/components/question/toggles/ReloadRedirectTo
 import AutoReloadToggle from "@/components/question/toggles/AutoReloadToggle.vue";
 import MultipleChoicesToggle from "@/components/question/toggles/MultipleChoicesToggle.vue";
 import RankingChoicesToggle from "@/components/question/toggles/RankingChoicesToggle.vue";
+import FixNumbersToggle from "@/components/question/toggles/FixNumbersToggle.vue";
 import ShareSurveyToggle from "@/components/question/toggles/ShareSurveyToggle.vue";
 import GeneralTextRulesToggle from "@/components/question/toggles/GeneralTextRulesToggle.vue";
 import ButtonToggle from "@/components/question/toggles/ButtonToggle.vue";
@@ -680,14 +681,12 @@ export const defaultQuestions: Question = {
     },
     choices: [
       {
-        hidden: false,
+        id: 1,
         value: "",
-        checked: false,
       },
       {
-        hidden: false,
+        id: 2,
         value: "",
-        checked: false,
       },
     ],
     imageOrVideo: {
@@ -699,6 +698,9 @@ export const defaultQuestions: Question = {
     randomize: {
       on: false,
     },
+    fixNumbers: {
+      on: false,
+    },
     hideQuestionNumber: {
       on: false,
     },
@@ -706,6 +708,7 @@ export const defaultQuestions: Question = {
       LabelEditor,
       DescriptionEditor,
       RankingChoicesToggle,
+      FixNumbersToggle,
       VideoOrImageToggle,
       RequiredToggle,
       RandomizeToggle,
