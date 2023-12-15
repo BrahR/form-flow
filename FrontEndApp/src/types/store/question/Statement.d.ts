@@ -15,10 +15,16 @@ type Statement = {
     on: boolean;
     editor: EditorType;
   };
+  required: {
+    on: boolean;
+  };
+  hideQuestionNumber: {
+    on: boolean;
+  };
   imageOrVideo: {
     on: boolean;
   };
-  label: {
+  button: {
     on: boolean;
     value: string;
   };

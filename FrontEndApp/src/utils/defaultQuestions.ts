@@ -729,12 +729,18 @@ export const defaultQuestions: Question = {
       on: false,
       editor: initEditor(),
     },
+    required: {
+      on: false,
+    },
+    hideQuestionNumber: {
+      on: true,
+    },
     imageOrVideo: {
       on: false,
     },
-    label: {
-      on: false,
-      value: "",
+    button: {
+      on: true,
+      value: "Next",
     },
     components: [
       LabelEditor,
@@ -769,9 +775,12 @@ export const defaultQuestions: Question = {
       error: "",
     },
     maxFileSize: {
-      on: false,
+      on: false, // should be disabled later
       type: "MB",
-      value: 0,
+      value: 5000,
+    },
+    possible: {
+      sizeUnit: ["KB", "MB"],
     },
     hideQuestionNumber: {
       on: false,

@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { inject } from "vue";
+import type { QuestionStore } from "@/store/question";
+
+const useQuestion = inject("question") as QuestionStore;
+</script>
 
 <template>
   <div
@@ -9,10 +14,8 @@
       <div class="inlineInput_input_wrapper__8ZUU7">
         <input
           class="inlineInput_input__S084b false"
-          name="continue_text"
           type="text"
-          min="0"
-          value="Text"
+          v-model="useQuestion.getButtonLabel"
         />
       </div>
     </div>

@@ -247,10 +247,10 @@ export const useQuestionStore = defineStore("question", () => {
   const getRating = computed(() => (selected.value as Rating).rating);
   const getIsFixNumbers = computed({
     get: () => {
-      return (selected.value as Rating).fixNumbers.on;
+      return (selected.value as Ranking).fixNumbers.on;
     },
     set: (value) => {
-      (selected.value as Rating).fixNumbers.on = value;
+      (selected.value as Ranking).fixNumbers.on = value;
     },
   });
 
