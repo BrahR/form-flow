@@ -55,6 +55,24 @@ function getAsyncPreview(icon: string): Component {
   );
 }
 
+function convertSize(
+  size: number,
+  from: string,
+  to: string,
+  precise: boolean = false
+): number {
+  const idk = precise ? 1024 : 1000;
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  const fromIndex = units.indexOf(from.toUpperCase());
+  const toIndex = units.indexOf(to.toUpperCase());
+
+  if (fromIndex === -1 || toIndex === -1) {
+    throw new Error("Invalid unit");
+  }
+
+  return size * Math.pow(idk, fromIndex - toIndex);
+}
+
 function initEditor() {
   let instance: ClassicEditor | null = null;
   const model = ref("");
@@ -182,6 +200,7 @@ export {
   pushToArray,
   find,
   remove,
+  convertSize,
   initEditor,
   getAsyncIcon,
   getAsyncPreview,

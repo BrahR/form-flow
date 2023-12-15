@@ -1,3 +1,4 @@
+import { Units } from "@/types";
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
@@ -23,13 +24,19 @@ type FileUpload = {
   };
   customExtension: {
     on: boolean;
-    value: string[];
+    value: {
+      name: string;
+      value: string;
+    }[];
     error: string;
   };
   maxFileSize: {
     on: boolean;
-    type: string;
+    type: Units;
     value: number;
+  };
+  possible: {
+    sizeUnit: Units[];
   };
   hideQuestionNumber: {
     on: boolean;

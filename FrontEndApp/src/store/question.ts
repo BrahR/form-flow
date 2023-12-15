@@ -12,6 +12,7 @@ import type {
   Question,
   QuestionType,
   Ranking,
+  FileUpload,
   hasHideQuestionNumber,
   hasImageOrVideo,
   hasRandomize,
@@ -253,6 +254,41 @@ export const useQuestionStore = defineStore("question", () => {
       (selected.value as Ranking).fixNumbers.on = value;
     },
   });
+  const getUnits = computed(() => {
+    return (selected.value as FileUpload).possible.sizeUnit;
+  });
+  const getFileUnit = computed({
+    get: () => {
+      return (selected.value as FileUpload).maxFileSize.type;
+    },
+    set: (value) => {
+      (selected.value as FileUpload).maxFileSize.type = value;
+    },
+  });
+  const getMaxFileSize = computed({
+    get: () => {
+      return (selected.value as FileUpload).maxFileSize.value;
+    },
+    set: (value) => {
+      (selected.value as FileUpload).maxFileSize.value = value;
+    },
+  });
+  const getIsCustomExtension = computed({
+    get: () => {
+      return (selected.value as FileUpload).customExtension.on;
+    },
+    set: (value) => {
+      (selected.value as FileUpload).customExtension.on = value;
+    },
+  });
+  const getCustomExtensions = computed({
+    get: () => {
+      return (selected.value as FileUpload).customExtension.value;
+    },
+    set: (value) => {
+      (selected.value as FileUpload).customExtension.value = value;
+    },
+  })
 
   const appendChoice = <T>(index: number, array: T[], data: unknown) => {
     const maxId = array.reduce(
@@ -313,6 +349,11 @@ export const useQuestionStore = defineStore("question", () => {
     getScaleLabels,
     getRating,
     getIsFixNumbers,
+    getUnits,
+    getFileUnit,
+    getMaxFileSize,
+    getIsCustomExtension,
+    getCustomExtensions,
 
     isLoading,
     isHydrated,

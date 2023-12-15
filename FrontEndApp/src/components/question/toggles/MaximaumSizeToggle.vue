@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { convertSize } from "@/utils";
+import { inject, computed } from "vue";
+import type { QuestionStore } from "@/store/question";
+
+const useQuestion = inject("question") as QuestionStore;
+
+const displayedSize = computed(() => {
+  return convertSize(useQuestion.getMaxFileSize, "KB", useQuestion.getFileUnit);
+});
+</script>
 
 <template>
   <div class="fileupload_file_unit_div__2ubra fileupload_ltr__e03wd">
@@ -9,21 +19,35 @@
       >
         <button
           type="button"
-          class="selectionButtonGroup_selected_tab__BT9Pz undefined"
+          v-for="unit in useQuestion.getUnits"
+          :class="{
+            selectionButtonGroup_selected_tab__BT9Pz:
+              unit === useQuestion.getFileUnit,
+          }"
+          @click="useQuestion.getFileUnit = unit"
         >
-          <span>KB</span></button
-        ><button type="button" class="false undefined"><span>MB</span></button>
+          <span>{{ unit }}</span>
+        </button>
       </div>
-      <input type="number" name="file_max_size" min="0" value="5000" />
+      <input
+        type="number"
+        min="0"
+        :value="displayedSize"
+        @input="
+          useQuestion.getMaxFileSize = convertSize(
+            ($event.target as HTMLInputElement).value as unknown as number,
+            useQuestion.getFileUnit,
+            'KB'
+          )
+        "
+      />
     </div>
   </div>
 </template>
 <style scoped>
-/*! CSS Used from: https://cdn.porsline.com/static/panel/v2/_next/static/css/f419cc97160b5e33.css */
 * {
   box-sizing: content-box;
 }
-/*! CSS Used from: Embedded */
 .selectionButtonGroup_buttons_wrapper__jbKNI {
   display: flex;
   width: 100%;
