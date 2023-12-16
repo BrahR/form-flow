@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
@@ -34,7 +35,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/workspace/{workspace}/survey", [SurveyController::class, "index"]);
     Route::get("/workspace/survey/{survey}", [SurveyController::class, "show"]);
     Route::put("/survey/{survey}", [SurveyController::class, "update"]);
-    Route::post("/workspace/{workspace}/survey/create", [SurveyController::class, "store"]);
+
+    Route::group(["prefix" => "/workspace/{workspace}/survey/{survey}"], function () {
+        Route::post("/create", [SurveyController::class, "store"]);
+        Route::post("/question/create", [QuestionController::class, "store"]);
+//        Route::get("/question", [QuestionController::class, "index"]);
+//        Route::get("/question/{question}", [QuestionController::class, "show"]);
+//        Route::put("/question/{question}", [QuestionController::class, "update"]);
+//        Route::delete("/question/{question}", [QuestionController::class, "delete"]);
+    });
 });
 
 Route::post("/register", [AuthController::class, "register"]);

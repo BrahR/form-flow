@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 class SurveyController extends Controller {
 
     public function index(Workspace $workspace): Response {
-        $surveys = $workspace->surveys()->get();
+        $surveys = $workspace->surveys()->with("questions")->get();
 
         return response([
             "surveys" => $surveys,
