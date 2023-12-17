@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Question extends Model
 {
@@ -22,16 +23,8 @@ class Question extends Model
         return $this->belongsTo(Survey::class);
     }
 
-    public function getQuestionWithSubclass(): Question
+    public function questionable(): MorphTo
     {
-//        $question = $this->load("welcomeQuestion", "multipleChoiceQuestion", "openQuestion");
-//        if ($question->welcomeQuestion) {
-//            return $question->welcomeQuestion;
-//        } else if ($question->multipleChoiceQuestion) {
-//            return $question->multipleChoiceQuestion;
-//        } else if ($question->openQuestion) {
-//            return $question->openQuestion;
-//        }
-//        return $question;
+        return $this->morphTo();
     }
 }

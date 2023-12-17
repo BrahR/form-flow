@@ -24,6 +24,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('workspace_members', function (Blueprint $table) {
+            $table->dropForeign(['workspace_id']);
+            $table->dropForeign(['user_id']);
+        });
+        Schema::dropIfExists("workspace_members");
     }
 };

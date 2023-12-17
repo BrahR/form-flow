@@ -7,6 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuestionRequest extends FormRequest
 {
+
+    public $type_rules = [
+        "Welcome" => [
+            "questionable.button_text" => ["required", "string"],
+        ],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,12 +29,16 @@ class StoreQuestionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "html_label" => ["required", "string"],
-            "html_description" => ["optional", "string"],
-            "attachment" => ["optional", "string"],
-            "type" => ["required", "integer"],
-            "survey_id" => ["required", "exists:surveys,id"],
+        $initial_rules = [
+            "type" => ["bail", "required", "string", "in:" . implode(",", array_keys($this->type_rules))],
+            "question.html_label" => ["required", "string"],
+            "question.html_description" => ["nullable", "string"],
+            "question.attachment" => ["nullable", "string"],
+            "questionable" => ["array", "required"],
         ];
+
+        $type_rule = $this->type_rules[$this->type] ?? [];
+
+        return array_merge($initial_rules, $type_rule);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class WelcomeQuestion extends Model
 {
@@ -14,8 +15,8 @@ class WelcomeQuestion extends Model
         'button_text',
     ];
 
-    public function question(): BelongsTo
+    public function question(): MorphOne
     {
-        return $this->belongsTo(Question::class);
+        return $this->morphOne(Question::class, 'questionable');
     }
 }

@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use app\Models\Survey;
 
 return new class extends Migration
 {
@@ -17,8 +16,8 @@ return new class extends Migration
             $table->string("html_label");
             $table->string("html_description")->nullable();
             $table->string("attachment")->nullable();
-            $table->integer("type");
-            $table->foreignIdFor(Survey::class)->constrained();
+            $table->morphs("questionable");
+            $table->foreignId("survey_id")->constrained();
             $table->timestamps();
         });
     }
@@ -28,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table("questions", function (Blueprint $table) {
+            $table->dropForeign(["questionable_id", "questionable_type"]);
+        });
         Schema::dropIfExists('questions');
     }
 };

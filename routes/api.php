@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post("/logout", [AuthController::class, "logout"]);
 
+    // needs changes
     Route::get("/dashboard", [DashboardController::class, "index"]);
     Route::get("/workspace/{workspace}", [WorkspaceController::class, "show"]);
     Route::post("/workspace/create", [WorkspaceController::class, "store"]);
@@ -34,15 +35,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get("/workspace/{workspace}/survey", [SurveyController::class, "index"]);
     Route::get("/workspace/survey/{survey}", [SurveyController::class, "show"]);
+    Route::post("/workspace/{workspace}/survey/create", [SurveyController::class, "store"]);
     Route::put("/survey/{survey}", [SurveyController::class, "update"]);
 
-    Route::group(["prefix" => "/workspace/{workspace}/survey/{survey}"], function () {
-        Route::post("/create", [SurveyController::class, "store"]);
-        Route::post("/question/create", [QuestionController::class, "store"]);
-//        Route::get("/question", [QuestionController::class, "index"]);
-//        Route::get("/question/{question}", [QuestionController::class, "show"]);
-//        Route::put("/question/{question}", [QuestionController::class, "update"]);
-//        Route::delete("/question/{question}", [QuestionController::class, "delete"]);
+    Route::group(["prefix" => "/survey/{survey}/question"], function () {
+        Route::get("/", [QuestionController::class, "index"]);
+        Route::get("/{question}", [QuestionController::class, "show"]);
+        Route::post("/create", [QuestionController::class, "store"]);
+        Route::put("/{question}", [QuestionController::class, "update"]);
+        Route::delete("/{question}", [QuestionController::class, "delete"]);
     });
 });
 

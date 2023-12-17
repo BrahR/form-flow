@@ -9,6 +9,7 @@ use App\Models\Survey;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
+use App\Models\WelcomeQuestion;
 
 class QuestionController extends Controller
 {
@@ -25,19 +26,17 @@ class QuestionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreQuestionRequest $request, Survey $survey): Application | Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory
     {
-        $question = $survey->questions()->create($request->validated());
+        $validated = $request->validated();
+
+        $question = $survey->questions()->make($validated["question"]);
+        $questonable = WelcomeQuestion::create($validated["questionable"]);
+        $question->questionable()->associate($questonable)->save();
+
+        dump($question);
 
         return response([
             "question" => $question,

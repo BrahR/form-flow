@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('welcome_questions', function (Blueprint $table) {
             $table->id();
             $table->string("button_text");
-            $table->foreignIdFor(Question::class)->constrained();
             $table->timestamps();
         });
     }
