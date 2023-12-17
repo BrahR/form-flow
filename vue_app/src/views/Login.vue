@@ -35,6 +35,13 @@ const email = defineComponentBinds("email");
 const password = defineComponentBinds("password");
 const error = ref("");
 
+resetForm({
+  values: {
+    email: "admin@example.com",
+    password: "password",
+  },
+});
+
 const login = handleSubmit((values) => {
   return new Promise((resolve) => {
     userStore
