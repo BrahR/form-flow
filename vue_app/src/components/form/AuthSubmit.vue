@@ -1,15 +1,18 @@
 <script setup lang="ts">
 defineProps<{
-  isSubmitting: boolean
+  isSubmitting: boolean;
 }>();
 </script>
 
 <template>
-  <button class="primary-button" :class="{'disabled': isSubmitting}">
-    <span :class="{ 'hidden': !isSubmitting }" class="loading loading-spinner loading-md mr-1.5 absolute"></span>
+  <button class="primary-button" :class="{ disabled: isSubmitting }">
+    <span
+      :class="{ hidden: !isSubmitting }"
+      class="loading loading-spinner loading-md mr-1.5 absolute"
+    ></span>
     <span class="m-auto">
-          <slot/>
-        </span>
+      <slot />
+    </span>
   </button>
 </template>
 
@@ -40,5 +43,4 @@ button[disabled],
   opacity: 1;
   cursor: not-allowed;
 }
-
 </style>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import QuestionMakerFooter from "@/components/question/QuestionMakerFooter.vue";
+
 import Dialog from "@/components/Dialog.vue";
 import CloseModal from "@/components/question/CloseModal.vue";
 
 import { useQuestionStore } from "@/store/question";
 import type { QuestionType } from "@/types/store/question";
-import { watch, provide } from "vue";
+import { watchEffect, provide, watch, ref } from "vue";
 
 const props = defineProps<{
   open: boolean;
@@ -16,14 +18,11 @@ defineEmits<{
 }>();
 
 const useQuestion = useQuestionStore();
-useQuestion.hydrate(props.type);
+// useQuestion.hydrate(props.type);
 
-watch(
-  () => props.type,
-  () => {
-    useQuestion.hydrate(props.type);
-  }
-);
+watchEffect(() => {
+  useQuestion.hydrate(props.type);
+});
 
 provide("question", useQuestion);
 </script>
@@ -35,11 +34,9 @@ provide("question", useQuestion);
     :full="true"
     @close="$emit('close')"
   >
-    <div
-      class="ReactModal__Overlay ReactModal__Overlay--after-open addOrEditQuestionModal_modal_overlay__rgQs8"
-    >
+    <div class="addOrEditQuestionModal_modal_overlay__rgQs8">
       <div
-        class="ReactModal__Content ReactModal__Content--after-open addOrEditQuestionModal_modal_wrapper__KK2G8"
+        class="addOrEditQuestionModal_modal_wrapper__KK2G8"
         tabindex="-1"
         role="dialog"
         aria-modal="true"
@@ -92,18 +89,7 @@ provide("question", useQuestion);
                 </div>
               </div>
             </div>
-            <div class="footer_footer_wrapper__CrUvK">
-              <button type="button" class="footer_save_button__NO8M2">
-                Save
-              </button>
-              <button
-                type="button"
-                class="footer_cancel_button__XTxje"
-                @click="$emit('close')"
-              >
-                Cancel
-              </button>
-            </div>
+            <QuestionMakerFooter @close="$emit('close')" />
           </div>
           <div class="sharedIndex_preview__HrJbC sharedIndex_ltr__mCCAr">
             <div class="sharedIndex_preview_buttons__S_Qr_">
@@ -207,49 +193,6 @@ provide("question", useQuestion);
 }
 .ReactModal__Overlay--after-open {
   opacity: 1;
-}
-.footer_footer_wrapper__CrUvK {
-  display: flex;
-  padding: 0.75rem 1rem;
-  align-items: center;
-  height: 2rem;
-  box-shadow: inset 0 0.125rem 0 0 #f0f2f5;
-  direction: ltr;
-  background-color: #fff;
-  border-radius: 0 0 0.5rem 0.5rem;
-}
-.footer_footer_wrapper__CrUvK button {
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  cursor: pointer;
-  min-width: 4rem;
-  height: 2rem;
-  background-color: #9ee3ff;
-  font-family: inherit;
-}
-.footer_footer_wrapper__CrUvK button:focus {
-  outline: none;
-}
-.footer_footer_wrapper__CrUvK .footer_save_button__NO8M2 {
-  color: #fff;
-  background-color: #3b368e;
-  margin-right: 1rem;
-}
-.footer_footer_wrapper__CrUvK .footer_save_button__NO8M2:hover {
-  background-color: rgba(59, 54, 142, 0.8);
-}
-.footer_footer_wrapper__CrUvK .footer_cancel_button__XTxje {
-  color: #3b368e;
-  background-color: rgba(59, 54, 142, 0.15);
-}
-.footer_footer_wrapper__CrUvK .footer_cancel_button__XTxje:hover {
-  background-color: #d8dbe0;
-}
-@media (max-width: 1024px) {
-  .footer_footer_wrapper__CrUvK {
-    border-radius: 0;
-  }
 }
 .questionHeader_header__KdSai .questionHeader_title__f0ZQh {
   display: flex;

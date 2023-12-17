@@ -54,6 +54,14 @@
   --ck-highlight-marker-green: #00ff00;
 }
 
+button[disabled],
+.disabled {
+  background-color: #d8dbe0;
+  color: #3e434d;
+  opacity: 1;
+  cursor: not-allowed !important;
+}
+
 .marker-yellow {
   background-color: var(--ck-highlight-marker-yellow);
 }
