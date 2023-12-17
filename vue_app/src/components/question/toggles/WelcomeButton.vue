@@ -1,8 +1,20 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+watch(
+  () => useQuestion.getButton.value,
+  (value) => {
+    if (!value) {
+      useQuestion.getButton.error = "Button value is required";
+      return;
+    }
+    useQuestion.getButton.error = "";
+  }
+);
 </script>
 
 <template>
@@ -11,12 +23,14 @@ const useQuestion = inject("question") as QuestionStore;
       <p class="inlineInput_label__gJoig">Button</p>
       <div class="inlineInput_input_wrapper__8ZUU7">
         <input
-          v-model="useQuestion.getStartButton.value"
+          v-model="useQuestion.getButton.value"
           class="inlineInput_input__S084b undefined"
           type="text"
         />
       </div>
     </div>
+
+    <InputError :error="useQuestion.getButton.error" />
   </div>
 </template>
 

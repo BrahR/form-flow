@@ -26,8 +26,8 @@ const useQuestion = inject("question") as QuestionStore;
       class="welcome_welcome_button_wrapper__ujW1l"
       style="max-width: 1063px"
     >
-      <button v-if="useQuestion.getStartButton.value !== ''" type="button">
-        {{ useQuestion.getStartButton.value }}
+      <button v-if="useQuestion.getButton.value !== ''" type="button">
+        {{ useQuestion.getButton.value }}
       </button>
     </div>
   </div>

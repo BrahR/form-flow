@@ -1,9 +1,22 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
-useQuestion.getLabelModel = "";
+// useQuestion.getLabelModel = "";
+
+watch(
+  () => useQuestion.getLabelModel,
+  (value) => {
+    // if (!value) {
+    //   console.log("useQuestion.getLabelModel", value);
+    //   useQuestion.getLabeled.error = "Label is required";
+    //   return;
+    // }
+    // useQuestion.getLabeled.error = "";
+  }
+);
 </script>
 
 <template>
@@ -36,6 +49,8 @@ useQuestion.getLabelModel = "";
         :config="useQuestion.getLabeled.editor.config"
         @ready="useQuestion.getLabeled.editor.ready"
       ></ckeditor>
+
+      <InputError :error="useQuestion.getLabeled.error" />
     </div>
   </div>
 </template>

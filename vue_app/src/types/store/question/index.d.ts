@@ -67,7 +67,7 @@ type hasDoubleDisplay = PictureChoice;
 type hasVerticalDisplay = MultipleChoice;
 type hasMultipleAnswers = MultipleChoice | PictureChoice;
 type hasChoices = MultipleChoice | PictureChoice | Ranking;
-type hasButton = QuestionGroup | Statement;
+type hasButton = Welcome | QuestionGroup | Statement;
 type hasScale = OpinionScale | Rating;
 
 export {

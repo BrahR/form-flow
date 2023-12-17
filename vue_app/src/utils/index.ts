@@ -7,7 +7,8 @@ import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
 import { EditorConfig } from "@ckeditor/ckeditor5-core";
 import { Alignment } from "@ckeditor/ckeditor5-alignment";
 import { defineAsyncComponent, ref } from "vue";
-import type { Component } from "vue";
+import type { Component, Ref } from "vue";
+import type { EditorType } from "@/types/store/question/EditorType";
 
 interface hasId {
   id: number;
@@ -74,13 +75,11 @@ function convertSize(
 }
 
 function initEditor() {
-  let instance: ClassicEditor | null = null;
-  const model = ref("");
-
-  return {
-    instance: instance,
+  const ckeditor: EditorType = {
+    instance: null as unknown as any,
     editor: ClassicEditor,
-    model: model as unknown as string,
+    isDirty: false,
+    model: ref("") as unknown as string,
     config: {
       highlight: {
         options: [
@@ -186,14 +185,18 @@ function initEditor() {
         defaultProtocol: "https://",
       },
     } as EditorConfig,
-    ready: (editor: ClassicEditor) => {
-      instance = editor;
-      instance.model.document.on("change:data", () => {
-        if (!instance) return;
-        model.value = instance.getData();
+    ready: function (editor: ClassicEditor) {
+      ckeditor.instance = editor;
+      ckeditor.instance.model.document.on("change:data", () => {
+        if (!ckeditor.instance) return;
+        ckeditor.isDirty = true;
+        // @ts-ignore stupid ahh ahh ts
+        ckeditor.model.value = ckeditor.instance.getData();
       });
     },
   };
+
+  return ckeditor;
 }
 
 export {

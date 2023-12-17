@@ -27,6 +27,7 @@ type Statement = {
   button: {
     on: boolean;
     value: string;
+    error?: string;
   };
   components: Component[];
 };

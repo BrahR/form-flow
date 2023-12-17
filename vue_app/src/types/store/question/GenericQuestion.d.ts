@@ -1,7 +1,8 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type QuestionGroup = {
+export default interface GenericQuestion {
+  type: string;
   name: string;
   preview: Component;
   icon: Component;
@@ -9,31 +10,17 @@ type QuestionGroup = {
   labeled: {
     on: boolean;
     editor: EditorType;
+    error: string | null;
   };
   described: {
     on: boolean;
     editor: EditorType;
-  };
-  required: {
-    on: boolean;
-  };
-  hideQuestionNumber: {
-    on: boolean;
-  };
-  randomize: {
-    on: boolean;
-    selected: {
-      id: number;
-      name: string;
-      value: number;
-    };
-  };
-  button: {
-    on: boolean;
-    value: string;
     error?: string;
   };
+  imageOrVideo: {
+    on: boolean;
+  };
   components: Component[];
-};
-
-export default QuestionGroup;
+  canSubmit: boolean;
+  getData: object | null;
+}
