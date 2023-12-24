@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+watch(
+  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  () => {
+    if (useQuestion.getAnswerFormat.selected.value !== "long-text") return;
+
+    if (useQuestion.getRules!.max == 0) {
+      useQuestion.getAnswerFormat.error["long-text"] = true;
+      return;
+    }
+    useQuestion.getAnswerFormat.error["long-text"] = false;
+  }
+);
 </script>
 
 <template>
@@ -52,6 +66,10 @@ const useQuestion = inject("question") as QuestionStore;
         />
       </div>
     </div>
+    <InputError
+      :show="useQuestion.getAnswerFormat.error['long-text']"
+      error="Max value must be greater than 0"
+    />
   </div>
 </template>
 

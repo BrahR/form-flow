@@ -1,8 +1,19 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, computed, watchEffect } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+const errors = computed(() =>
+  [!useQuestion.getRulesPlaceholder, !useQuestion.getCustomError].some(
+    (value) => value !== false
+  )
+);
+
+watchEffect(() => {
+  useQuestion.getAnswerFormat.error["numeric"] = errors.value;
+});
 </script>
 
 <template>
@@ -15,6 +26,10 @@ const useQuestion = inject("question") as QuestionStore;
         v-model="useQuestion.getRulesPlaceholder"
       />
     </div>
+    <InputError
+      :show="!useQuestion.getRulesPlaceholder"
+      error="Palceholder is required"
+    />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
@@ -27,6 +42,10 @@ const useQuestion = inject("question") as QuestionStore;
         v-model="useQuestion.getCustomError"
       />
     </div>
+    <InputError
+      :show="!useQuestion.getCustomError"
+      error="Custom validation message is required"
+    />
   </div>
 </template>
 

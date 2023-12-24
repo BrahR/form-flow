@@ -1,8 +1,23 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+watch(
+  [
+    () => useQuestion.getMultipleAnswers.min,
+    () => useQuestion.getMultipleAnswers.max,
+  ],
+  () => {
+    if (useQuestion.getMultipleAnswers.max == 1) {
+      useQuestion.getMultipleAnswers.error = true;
+      return;
+    }
+    useQuestion.getMultipleAnswers.error = false;
+  }
+);
 </script>
 
 <template>
@@ -38,10 +53,19 @@ const useQuestion = inject("question") as QuestionStore;
               Min
             </div>
             <input
-              v-model="useQuestion.getMultipleAnswers.min"
               class="buildMinMaxChoice_input__29wsq"
               type="number"
               inputmode="decimal"
+              v-model="useQuestion.getMultipleAnswers.min"
+              @input="
+                useQuestion.getMultipleAnswers.min = Math.max(
+                  1,
+                  Math.min(
+                    useQuestion.getMultipleAnswers.max ?? 1,
+                    Math.min(99, useQuestion.getMultipleAnswers.min ?? 1)
+                  )
+                )
+              "
             />
           </div>
         </div>
@@ -53,14 +77,27 @@ const useQuestion = inject("question") as QuestionStore;
               Max
             </div>
             <input
-              v-model="useQuestion.getMultipleAnswers.max"
               class="buildMinMaxChoice_input__29wsq"
               type="number"
               inputmode="decimal"
+              v-model="useQuestion.getMultipleAnswers.max"
+              @input="
+                useQuestion.getMultipleAnswers.max = Math.min(
+                  99,
+                  Math.max(
+                    useQuestion.getMultipleAnswers.min ?? 2,
+                    useQuestion.getMultipleAnswers.max ?? 2
+                  )
+                )
+              "
             />
           </div>
         </div>
       </div>
+      <InputError
+        :show="useQuestion.getMultipleAnswers.error"
+        error="Max must be greater than 1"
+      />
     </div>
   </div>
 </template>

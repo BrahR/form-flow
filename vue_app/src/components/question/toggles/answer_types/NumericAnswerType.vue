@@ -1,8 +1,41 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watchEffect, ref, onMounted, watch, computed } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+const minMaxError = ref(false);
+
+const errors = computed(() =>
+  [
+    minMaxError.value,
+    !useQuestion.getRulesPlaceholder,
+    !useQuestion.getCustomError,
+  ].some((value) => value !== false)
+);
+
+watch(
+  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  () => {
+    if (useQuestion.getAnswerFormat.selected.value !== "numeric") return;
+
+    if (useQuestion.getRules!.max == 0) {
+      minMaxError.value = true;
+      return;
+    }
+    minMaxError.value = false;
+  }
+);
+
+onMounted(() => {
+  if (useQuestion.getRules!.max === 0) {
+    minMaxError.value = true;
+  }
+});
+
+watchEffect(() => {
+  useQuestion.getAnswerFormat.error["numeric"] = errors.value;
+});
 </script>
 
 <template>
@@ -52,6 +85,11 @@ const useQuestion = inject("question") as QuestionStore;
         />
       </div>
     </div>
+    <InputError
+      class="mb-2"
+      :show="minMaxError"
+      error="Max value must be greater than 0"
+    />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
@@ -63,6 +101,10 @@ const useQuestion = inject("question") as QuestionStore;
         v-model="useQuestion.getRulesPlaceholder"
       />
     </div>
+    <InputError
+      :show="!useQuestion.getRulesPlaceholder"
+      error="Placeholder is required"
+    />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
@@ -75,6 +117,10 @@ const useQuestion = inject("question") as QuestionStore;
         v-model="useQuestion.getCustomError"
       />
     </div>
+    <InputError
+      :show="!useQuestion.getCustomError"
+      error="Custom validation message is required"
+    />
   </div>
 </template>
 

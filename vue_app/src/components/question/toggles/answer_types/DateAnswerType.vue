@@ -3,24 +3,30 @@ import InputError from "@/components/form/InputError.vue";
 
 import type { QuestionStore } from "@/store/question";
 import { format, isValid, parse } from "date-fns";
-import { ref, inject } from "vue";
+import { ref, inject, computed, watchEffect, onMounted } from "vue";
 
 const useQuestion = inject("question") as QuestionStore;
 const selected = useQuestion.getAnswerFormat.selected;
-const patternWarning = ref("");
-const error = ref("");
+const patternWarning = ref(false);
+const customMessageError = ref(false);
+const error = ref(false);
 
 const validate = (val: string) =>
   isValid(parse(format(new Date(), val), val, new Date()));
+
+const onFocusIn = () => {
+  patternWarning.value = false;
+};
 
 const onFocusOut = (val: string) => {
   try {
     validate(val);
   } catch (err) {
     selected.rules!.format = "yyyy-MM-dd";
-    patternWarning.value = "You must enter a valid pattern";
+    patternWarning.value = true;
+    // useQuestion.getAnswerFormat.error[0] = "Invalid date pattern";
   }
-  error.value = "";
+  error.value = false;
 };
 
 const onInput = (val: Event) => {
@@ -29,16 +35,37 @@ const onInput = (val: Event) => {
 
   try {
     if (!validate(value)) {
-      error.value = "Invalid date pattern";
+      error.value = true;
       return;
     }
   } catch (err) {
-    error.value = "Invalid date pattern";
+    error.value = true;
     return;
   }
 
-  error.value = "";
+  error.value = false;
 };
+
+const onCustomMessageInput = (val: string) => {
+  customMessageError.value = val ? false : true;
+  selected.errorMessage = val;
+};
+
+const errors = computed(() =>
+  [patternWarning.value, customMessageError.value, error.value].some(
+    (value) => value !== false
+  )
+);
+
+onMounted(() => {
+  useQuestion.getAnswerFormat.error["date"] = errors.value;
+  onFocusOut(selected.rules!.format ?? "yyyy-MM-dd");
+  onCustomMessageInput(selected.errorMessage);
+});
+
+watchEffect(() => {
+  useQuestion.getAnswerFormat.error["date"] = errors.value;
+});
 </script>
 
 <template>
@@ -50,12 +77,15 @@ const onInput = (val: Event) => {
         type="text"
         :value="selected.rules!.format"
         @input="onInput"
-        @focusin="patternWarning = ''"
+        @focusin="onFocusIn"
         @focusout="onFocusOut(($event.target as HTMLInputElement).value)"
       />
     </div>
-    <InputError :error="error" />
-    <InputError :error="patternWarning" />
+    <InputError :show="error" error="Invalid date pattern" />
+    <InputError
+      :show="patternWarning"
+      error="You must enter a valid pattern (click again to remove this message)"
+    />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
@@ -66,12 +96,16 @@ const onInput = (val: Event) => {
         class="textInput_input__YzEWk false undefined false"
         name="regex_validation_message"
         type="text"
-        v-model="selected.errorMessage"
+        :value="selected.errorMessage"
+        @input="
+          onCustomMessageInput(($event.currentTarget as HTMLInputElement).value)
+        "
       />
+      <!-- v-model="selected.errorMessage" -->
     </div>
     <InputError
-      v-if="selected.errorMessage == ''"
-      error="You have to enter a validation message"
+      :show="customMessageError"
+      error="Custom validation message is required"
     />
   </div>
 </template>

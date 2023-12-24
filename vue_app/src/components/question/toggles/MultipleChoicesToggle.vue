@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import InputError from "@/components/form/InputError.vue";
 import { ref, inject } from "vue";
 import { useDraggable } from "vue-draggable-plus";
 import type { QuestionStore } from "@/store/question";
@@ -33,6 +34,13 @@ useDraggable(el, useQuestion.getMultipleChoices, {
         <div
           :class="{
             buildChoice_hidden__ITdK4: element.hidden,
+            buildChoice_error__87vPk:
+              useQuestion.getMultipleChoices.filter(
+                (choice) =>
+                  choice.value === element.value &&
+                  !choice.hidden &&
+                  choice.value !== ''
+              ).length > 1,
           }"
           class="buildChoice_input_wrapper__j2HKG buildChoice_ltr__k8APe"
         >
@@ -97,6 +105,10 @@ useDraggable(el, useQuestion.getMultipleChoices, {
               </svg>
             </div>
             <div
+              :class="{
+                buildChoice_disable__w99rm:
+                  useQuestion.getMultipleChoices.length <= 2,
+              }"
               class="buildChoice_action_middle__etyfo"
               @click="element.hidden = !element.hidden"
             >
@@ -173,8 +185,27 @@ useDraggable(el, useQuestion.getMultipleChoices, {
         </div>
       </div>
     </transition-group>
-    <!-- </template> -->
-    <!-- </div> -->
+    <InputError
+      :show="
+        useQuestion.getMultipleChoices.some(
+          (choice, i) =>
+            useQuestion.getMultipleChoices
+              .map((val) => val.value)
+              .indexOf(choice.value) !== i &&
+            !choice.hidden &&
+            !!choice.value
+        )
+      "
+      error="Multiple choices with the same value are not allowed"
+    />
+    <InputError
+      :show="
+        useQuestion.getMultipleChoices.filter(
+          (choice) => choice.value !== '' && !choice.hidden
+        ).length < 2
+      "
+      error="You can't have less than 2 active choices"
+    />
   </div>
 </template>
 
@@ -349,6 +380,11 @@ useDraggable(el, useQuestion.getMultipleChoices, {
   .sharedBuild_toggle_input_row_wrapper__1KFOE.sharedBuild_ltr__BELlV {
   direction: ltr;
 }
+
+.buildChoice_input_wrapper__j2HKG.buildChoice_error__87vPk {
+  border: 0.063rem solid #e3324f !important;
+}
+
 .build_choices_mode_wrapper__IYDOB {
   display: flex;
   width: -moz-max-content;

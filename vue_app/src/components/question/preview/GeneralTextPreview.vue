@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import type { QuestionStore } from "@/store/question";
+import QuestionHeader from "./QuestionHeader.vue";
 
 const useQuestion = inject("question") as QuestionStore;
 </script>
@@ -9,50 +10,7 @@ const useQuestion = inject("question") as QuestionStore;
   <div
     class="textQuestion_text_question_wrapper__WmtqL textQuestion_ltr__E3pny false"
   >
-    <div class="questionIntro_question_intro_wrapper__93qE0">
-      <div class="questionIntro_question_intro_title__soL_1">
-        <div class="questionIntro_question_intro_title_text_wrapper__FjDMC">
-          <span
-            v-if="useQuestion.getRequired"
-            class="questionIntro_ltr__PbYmc questionIntro_answer_required_icon__xsNa1"
-          >
-            *
-          </span>
-          <div class="questionIntro_question_number_wrapper__4lzy7">
-            <span class="questionIntro_question_number___M7ip">1</span>
-            <div
-              class="questionIntro_question_number_indicator_icon__SdB_o questionIntro_ltr__PbYmc"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="8"
-                height="2"
-                viewBox="0 0 8 2"
-              >
-                <g fill="none" fill-rule="evenodd">
-                  <g fill="#FFF">
-                    <path
-                      d="M848 133H856V135H848z"
-                      transform="translate(-848.000000, -133.000000)"
-                    ></path>
-                  </g>
-                </g>
-              </svg>
-            </div>
-          </div>
-          <span
-            class="questionIntro_question_intro_title_text__YurZo"
-            v-html="useQuestion.getLabelModel"
-          >
-          </span>
-        </div>
-      </div>
-      <p
-        v-if="useQuestion.getDescribed.on && useQuestion.getDescModel"
-        v-html="useQuestion.getDescModel"
-        class="questionIntro_question_intro_description__J0fpU"
-      ></p>
-    </div>
+    <QuestionHeader description="" />
     <component
       :is="{ ...useQuestion.getAnswerFormat.selected.input }"
     ></component>

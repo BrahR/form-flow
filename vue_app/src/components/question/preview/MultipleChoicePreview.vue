@@ -18,8 +18,10 @@ const useQuestion = inject("question") as QuestionStore;
       class="preview_multiplechoice_question_choices_wrapper__9pZyU preview_ltr__Yc2N7"
     >
       <template
-        v-for="(choice, index) in useQuestion.getMultipleChoices"
-        :key="index"
+        v-for="(choice, index) in useQuestion.getMultipleChoices.filter(
+          (choice) => !!choice.value && !choice.hidden
+        )"
+        :key="choice.id"
       >
         <div
           v-if="choice.value && !choice.hidden"

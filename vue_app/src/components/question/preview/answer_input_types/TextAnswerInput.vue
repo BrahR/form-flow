@@ -25,8 +25,6 @@ const schema = computed(() =>
 );
 
 const validate = () => {
-  console.log("HAHH");
-
   const value = useQuestion.getAnswerFormat.selected.model;
   useQuestion.getCustomError = errMessage.value;
 
@@ -44,6 +42,7 @@ watch(
   [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
   () => {
     if (useQuestion.getAnswerFormat.selected.value !== "text") return;
+
     validate();
   }
 );

@@ -1,12 +1,25 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 
-import { ref, inject } from "vue";
+import { ref, inject, computed, watchEffect } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
 const isRegExDirty = ref(false);
+const isPlaceholderDirty = ref(false);
 const isCustomErrorDirty = ref(false);
+
+const errors = computed(() =>
+  [
+    !useQuestion.getRulesRegex,
+    !useQuestion.getRulesPlaceholder,
+    !useQuestion.getCustomError,
+  ].some((value) => value !== false)
+);
+
+watchEffect(() => {
+  useQuestion.getAnswerFormat.error["custom"] = errors.value;
+});
 </script>
 
 <template>
@@ -25,7 +38,7 @@ const isCustomErrorDirty = ref(false);
     </div>
     <InputError
       :show="!useQuestion.getRulesRegex && isRegExDirty"
-      error="RegEx cannot be empty"
+      error="RegEx is required"
     />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
@@ -36,8 +49,13 @@ const isCustomErrorDirty = ref(false);
         name="regex_placeholder"
         type="text"
         v-model="useQuestion.getRulesPlaceholder"
+        @input="isPlaceholderDirty = true"
       />
     </div>
+    <InputError
+      :show="!useQuestion.getRulesPlaceholder && isPlaceholderDirty"
+      error="Placeholder is required"
+    />
   </div>
   <div class="textQuestion_text_inputs__Hciae">
     <div class="textInput_input_wrapper__bZOVy">
@@ -54,7 +72,7 @@ const isCustomErrorDirty = ref(false);
     </div>
     <InputError
       :show="!useQuestion.getCustomError && isCustomErrorDirty"
-      error="Custom error message cannot be empty"
+      error="Custom validation message is required"
     />
   </div>
 </template>

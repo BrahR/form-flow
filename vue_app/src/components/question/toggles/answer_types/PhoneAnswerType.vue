@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watchEffect } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+watchEffect(() => {
+  useQuestion.getAnswerFormat.error["phone-number"] =
+    !useQuestion.getCustomError;
+});
 </script>
 
 <template>
@@ -27,6 +33,10 @@ const useQuestion = inject("question") as QuestionStore;
         v-model="useQuestion.getCustomError"
       />
     </div>
+    <InputError
+      :show="useQuestion.getAnswerFormat.error['phone-number']"
+      error="You have to enter a validation message"
+    />
   </div>
 </template>
 
