@@ -40,8 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(["prefix" => "/survey/{survey}/question"], function () {
         Route::get("/", [QuestionController::class, "index"]);
+        Route::post("/", [QuestionController::class, "store"]);
         Route::get("/{question}", [QuestionController::class, "show"]);
-        Route::post("/create", [QuestionController::class, "store"]);
         Route::put("/{question}", [QuestionController::class, "update"]);
         Route::delete("/{question}", [QuestionController::class, "delete"]);
     });
