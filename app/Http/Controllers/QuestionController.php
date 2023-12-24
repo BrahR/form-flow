@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Http\Requests\StoreQuestionRequest;
-use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Survey;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
-use App\Models\WelcomeQuestion;
+use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -32,11 +31,10 @@ class QuestionController extends Controller
     {
         $validated = $request->validated();
 
+        $class = "App\\Models\\".$request->input("type") . "Question";
         $question = $survey->questions()->make($validated["question"]);
-        $questonable = WelcomeQuestion::create($validated["questionable"]);
+        $questonable = $class::create($validated["questionable"]);
         $question->questionable()->associate($questonable)->save();
-
-        dump($question);
 
         return response([
             "question" => $question,
@@ -62,7 +60,7 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateQuestionRequest $request, Question $question)
+    public function update(Request $request, Question $question)
     {
         //
     }
