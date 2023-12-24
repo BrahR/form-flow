@@ -1,4 +1,4 @@
-import type GenericQuestion from "./GenericQuestion";
+import type { GenericQuestion } from "./GenericQuestion";
 
 type Welcome = GenericQuestion & {
   button: {

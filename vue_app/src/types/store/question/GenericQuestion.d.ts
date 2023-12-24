@@ -1,7 +1,7 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-export default interface GenericQuestion {
+export interface GenericQuestion {
   type: string;
   name: string;
   preview: Component;

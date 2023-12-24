@@ -1,5 +1,17 @@
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
+import type { GenericQuestion } from "./GenericQuestion";
+import type { Ref } from "vue";
+
+type KeyTypes =
+  | "text"
+  | "long-text"
+  | "date"
+  | "phone-number"
+  | "numeric"
+  | "english-letters"
+  | "time"
+  | "custom";
 
 type GeneralTextFormat = {
   pattern: string;
@@ -8,7 +20,7 @@ type GeneralTextFormat = {
 };
 
 type GeneralTextType = {
-  value: string;
+  value: KeyTypes;
   label: string;
   toggle: Component;
   input: Component;
@@ -28,23 +40,12 @@ type GeneralTextType = {
   };
 };
 
-type GeneralText = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    on: boolean;
-    editor: EditorType;
-  };
+type GeneralText = GenericQuestion & {
   answerFormat: {
     on: boolean;
     types: GeneralTextType[];
     selected: GeneralTextType;
+    error: Record<KeyTypes, boolean>;
   };
   imageOrVideo: {
     on: boolean;
@@ -55,7 +56,6 @@ type GeneralText = {
   hideQuestionNumber: {
     on: boolean;
   };
-  components: Component[];
 };
 
 export default GeneralText;

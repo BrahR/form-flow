@@ -1,19 +1,8 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type MultipleChoice = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    on: boolean;
-    editor: EditorType;
-  };
+type MultipleChoice = GenericQuestion & {
   choices: {
     id: number;
     hidden: boolean;
@@ -21,9 +10,6 @@ type MultipleChoice = {
     checked: boolean;
   }[];
   required: {
-    on: boolean;
-  };
-  imageOrVideo: {
     on: boolean;
   };
   randomize: {
@@ -36,11 +22,11 @@ type MultipleChoice = {
     on: boolean;
     min: number;
     max: number;
+    error: boolean;
   };
   hideQuestionNumber: {
     on: boolean;
   };
-  components: Component[];
 };
 
 export default MultipleChoice;
