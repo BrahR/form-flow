@@ -1,20 +1,8 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type OpinionScale = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    shown: boolean;
-    on: boolean;
-    editor: EditorType;
-  };
+type OpinionScale = GenericQuestion & {
   scaleType: {
     number: {
       on: boolean;
@@ -36,9 +24,6 @@ type OpinionScale = {
     right: string;
     center: string;
   };
-  imageOrVideo: {
-    on: boolean;
-  };
   required: {
     on: boolean;
   };
@@ -48,7 +33,6 @@ type OpinionScale = {
   hideQuestionNumber: {
     on: boolean;
   };
-  components: Component[];
 };
 
 export default OpinionScale;

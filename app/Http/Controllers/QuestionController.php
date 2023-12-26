@@ -31,6 +31,8 @@ class QuestionController extends Controller
     {
         $validated = $request->validated();
 
+        dump($validated);
+
         $class = "App\\Models\\".$request->input("type") . "Question";
         $question = $survey->questions()->make($validated["question"]);
         $questonable = $class::create($validated["questionable"]);

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("html_label");
             $table->string("html_description")->nullable();
             $table->string("attachment")->nullable();
+            $table->string("required")->default("false");
             $table->morphs("questionable");
             $table->foreignId("survey_id")->constrained();
             $table->timestamps();

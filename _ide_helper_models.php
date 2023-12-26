@@ -26,6 +26,12 @@ namespace App\Models{
  * App\Models\GeneralTextQuestion
  *
  * @property int $id
+ * @property string $text_type
+ * @property int|null $min
+ * @property int|null $max
+ * @property string|null $format
+ * @property string|null $error_message
+ * @property string|null $placeholder
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\GeneralTextQuestionFactory factory($count = null, $state = [])
@@ -33,10 +39,61 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion query()
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereErrorMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereFormat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereMax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereMin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion wherePlaceholder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereTextType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralTextQuestion whereUpdatedAt($value)
  */
 	class GeneralTextQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\MultipleChoiceQuestion
+ *
+ * @property int $id
+ * @property \Illuminate\Database\Eloquent\Casts\AsCollection $choices
+ * @property int $randomize
+ * @property int $vertical_display
+ * @property int $multiple_answers
+ * @property int $min_answers
+ * @property int $max_answers
+ * @property int $hide_question_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\MultipleChoiceQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereChoices($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereMaxAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereMinAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereMultipleAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereRandomize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MultipleChoiceQuestion whereVerticalDisplay($value)
+ */
+	class MultipleChoiceQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PictureChoiceQuestion
+ *
+ * @property \Illuminate\Database\Eloquent\Casts\AsCollection $choices
+ * @method static \Database\Factories\PictureChoiceQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion query()
+ */
+	class PictureChoiceQuestion extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -47,6 +104,7 @@ namespace App\Models{
  * @property string $html_label
  * @property string|null $html_description
  * @property string|null $attachment
+ * @property string $required
  * @property string $questionable_type
  * @property int $questionable_id
  * @property int $survey_id
@@ -65,6 +123,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereRequired($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereSurveyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
  */

@@ -26,9 +26,9 @@ watch(
   >
     <div class="sharedBuild_toggle_wrapper__R5w_y">
       <div class="toggleButton_wrapper__dOusd">
-        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE"
-          >Multiple Selection</span
-        >
+        <span class="toggleButton_title__zP_tP toggleButton_bold__huFoE">
+          Multiple Selection
+        </span>
         <label class="toggleButton_switch__EF_q8">
           <input
             v-model="useQuestion.getMultipleAnswers.on"

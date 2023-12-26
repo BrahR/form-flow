@@ -1,19 +1,8 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type QuestionGroup = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    on: boolean;
-    editor: EditorType;
-  };
+type QuestionGroup = GenericQuestion & {
   required: {
     on: boolean;
   };
@@ -33,7 +22,6 @@ type QuestionGroup = {
     value: string;
     error?: string;
   };
-  components: Component[];
 };
 
 export default QuestionGroup;

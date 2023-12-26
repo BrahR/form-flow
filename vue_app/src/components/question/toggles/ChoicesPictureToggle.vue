@@ -2,24 +2,11 @@
 import InputError from "@/components/form/InputError.vue";
 
 import { useDraggable } from "vue-draggable-plus";
-import { ref, computed, inject } from "vue";
+import { ref, inject } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
 const el = ref(null as never as HTMLElement);
-
-const shownChoices = computed(() => {
-  return useQuestion.getPictureChoices.filter((choice) => {
-    if (choice.hidden) return;
-    return choice;
-  });
-});
-
-const shownChoicesMessage = computed(() => {
-  return shownChoices.value.length < 2
-    ? "At least 2 choices must be shown"
-    : "";
-});
 
 // @ts-ignore
 useDraggable(el, useQuestion.getPictureChoices, {
@@ -224,7 +211,14 @@ useDraggable(el, useQuestion.getPictureChoices, {
         </div>
       </div>
     </transition-group>
-    <InputError :error="shownChoicesMessage" />
+    <InputError
+      :show="
+        useQuestion.getPictureChoices.filter(
+          (choice) => choice.image !== '' && !choice.hidden
+        ).length < 2
+      "
+      error="At least 2 choices must be shown"
+    />
   </div>
 </template>
 

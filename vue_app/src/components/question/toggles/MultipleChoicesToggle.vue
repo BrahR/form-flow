@@ -204,7 +204,7 @@ useDraggable(el, useQuestion.getMultipleChoices, {
           (choice) => choice.value !== '' && !choice.hidden
         ).length < 2
       "
-      error="You can't have less than 2 active choices"
+      error="At least 2 choices must be shown"
     />
   </div>
 </template>
