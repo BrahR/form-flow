@@ -125,6 +125,26 @@ class StoreQuestionRequest extends FormRequest
                 "questionable.rating_value" => ["required", "integer", "min:1", "max:10"],
                 "questionable.hide_question_number" => ["required", "boolean"],
             ],
+            "Ranking" => [
+                "questionable.choices" => ["required", "array", "between:2,40", function (string $attribute, mixed $value, Closure $fail) {
+                    $isChoiceEmpty = collect($value)->filter(function ($choice, $key) {
+                        return $choice["value"] !== "";
+                    })->count() < 2;
+
+                    if ($isChoiceEmpty) $fail("At least 2 choices must not be empty");
+
+                    $isChoiceDuplicated = collect($value)->some(function ($choice, $key) use ($value) {
+                        return collect($value)->where("value", $choice["value"])->count() > 1;
+                    });
+
+                    if ($isChoiceDuplicated) $fail("Choices must be unique");
+                }],
+                "questionable.choices.*.id" => ["required", "integer"],
+                "questionable.choices.*.value" => ["required", "string"],
+                "questionable.randomize" => ["required", "boolean"],
+                "questionable.fix_numbers" => ["required", "boolean"],
+                "questionable.hide_question_number" => ["required", "boolean"],
+            ],
         ];
 
         if ($key == "all") return $type_rules;
