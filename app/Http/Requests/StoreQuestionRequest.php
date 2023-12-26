@@ -111,6 +111,15 @@ class StoreQuestionRequest extends FormRequest
                 "questionable.max_answers" => ["required_if:questionable.multiple_answers,true", "numeric", "min:2"],
                 "questionable.hide_question_number" => ["required", "boolean"],
             ],
+            "OpinionScale" => [
+                "questionable.steps" => ["required", "numeric", "min:2", "max:11"],
+                "questionable.labels" => ["required", "array", "between:2,11"],
+                "questionable.labels.right" => ["nullable", "string"],
+                "questionable.labels.center" => ["nullable", "string"],
+                "questionable.labels.left" => ["nullable", "string"],
+                "questionable.start_at_zero" => ["required", "boolean"],
+                "questionable.hide_question_number" => ["required", "boolean"],
+            ],
         ];
 
         if ($key == "all") return $type_rules;
