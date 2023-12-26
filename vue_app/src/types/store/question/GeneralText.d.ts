@@ -1,7 +1,6 @@
 import type { EditorType } from "./EditorType";
-import type { Component } from "vue";
+import type { Component, Ref } from "vue";
 import type { GenericQuestion } from "./GenericQuestion";
-import type { Ref } from "vue";
 
 type KeyTypes =
   | "text"
