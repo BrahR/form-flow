@@ -179,6 +179,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\RatingQuestion
+ *
+ * @property int $id
+ * @property int $rating_type
+ * @property int $rating_value
+ * @property int $hide_question_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\RatingQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereRatingType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereRatingValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RatingQuestion whereUpdatedAt($value)
+ */
+	class RatingQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Survey
  *
  * @property int $id
