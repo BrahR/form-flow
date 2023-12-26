@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import InputError from "@/components/form/InputError.vue";
 import { ref, inject } from "vue";
 import { useDraggable } from "vue-draggable-plus";
 import type { QuestionStore } from "@/store/question";
@@ -27,7 +28,16 @@ useDraggable(el, useQuestion.getRankingChoices, {
         :key="element.id"
         class="ranking_choice_row__X3rte ranking_ltr__Z1q0z"
       >
-        <div class="ranking_input_wrapper__LzrTN false ranking_ltr__Z1q0z">
+        <div
+          :class="{
+            buildChoice_error__87vPk:
+              useQuestion.getRankingChoices.filter(
+                (choice) =>
+                  choice.value === element.value && choice.value !== ''
+              ).length > 1,
+          }"
+          class="ranking_input_wrapper__LzrTN ranking_ltr__Z1q0z"
+        >
           <div
             class="ranking_index_wrapper__d1lI6 dragable"
             tabindex="-1"
@@ -109,6 +119,24 @@ useDraggable(el, useQuestion.getRankingChoices, {
         </div>
       </div>
     </transition-group>
+    <InputError
+      :show="
+        useQuestion.getRankingChoices.some(
+          (choice, i) =>
+            useQuestion.getRankingChoices
+              .map((val) => val.value)
+              .indexOf(choice.value) !== i && !!choice.value
+        )
+      "
+      error="Ranking choices with the same value are not allowed"
+    />
+    <InputError
+      :show="
+        useQuestion.getRankingChoices.filter((choice) => choice.value !== '')
+          .length < 2
+      "
+      error="At least 2 choices must be shown"
+    />
   </div>
 </template>
 
@@ -165,6 +193,9 @@ useDraggable(el, useQuestion.getRankingChoices, {
   border-radius: 0.125rem;
   min-width: 2.25rem;
   box-sizing: border-box;
+}
+.ranking_input_wrapper__LzrTN.buildChoice_error__87vPk {
+  border: 0.063rem solid #e3324f !important;
 }
 .ranking_choice_row__X3rte
   .ranking_input_wrapper__LzrTN
