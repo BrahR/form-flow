@@ -9,6 +9,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Models\OpinionScaleQuestion;
 
 class QuestionController extends Controller
 {
@@ -30,8 +31,6 @@ class QuestionController extends Controller
     public function store(StoreQuestionRequest $request, Survey $survey): Application | Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory
     {
         $validated = $request->validated();
-
-        dump($validated);
 
         $class = "App\\Models\\".$request->input("type") . "Question";
         $question = $survey->questions()->make($validated["question"]);
