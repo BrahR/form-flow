@@ -179,6 +179,32 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\RankingQuestion
+ *
+ * @property int $id
+ * @property \Illuminate\Database\Eloquent\Casts\AsCollection $choices
+ * @property int $randomize
+ * @property int $fix_numbers
+ * @property int $hide_question_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\RankingQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereChoices($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereFixNumbers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereRandomize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RankingQuestion whereUpdatedAt($value)
+ */
+	class RankingQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\RatingQuestion
  *
  * @property int $id
