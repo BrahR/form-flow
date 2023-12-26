@@ -120,6 +120,11 @@ class StoreQuestionRequest extends FormRequest
                 "questionable.start_at_zero" => ["required", "boolean"],
                 "questionable.hide_question_number" => ["required", "boolean"],
             ],
+            "Rating" => [
+                "questionable.rating_type" => ["required", "integer", "min:0", "max:2"],
+                "questionable.rating_value" => ["required", "integer", "min:1", "max:10"],
+                "questionable.hide_question_number" => ["required", "boolean"],
+            ],
         ];
 
         if ($key == "all") return $type_rules;
