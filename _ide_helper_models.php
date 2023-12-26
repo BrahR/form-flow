@@ -85,13 +85,60 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\OpinionScaleQuestion
+ *
+ * @property int $id
+ * @property int $steps
+ * @property \Illuminate\Database\Eloquent\Casts\AsCollection $labels
+ * @property int $start_at_zero
+ * @property int $hide_question_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\OpinionScaleQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereLabels($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereStartAtZero($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereSteps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OpinionScaleQuestion whereUpdatedAt($value)
+ */
+	class OpinionScaleQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\PictureChoiceQuestion
  *
+ * @property int $id
  * @property \Illuminate\Database\Eloquent\Casts\AsCollection $choices
+ * @property int $randomize
+ * @property int $vertical_display
+ * @property int $multiple_answers
+ * @property int $min_answers
+ * @property int $max_answers
+ * @property int $hide_question_number
+ * @property int $double_display_size
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\PictureChoiceQuestionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereChoices($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereDoubleDisplaySize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereMaxAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereMinAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereMultipleAnswers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereRandomize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PictureChoiceQuestion whereVerticalDisplay($value)
  */
 	class PictureChoiceQuestion extends \Eloquent {}
 }
