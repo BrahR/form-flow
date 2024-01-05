@@ -15,7 +15,7 @@ defineProps<{
       <div class="questionIntro_question_intro_title_text_wrapper__FjDMC">
         <div class="questionIntro_question_number_wrapper__4lzy7">
           <span
-            v-if="useQuestion.getRequired.on"
+            v-if="useQuestion.getRequired?.on"
             class="questionIntro_ltr__PbYmc questionIntro_answer_required_icon__xsNa1"
             >*</span
           >
