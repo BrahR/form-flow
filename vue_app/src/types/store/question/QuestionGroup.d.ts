@@ -20,7 +20,7 @@ type QuestionGroup = GenericQuestion & {
   button: {
     on: boolean;
     value: string;
-    error?: string;
+    error: boolean;
   };
 };
 
