@@ -1,8 +1,20 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import InputError from "@/components/form/InputError.vue";
+import { inject, watch } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
+
+watch(
+  () => useQuestion.getButton.value,
+  (value) => {
+    if (value === "") {
+      useQuestion.getButton.error = true;
+      return;
+    }
+    useQuestion.getButton.error = false;
+  }
+);
 </script>
 
 <template>
@@ -19,6 +31,11 @@ const useQuestion = inject("question") as QuestionStore;
         />
       </div>
     </div>
+
+    <InputError
+      :show="useQuestion.getButton.error"
+      error="Please enter a label for the button."
+    />
   </div>
 </template>
 <style scoped>

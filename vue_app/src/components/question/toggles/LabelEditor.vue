@@ -1,22 +1,9 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
-import { inject, watch } from "vue";
+import { inject } from "vue";
 import type { QuestionStore } from "@/store/question";
 
 const useQuestion = inject("question") as QuestionStore;
-// useQuestion.getLabelModel = "";
-
-watch(
-  () => useQuestion.getLabelModel,
-  (value) => {
-    // if (!value) {
-    //   console.log("useQuestion.getLabelModel", value);
-    //   useQuestion.getLabeled.error = "Label is required";
-    //   return;
-    // }
-    // useQuestion.getLabeled.error = "";
-  }
-);
 </script>
 
 <template>
