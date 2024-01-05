@@ -1,27 +1,12 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type Ranking = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    shown: boolean;
-    on: boolean;
-    editor: EditorType;
-  };
+type Ranking = GenericQuestion & {
   choices: {
     id: number;
     value: string;
   }[];
-  imageOrVideo: {
-    on: boolean;
-  };
   required: {
     on: boolean;
   };
@@ -34,7 +19,6 @@ type Ranking = {
   hideQuestionNumber: {
     on: boolean;
   };
-  components: Component[];
 };
 
 export default Ranking;
