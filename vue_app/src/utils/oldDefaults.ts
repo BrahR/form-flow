@@ -184,7 +184,7 @@ export const defaultQuestions: Question = {
     },
     button: {
       value: "Start",
-      error: false,
+      error: "",
     },
     get canSubmit() {
       return !this.labeled.error && !this.button.error;
@@ -547,7 +547,6 @@ export const defaultQuestions: Question = {
     button: {
       on: false,
       value: "Continue",
-      error: false,
     },
     get canSubmit() {
       return false;
@@ -576,6 +575,87 @@ export const defaultQuestions: Question = {
       RequiredToggle,
       HideQuestionNumberToggle,
       RandomizeGroupToggle,
+    ],
+  },
+  dropdown: {
+    type: "Dropdown",
+    name: "Dropdown",
+    preview: getAsyncPreview("DropdownPreview"),
+    icon: getAsyncIcon("DropdownIcon"),
+    action: true,
+    labeled: {
+      on: true,
+      editor: initEditor(),
+    },
+    described: {
+      on: false,
+      editor: initEditor(),
+    },
+    answerOptions: [],
+    imageOrVideo: {
+      on: false,
+    },
+    required: {
+      on: false,
+    },
+    randomize: {
+      on: false,
+    },
+    sort: {
+      on: false,
+    },
+    hideQuestionNumber: {
+      on: false,
+    },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      AnswerOptionsToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      RandomizeToggle,
+      SortToggle,
+      HideQuestionNumberToggle,
+    ],
+  },
+  numerical: {
+    type: "Numerical",
+    name: "Numerical Answer",
+    preview: getAsyncPreview("NumericalPreview"),
+    icon: getAsyncIcon("NumericalAnswerIcon"),
+    action: true,
+    labeled: {
+      on: true,
+      editor: initEditor(),
+    },
+    described: {
+      on: false,
+      editor: initEditor(),
+    },
+    minMax: {
+      min: 0,
+      max: 100,
+    },
+    imageOrVideo: {
+      on: false,
+    },
+    required: {
+      on: false,
+    },
+    hideQuestionNumber: {
+      on: false,
+    },
+    allowDecimal: {
+      on: false,
+    },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      MinMaxCharToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+      AllowDecimalToggle,
     ],
   },
   opinionScale: {
@@ -665,6 +745,37 @@ export const defaultQuestions: Question = {
       HideQuestionNumberToggle,
     ],
   },
+  email: {
+    type: "Email",
+    name: "Email",
+    preview: getAsyncPreview("EmailPreview"),
+    icon: getAsyncIcon("EmailIcon"),
+    action: true,
+    labeled: {
+      on: true,
+      editor: initEditor(),
+    },
+    described: {
+      on: false,
+      editor: initEditor(),
+    },
+    imageOrVideo: {
+      on: false,
+    },
+    required: {
+      on: false,
+    },
+    hideQuestionNumber: {
+      on: false,
+    },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
+  },
   rating: {
     type: "Rating",
     name: "Rating",
@@ -730,6 +841,41 @@ export const defaultQuestions: Question = {
       LabelEditor,
       DescriptionEditor,
       RatingToggle,
+      VideoOrImageToggle,
+      RequiredToggle,
+      HideQuestionNumberToggle,
+    ],
+  },
+  linkWeb: {
+    type: "LinkWeb",
+    name: "Link/Website",
+    preview: getAsyncPreview("LinkWebPreview"),
+    icon: getAsyncIcon("LinkWebsiteIcon"),
+    action: false,
+    labeled: {
+      on: true,
+      editor: initEditor(),
+    },
+    described: {
+      on: false,
+      editor: initEditor(),
+    },
+    link: {
+      on: false,
+      value: "",
+    },
+    imageOrVideo: {
+      on: false,
+    },
+    required: {
+      on: false,
+    },
+    hideQuestionNumber: {
+      on: false,
+    },
+    components: [
+      LabelEditor,
+      DescriptionEditor,
       VideoOrImageToggle,
       RequiredToggle,
       HideQuestionNumberToggle,
