@@ -1,24 +1,9 @@
-import { Units } from "@/types";
+import type { Units } from "@/types";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
-type FileUpload = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    shown: boolean;
-    on: boolean;
-    editor: EditorType;
-  };
-  imageOrVideo: {
-    on: boolean;
-  };
+type FileUpload = GenericQuestion & {
   required: {
     on: boolean;
   };
@@ -41,7 +26,6 @@ type FileUpload = {
   hideQuestionNumber: {
     on: boolean;
   };
-  components: Component[];
 };
 
 export default FileUpload;

@@ -891,6 +891,11 @@ export const defaultQuestions: Question = {
     labeled: {
       on: true,
       editor: initEditor(),
+      get error() {
+        return (this.editor.model.length ?? 0) < 1 && this.editor.isDirty
+          ? "Please enter a label"
+          : null;
+      },
     },
     described: {
       on: false,
@@ -918,6 +923,25 @@ export const defaultQuestions: Question = {
     hideQuestionNumber: {
       on: false,
     },
+    get canSubmit() {
+      return !this.labeled.error;
+    },
+    get getData() {
+      if (!this.labeled.on) {
+        this.labeled.editor.isDirty = true;
+        return null;
+      }
+
+      return {
+        type: this.name,
+        question: {
+          html_label: this.labeled.editor.model,
+          html_description: this.described.editor.model,
+          attachment: "",
+        },
+        questionable: {},
+      };
+    },
     components: [
       LabelEditor,
       DescriptionEditor,
@@ -940,6 +964,11 @@ export const defaultQuestions: Question = {
     labeled: {
       on: true,
       editor: initEditor(),
+      get error() {
+        return (this.editor.model.length ?? 0) < 1 && this.editor.isDirty
+          ? "Please enter a label"
+          : null;
+      },
     },
     described: {
       on: false,
@@ -969,6 +998,36 @@ export const defaultQuestions: Question = {
     autoReload: {
       on: false,
       timer: 10,
+    },
+    get canSubmit() {
+      return (
+        !this.labeled.error &&
+        (!this.described.on || !this.described.error) &&
+        (!this.label.on || this.label.value.length > 0)
+      );
+    },
+    get getData() {
+      return {
+        type: this.type,
+        question: {
+          html_label: this.labeled.on ? this.labeled.editor.model : "",
+          html_description: this.described.on
+            ? this.described.editor.model
+            : "",
+          attachment: "",
+        },
+        questionable: {
+          after_submit: this.afterSubmit.type,
+          label: this.label.on ? this.label.value : "",
+          reload_redirect_button: this.reloadRedirectButton.on
+            ? this.reloadRedirectButton.label
+            : "",
+          reload_redirect_button_type: this.reloadRedirectButton.on
+            ? this.reloadRedirectButton.type
+            : "",
+          auto_reload: this.autoReload.on ? this.autoReload.timer : "",
+        },
+      };
     },
     components: [
       AfterSubmitToggle,

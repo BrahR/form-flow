@@ -1,28 +1,15 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type Endings = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
+type Endings = GenericQuestion & {
   afterSubmit: {
     type: string;
-  };
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    shown: boolean;
-    on: boolean;
-    editor: EditorType;
   };
   imageOrVideo: {
     on: boolean;
   };
   required: {
-    shown: boolean;
     on: boolean;
   };
   shareButtons: {
@@ -44,7 +31,6 @@ type Endings = {
     on: boolean;
     timer: number;
   };
-  components: Component[];
 };
 
 export default Endings;
