@@ -145,6 +145,10 @@ class StoreQuestionRequest extends FormRequest
                 "questionable.fix_numbers" => ["required", "boolean"],
                 "questionable.hide_question_number" => ["required", "boolean"],
             ],
+            "Statement" => [
+                "questionable.button_text" => ["required", "string"],
+                "questionable.hide_question_number" => ["required", "boolean"],
+            ]
         ];
 
         if ($key == "all") return $type_rules;

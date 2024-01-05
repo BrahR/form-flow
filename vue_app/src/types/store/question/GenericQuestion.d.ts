@@ -1,4 +1,5 @@
 import type { EditorType } from "./EditorType";
+import type { QuestionPayload } from "./QuestionPayload";
 import type { Component } from "vue";
 
 export interface GenericQuestion {
@@ -22,5 +23,5 @@ export interface GenericQuestion {
   };
   components: Component[];
   canSubmit: boolean;
-  getData: object | null;
+  getData: QuestionPayload | null;
 }

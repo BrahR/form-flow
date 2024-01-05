@@ -229,6 +229,18 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\StatementQuestion
+ *
+ * @method static \Database\Factories\StatementQuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion query()
+ */
+	class StatementQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Survey
  *
  * @property int $id

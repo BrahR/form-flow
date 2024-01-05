@@ -10,7 +10,7 @@ const useQuestion = inject("question") as QuestionStore;
   <div class="statement_wrapper__sKGXy false statement_ltr__mMIb2">
     <QuestionHeader description="" />
     <button type="button" class="statement_button__5vdzb">
-      {{ useQuestion.getButtonLabel }}
+      {{ useQuestion.getButton.value }}
     </button>
   </div>
 </template>

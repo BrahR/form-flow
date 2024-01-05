@@ -1,35 +1,18 @@
 import type { EditorType } from "./EditorType";
+import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
-type Statement = {
-  name: string;
-  preview: Component;
-  icon: Component;
-  action: boolean;
-  labeled: {
-    on: boolean;
-    editor: EditorType;
-  };
-  described: {
-    shown: boolean;
-    on: boolean;
-    editor: EditorType;
-  };
-  required: {
+type Statement = GenericQuestion & {
+  imageOrVideo: {
     on: boolean;
   };
   hideQuestionNumber: {
     on: boolean;
   };
-  imageOrVideo: {
-    on: boolean;
-  };
   button: {
-    on: boolean;
     value: string;
-    error?: string;
+    error: boolean;
   };
-  components: Component[];
 };
 
 export default Statement;
