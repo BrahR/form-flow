@@ -15,7 +15,7 @@ const useQuestion = inject("question") as QuestionStore;
         <input
           class="inlineInput_input__S084b false"
           type="text"
-          v-model="useQuestion.getButtonLabel"
+          v-model="useQuestion.getButton.value"
         />
       </div>
     </div>
