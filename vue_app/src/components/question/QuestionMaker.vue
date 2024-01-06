@@ -6,7 +6,7 @@ import CloseModal from "@/components/question/CloseModal.vue";
 
 import { useQuestionStore } from "@/store/question";
 import type { QuestionType } from "@/types/store/question";
-import { watchEffect, provide, watch, ref } from "vue";
+import { watchEffect, provide } from "vue";
 
 const props = defineProps<{
   open: boolean;
