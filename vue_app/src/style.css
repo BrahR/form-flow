@@ -572,6 +572,34 @@ body {
   transform: rotate(180deg);
 }
 
+.questionNumber_question_number_wrapper__eCXI_ {
+  display: flex;
+  justify-content: center;
+  padding: 0 0.25rem 0 0.5rem;
+  height: 2rem;
+  grid-gap: 0.125rem;
+  align-items: center;
+  font-weight: 700;
+  border-radius: 0.25rem;
+}
+
+.questionNumber_question_number_wrapper__eCXI_ .questionNumber_icon__nsjC6 {
+  display: flex;
+}
+
+.questionNumber_question_number_wrapper__eCXI_ .questionNumber_icon__nsjC6 svg {
+  vertical-align: middle;
+}
+
+.questionNumber_question_number_wrapper__eCXI_
+  .questionNumber_question_number_text__MJfAs {
+  margin: 0 0.125rem;
+}
+
+.questionNumber_question_number_wrapper__eCXI_.questionNumber_ltr__n8kqK {
+  padding: 0 0.5rem 0 0.25rem;
+}
+
 .fade-move,
 .fade-enter-active,
 .fade-leave-active {
