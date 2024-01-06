@@ -9,10 +9,10 @@ watch(
   () => useQuestion.getButton.value,
   (value) => {
     if (!value) {
-      useQuestion.getButton.error = "Button value is required";
+      useQuestion.getButton.error = true;
       return;
     }
-    useQuestion.getButton.error = "";
+    useQuestion.getButton.error = false;
   }
 );
 </script>
@@ -30,7 +30,10 @@ watch(
       </div>
     </div>
 
-    <InputError :error="useQuestion.getButton.error" />
+    <InputError
+      :show="useQuestion.getButton.error"
+      error="Button value is required."
+    />
   </div>
 </template>
 

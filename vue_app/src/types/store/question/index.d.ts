@@ -41,14 +41,9 @@ type hasImageOrVideo =
   | Welcome
   | GeneralText
   | MultipleChoice
-  | LongText
   | PictureChoice
-  | Dropdown
-  | Numerical
   | OpinionScale
-  | Email
   | Rating
-  | LinkWeb
   | Ranking
   | Statement
   | FileUpload

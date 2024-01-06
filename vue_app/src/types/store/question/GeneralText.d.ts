@@ -46,9 +46,6 @@ type GeneralText = GenericQuestion & {
     selected: GeneralTextType;
     error: Record<KeyTypes, boolean>;
   };
-  imageOrVideo: {
-    on: boolean;
-  };
   required: {
     on: boolean;
   };

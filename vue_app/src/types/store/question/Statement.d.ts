@@ -3,9 +3,6 @@ import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type Statement = GenericQuestion & {
-  imageOrVideo: {
-    on: boolean;
-  };
   hideQuestionNumber: {
     on: boolean;
   };

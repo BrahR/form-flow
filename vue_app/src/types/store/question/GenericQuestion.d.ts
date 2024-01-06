@@ -18,7 +18,7 @@ export interface GenericQuestion {
     editor: EditorType;
     error?: string;
   };
-  imageOrVideo?: {
+  imageOrVideo: {
     on: boolean;
   };
   components: Component[];
