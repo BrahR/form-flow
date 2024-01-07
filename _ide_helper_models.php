@@ -231,10 +231,20 @@ namespace App\Models{
 /**
  * App\Models\StatementQuestion
  *
+ * @property int $id
+ * @property string $button_text
+ * @property int $hide_question_number
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\StatementQuestionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion whereButtonText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion whereHideQuestionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatementQuestion whereUpdatedAt($value)
  */
 	class StatementQuestion extends \Eloquent {}
 }
