@@ -11,7 +11,7 @@ defineProps<{
       questionNumber_without_number__wzBhB: !number,
     }"
   >
-    <div class="questionNumber_icon__nsjC6">
+    <div class="questionNumber_icon__nsjC6" style="transform: scaleX(-1)">
       <svg
         width="24"
         height="24"
