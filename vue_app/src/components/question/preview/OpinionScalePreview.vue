@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { inject, computed, ref } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const labels: ["right", "center", "left"] = ["right", "center", "left"];
 
 const activeScale = ref<number | null>(null);
@@ -23,10 +23,10 @@ const sliderVals = computed(() => {
   return Array.from(
     {
       length:
-        useQuestion.getScaleParameters.value +
-        (!useQuestion.getIsStartZero ? 0 : 1),
+        useQuestionBuilder.getScaleParameters.value +
+        (!useQuestionBuilder.getIsStartZero ? 0 : 1),
     },
-    (_, i) => i + (useQuestion.getIsStartZero ? 0 : 1)
+    (_, i) => i + (useQuestionBuilder.getIsStartZero ? 0 : 1)
   );
 });
 
@@ -61,7 +61,7 @@ const getPosition = (val: number) => {
           v-if="[0, 1, 2].includes(getPosition(key))"
           class="opinionScaleQuestion_label__xX1Vc"
         >
-          {{ useQuestion.getScaleLabels[labels[getPosition(key)]] }}
+          {{ useQuestionBuilder.getScaleLabels[labels[getPosition(key)]] }}
         </div>
       </div>
       <!-- pinionScaleQuestion_fade__igYFL -->

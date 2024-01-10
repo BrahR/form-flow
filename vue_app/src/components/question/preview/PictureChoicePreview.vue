@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 import { computed } from "vue";
 
 const shownChoices = computed(() => {
-  return useQuestion.getPictureChoices.filter((choice) => {
+  return useQuestionBuilder.getPictureChoices.filter((choice) => {
     if (choice.hidden) return;
     return choice;
   });
@@ -18,14 +18,14 @@ const shownChoices = computed(() => {
   <div
     class="picturechoice_picturechoice_question_wrapper__JMyi4 false picturechoice_ltr__zJCqm"
   >
-    <QuestionHeader :description="useQuestion.getMultipleAnswersText" />
+    <QuestionHeader :description="useQuestionBuilder.getMultipleAnswersText" />
 
     <div
-      v-if="useQuestion.getPictureChoices.length > 0"
+      v-if="useQuestionBuilder.getPictureChoices.length > 0"
       class="picturechoice_picturechoice_question_choices_wrapper__x1dG3 false"
       :class="{
         picturechoice_picturechoice_double_sized__NdPI4:
-          useQuestion.getIsDoubleDisplaySize,
+          useQuestionBuilder.getIsDoubleDisplaySize,
       }"
     >
       <div
@@ -43,7 +43,7 @@ const shownChoices = computed(() => {
           <img :src="choice.image" alt="" />
         </div>
         <div
-          v-if="!useQuestion.getIsHiddenLabel"
+          v-if="!useQuestionBuilder.getIsHiddenLabel"
           class="picturechoice_choice_detail_wrapper___STzf"
         >
           <div class="picturechoice_choice_detail__GBGox">

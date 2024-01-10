@@ -2,13 +2,13 @@
 import InputError from "@/components/form/InputError.vue";
 import { ref, inject } from "vue";
 import { useDraggable } from "vue-draggable-plus";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const el = ref(null as unknown as HTMLElement);
 
 // @ts-ignore
-useDraggable(el, useQuestion.getMultipleChoices, {
+useDraggable(el, useQuestionBuilder.getMultipleChoices, {
   handle: ".dragable",
 });
 </script>
@@ -27,7 +27,7 @@ useDraggable(el, useQuestion.getMultipleChoices, {
     </div>
     <transition-group ref="el" type="transition" tag="div" name="fade">
       <div
-        v-for="(element, index) in useQuestion.getMultipleChoices"
+        v-for="(element, index) in useQuestionBuilder.getMultipleChoices"
         :key="element.id"
         class="buildChoice_choice_row__T3p8q"
       >
@@ -35,7 +35,7 @@ useDraggable(el, useQuestion.getMultipleChoices, {
           :class="{
             buildChoice_hidden__ITdK4: element.hidden,
             buildChoice_error__87vPk:
-              useQuestion.getMultipleChoices.filter(
+              useQuestionBuilder.getMultipleChoices.filter(
                 (choice) =>
                   choice.value === element.value &&
                   !choice.hidden &&
@@ -79,9 +79,9 @@ useDraggable(el, useQuestion.getMultipleChoices, {
             <div
               class="buildChoice_action_right__5Cgii buildChoice_ltr__k8APe"
               @click="
-                useQuestion.appendChoice(
+                useQuestionBuilder.appendChoice(
                   index,
-                  useQuestion.getMultipleChoices,
+                  useQuestionBuilder.getMultipleChoices,
                   {
                     hidden: false,
                     value: '',
@@ -107,7 +107,7 @@ useDraggable(el, useQuestion.getMultipleChoices, {
             <div
               :class="{
                 buildChoice_disable__w99rm:
-                  useQuestion.getMultipleChoices.length <= 2,
+                  useQuestionBuilder.getMultipleChoices.length <= 2,
               }"
               class="buildChoice_action_middle__etyfo"
               @click="element.hidden = !element.hidden"
@@ -158,11 +158,14 @@ useDraggable(el, useQuestion.getMultipleChoices, {
             <div
               :class="{
                 buildChoice_disable__w99rm:
-                  useQuestion.getMultipleChoices.length <= 2,
+                  useQuestionBuilder.getMultipleChoices.length <= 2,
               }"
               class="buildChoice_action_left__0V4PE buildChoice_ltr__k8APe"
               @click="
-                useQuestion.deleteChoice(index, useQuestion.getMultipleChoices)
+                useQuestionBuilder.deleteChoice(
+                  index,
+                  useQuestionBuilder.getMultipleChoices
+                )
               "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -187,9 +190,9 @@ useDraggable(el, useQuestion.getMultipleChoices, {
     </transition-group>
     <InputError
       :show="
-        useQuestion.getMultipleChoices.some(
+        useQuestionBuilder.getMultipleChoices.some(
           (choice, i) =>
-            useQuestion.getMultipleChoices
+            useQuestionBuilder.getMultipleChoices
               .map((val) => val.value)
               .indexOf(choice.value) !== i &&
             !choice.hidden &&
@@ -200,7 +203,7 @@ useDraggable(el, useQuestion.getMultipleChoices, {
     />
     <InputError
       :show="
-        useQuestion.getMultipleChoices.filter(
+        useQuestionBuilder.getMultipleChoices.filter(
           (choice) => choice.value !== '' && !choice.hidden
         ).length < 2
       "

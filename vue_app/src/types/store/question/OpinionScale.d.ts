@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type OpinionScale = GenericQuestion & {
@@ -34,5 +32,3 @@ type OpinionScale = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default OpinionScale;

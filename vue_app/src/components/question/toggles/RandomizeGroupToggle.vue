@@ -8,9 +8,9 @@ import {
 } from "@headlessui/vue";
 import { isNumber } from "lodash";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const items = [
   {
@@ -25,7 +25,7 @@ const items = [
   },
 ];
 
-useQuestion.getSelectedRandmoize = items[0];
+useQuestionBuilder.getSelectedRandmoize = items[0];
 </script>
 
 <template>
@@ -43,25 +43,25 @@ useQuestion.getSelectedRandmoize = items[0];
               name="subquestions_are_shuffled"
               class="toggleButton_toggle_button_checkbox__a2Pr8"
               type="checkbox"
-              v-model="useQuestion.getIsRandomize"
+              v-model="useQuestionBuilder.getIsRandomize"
             />
             <div
               class="toggleButton_slider_round__QN633 undefined undefined"
             ></div>
           </label>
         </div>
-        <template v-if="useQuestion.getIsRandomize">
+        <template v-if="useQuestionBuilder.getIsRandomize">
           <div class="group_group_question_option_wrapper__P2vy4">
             <Listbox
               class="group_group_question_option_wrapper__P2vy4 z-10"
-              v-model="useQuestion.getSelectedRandmoize"
+              v-model="useQuestionBuilder.getSelectedRandmoize"
             >
               <div>
                 <div class="dropDownInput_main_wrapper__Nhc3q">
                   <div>
                     <ListboxButton class="dropDownInput_wrapper__XAy_y">
                       <span class="text-start">{{
-                        useQuestion.getSelectedRandmoize.name
+                        useQuestionBuilder.getSelectedRandmoize.name
                       }}</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +158,7 @@ useQuestion.getSelectedRandmoize = items[0];
             </Listbox>
           </div>
           <div
-            v-if="useQuestion.getSelectedRandmoize.id === 2"
+            v-if="useQuestionBuilder.getSelectedRandmoize.id === 2"
             class="group_group_question_option_wrapper__P2vy4"
           >
             <div class="inlineInput_wrapper__7HOFO inlineInput_ltr__IdP5R">
@@ -171,13 +171,13 @@ useQuestion.getSelectedRandmoize = items[0];
                   name="number_of_visible_subquestions"
                   type="number"
                   min="1"
-                  v-model="useQuestion.getSelectedRandmoize.value"
+                  v-model="useQuestionBuilder.getSelectedRandmoize.value"
                 />
               </div>
               <InputError
                 v-if="
-                  !isNumber(useQuestion.getSelectedRandmoize.value) ||
-                  useQuestion.getSelectedRandmoize.value < 0
+                  !isNumber(useQuestionBuilder.getSelectedRandmoize.value) ||
+                  useQuestionBuilder.getSelectedRandmoize.value < 0
                 "
                 error="This field must be a valid number."
               />

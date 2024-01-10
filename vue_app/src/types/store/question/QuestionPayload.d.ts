@@ -7,5 +7,3 @@ type QuestionPayload = {
   };
   questionable: object;
 };
-
-export { QuestionPayload };

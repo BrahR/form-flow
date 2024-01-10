@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, computed, watchEffect } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const errors = computed(() =>
-  [!useQuestion.getRulesPlaceholder, !useQuestion.getCustomError].some(
-    (value) => value !== false
-  )
+  [
+    !useQuestionBuilder.getRulesPlaceholder,
+    !useQuestionBuilder.getCustomError,
+  ].some((value) => value !== false)
 );
 
 watchEffect(() => {
-  useQuestion.getAnswerFormat.error["numeric"] = errors.value;
+  useQuestionBuilder.getAnswerFormat.error["numeric"] = errors.value;
 });
 </script>
 
@@ -23,11 +24,11 @@ watchEffect(() => {
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="useQuestion.getRulesPlaceholder"
+        v-model="useQuestionBuilder.getRulesPlaceholder"
       />
     </div>
     <InputError
-      :show="!useQuestion.getRulesPlaceholder"
+      :show="!useQuestionBuilder.getRulesPlaceholder"
       error="Palceholder is required"
     />
   </div>
@@ -39,11 +40,11 @@ watchEffect(() => {
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="useQuestion.getCustomError"
+        v-model="useQuestionBuilder.getCustomError"
       />
     </div>
     <InputError
-      :show="!useQuestion.getCustomError"
+      :show="!useQuestionBuilder.getCustomError"
       error="Custom validation message is required"
     />
   </div>

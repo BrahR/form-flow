@@ -53,6 +53,3 @@ type GeneralText = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default GeneralText;
-export { GeneralTextType, GeneralTextFormat };

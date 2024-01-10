@@ -4,29 +4,29 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 import { ref, watch, onMounted, inject } from "vue";
 import { format, parse, isValid } from "date-fns";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
-const selected = useQuestion.getAnswerFormat.selected;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
+const selected = useQuestionBuilder.getAnswerFormat.selected;
 const datepicker = ref(null);
 const valid = ref(true);
 
 const validate = (val: string) => {
-  if (!val || !useQuestion.getRulesFormat) {
-    useQuestion.getIsAnswerError = true;
+  if (!val || !useQuestionBuilder.getRulesFormat) {
+    useQuestionBuilder.getIsAnswerError = true;
     valid.value = false;
     return valid.value;
   }
 
   try {
     valid.value = isValid(
-      parse(val ?? "", useQuestion.getRulesFormat, new Date())
+      parse(val ?? "", useQuestionBuilder.getRulesFormat, new Date())
     );
   } catch (err) {
     valid.value = false;
   }
 
-  useQuestion.getIsAnswerError = valid.value ? false : true;
+  useQuestionBuilder.getIsAnswerError = valid.value ? false : true;
   return valid.value;
 };
 
@@ -36,7 +36,7 @@ const formatDateInput = (date: Date | string) => {
 
   let formated = "";
   try {
-    formated = format(date as Date, useQuestion.getRulesFormat);
+    formated = format(date as Date, useQuestionBuilder.getRulesFormat);
   } catch (err) {
     selected.model = "";
   }
@@ -54,9 +54,12 @@ const validateInput = (input: string) => {
 };
 
 watch(
-  [() => useQuestion.getRulesFormat, () => selected.rules?.selectedFormat],
+  [
+    () => useQuestionBuilder.getRulesFormat,
+    () => selected.rules?.selectedFormat,
+  ],
   () => {
-    if (useQuestion.getAnswerFormat.selected.value !== "date") return;
+    if (useQuestionBuilder.getAnswerFormat.selected.value !== "date") return;
 
     validate(selected.model as string);
   },
@@ -87,7 +90,7 @@ onMounted(() => {
             ) as string
           "
           :class="{
-            textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+            textQuestion_hasError__19d2Q: useQuestionBuilder.getIsAnswerError,
           }"
           class="textQuestion_not_empty__sFAKu textQuestion_ltr__E3pny"
         />
@@ -143,11 +146,11 @@ onMounted(() => {
     </div>
   </span>
   <div
-    v-if="useQuestion.getIsAnswerError"
+    v-if="useQuestionBuilder.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getCustomError }}
+      {{ useQuestionBuilder.getCustomError }}
     </div>
   </div>
 </template>

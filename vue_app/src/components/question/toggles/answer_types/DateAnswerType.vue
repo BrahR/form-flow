@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 import { format, isValid, parse } from "date-fns";
 import { ref, inject, computed, watchEffect, onMounted } from "vue";
 
-const useQuestion = inject("question") as QuestionStore;
-const selected = useQuestion.getAnswerFormat.selected;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
+const selected = useQuestionBuilder.getAnswerFormat.selected;
 const patternWarning = ref(false);
 const customMessageError = ref(false);
 const error = ref(false);
@@ -24,7 +24,7 @@ const onFocusOut = (val: string) => {
   } catch (err) {
     selected.rules!.format = "yyyy-MM-dd";
     patternWarning.value = true;
-    // useQuestion.getAnswerFormat.error[0] = "Invalid date pattern";
+    // useQuestionBuilder.getAnswerFormat.error[0] = "Invalid date pattern";
   }
   error.value = false;
 };
@@ -58,13 +58,13 @@ const errors = computed(() =>
 );
 
 onMounted(() => {
-  useQuestion.getAnswerFormat.error["date"] = errors.value;
+  useQuestionBuilder.getAnswerFormat.error["date"] = errors.value;
   onFocusOut(selected.rules!.format ?? "yyyy-MM-dd");
   onCustomMessageInput(selected.errorMessage);
 });
 
 watchEffect(() => {
-  useQuestion.getAnswerFormat.error["date"] = errors.value;
+  useQuestionBuilder.getAnswerFormat.error["date"] = errors.value;
 });
 </script>
 

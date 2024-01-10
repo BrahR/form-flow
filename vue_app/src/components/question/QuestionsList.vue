@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import QuestionBar from "@/components/question/QuestionBar.vue";
 
-import { _useQuestionStore } from "@/store/_question";
+import { useQuestionStore } from "@/store/question";
 
-const useQuestion = _useQuestionStore();
+const useQuestion = useQuestionStore();
 </script>
 
 <template>

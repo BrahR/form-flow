@@ -4,7 +4,7 @@ import QuestionMakerFooter from "@/components/question/QuestionMakerFooter.vue";
 import Dialog from "@/components/Dialog.vue";
 import CloseModal from "@/components/question/CloseModal.vue";
 
-import { useQuestionStore } from "@/store/question";
+import { useQuestionBuilderStore } from "@/store/questionBuilder";
 import type { QuestionType } from "@/types/store/question";
 import { watchEffect, provide } from "vue";
 
@@ -17,19 +17,19 @@ defineEmits<{
   (event: "close"): void;
 }>();
 
-const useQuestion = useQuestionStore();
-// useQuestion.hydrate(props.type);
+const useQuestionBuilder = useQuestionBuilderStore();
+// useQuestionBuilder.hydrate(props.type);
 
 watchEffect(() => {
-  useQuestion.hydrate(props.type);
+  useQuestionBuilder.hydrate(props.type);
 });
 
-provide("question", useQuestion);
+provide("question", useQuestionBuilder);
 </script>
 
 <template>
   <Dialog
-    v-if="useQuestion.isHydrated"
+    v-if="useQuestionBuilder.isHydrated"
     :show="open"
     :full="true"
     @close="$emit('close')"
@@ -50,13 +50,13 @@ provide("question", useQuestion);
                   class="questionHeader_question_header_wrapper__44dEG questionHeader_ltr__T3Sam"
                 >
                   <component
-                    :is="{ ...useQuestion.getIcon }"
+                    :is="{ ...useQuestionBuilder.getIcon }"
                     :number="1"
                   ></component>
                   <div
                     class="questionHeader_name__Znclc questionHeader_ltr__T3Sam"
                   >
-                    {{ useQuestion.getName }}
+                    {{ useQuestionBuilder.getName }}
                   </div>
                 </div>
               </div>
@@ -71,14 +71,16 @@ provide("question", useQuestion);
             </div>
             <div class="sharedIndex_content__3SCeJ">
               <div
-                :class="{ skeleton: useQuestion.isLoading }"
+                :class="{ skeleton: useQuestionBuilder.isLoading }"
                 class="sharedIndex_questions_content__TPf69"
               >
-                <div v-if="!useQuestion.isLoading">
+                <div v-if="!useQuestionBuilder.isLoading">
                   <div class="sharedBuild_questions_content__brpUH">
                     <div class="sharedBuild_build_content__A2KQg">
                       <template
-                        v-for="(component, index) in useQuestion.getComponents"
+                        v-for="(
+                          component, index
+                        ) in useQuestionBuilder.getComponents"
                       >
                         <component
                           :is="{ ...component, key: index }"
@@ -173,7 +175,7 @@ provide("question", useQuestion);
               class="sharedIndex_background__565mZ sharedIndex_animation__KSN1B sharedIndex_ltr__mCCAr"
             ></div>
             <div class="sharedIndex_question__ROyXE">
-              <component :is="{ ...useQuestion.getPreview }"></component>
+              <component :is="{ ...useQuestionBuilder.getPreview }"></component>
             </div>
           </div>
         </div>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, watch } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 watch(
-  () => useQuestion.getButton.value,
+  () => useQuestionBuilder.getButton.value,
   (value) => {
     if (value === "") {
-      useQuestion.getButton.error = true;
+      useQuestionBuilder.getButton.error = true;
       return;
     }
-    useQuestion.getButton.error = false;
+    useQuestionBuilder.getButton.error = false;
   }
 );
 </script>
@@ -27,13 +27,13 @@ watch(
         <input
           class="inlineInput_input__S084b false"
           type="text"
-          v-model="useQuestion.getButton.value"
+          v-model="useQuestionBuilder.getButton.value"
         />
       </div>
     </div>
 
     <InputError
-      :show="useQuestion.getButton.error"
+      :show="useQuestionBuilder.getButton.error"
       error="Please enter a label for the button."
     />
   </div>

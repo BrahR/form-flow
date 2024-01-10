@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type PictureChoice = GenericQuestion & {
@@ -32,5 +30,3 @@ type PictureChoice = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default PictureChoice;

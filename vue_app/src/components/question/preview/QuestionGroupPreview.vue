@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -11,11 +11,11 @@ const useQuestion = inject("question") as QuestionStore;
     <QuestionHeader :description="''" />
 
     <button
-      v-if="useQuestion.getIsButton"
+      v-if="useQuestionBuilder.getIsButton"
       type="button"
       class="group_confirm_button__5uAMC"
     >
-      {{ useQuestion.getButtonLabel }}
+      {{ useQuestionBuilder.getButtonLabel }}
     </button>
   </div>
 </template>

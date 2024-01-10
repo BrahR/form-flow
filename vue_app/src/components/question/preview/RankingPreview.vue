@@ -2,18 +2,18 @@
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { ref, inject, watch, computed } from "vue";
 import { useDraggable } from "vue-draggable-plus";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const el = ref(null as unknown as HTMLElement);
 
 // const crap = toRaw();
 
-const rankingChoices = ref([...useQuestion.getRankingChoices]);
+const rankingChoices = ref([...useQuestionBuilder.getRankingChoices]);
 
 const validChoices = computed(() => {
   return rankingChoices.value.filter((element) =>
-    useQuestion.getIsFixNumbers ? element.value : element.id
+    useQuestionBuilder.getIsFixNumbers ? element.value : element.id
   );
 });
 
@@ -24,7 +24,7 @@ useDraggable(el, rankingChoices.value, {
   easing: "ease-in-out",
 });
 
-watch(useQuestion.getRankingChoices, (newValue) => {
+watch(useQuestionBuilder.getRankingChoices, (newValue) => {
   if (newValue.length == rankingChoices.value.length) {
     const newElement = newValue.filter(
       (element) => !rankingChoices.value.includes(element)
@@ -102,7 +102,7 @@ watch(useQuestion.getRankingChoices, (newValue) => {
       <button
         v-if="
           JSON.stringify(rankingChoices) !==
-          JSON.stringify(useQuestion.getRankingChoices)
+          JSON.stringify(useQuestionBuilder.getRankingChoices)
         "
         class="ranking_confirm_button__H7SYq ranking_ranking_question_reset_button__nxW9u ranking_ltr__Z1q0z"
         type="button"
@@ -110,7 +110,7 @@ watch(useQuestion.getRankingChoices, (newValue) => {
           rankingChoices.splice(
             0,
             rankingChoices.length,
-            ...useQuestion.getRankingChoices
+            ...useQuestionBuilder.getRankingChoices
           )
         "
       >

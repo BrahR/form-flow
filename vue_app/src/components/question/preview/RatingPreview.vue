@@ -6,16 +6,16 @@ import ThumbsUpIcon from "@/components/question/preview/rating_icons/ThumbsUpIco
 
 import { inject, ref } from "vue";
 import type { Component } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const icons: Component[] = [ThumbsUpIcon, HeartIcon, StarIcon];
 const hoverIndex = ref<number | null>(0);
 
 const isFilled = (val: number) => {
   return (
     (hoverIndex.value !== null && val <= hoverIndex.value) ||
-    (hoverIndex.value === null && val <= useQuestion.getRating.value)
+    (hoverIndex.value === null && val <= useQuestionBuilder.getRating.value)
   );
 };
 </script>
@@ -27,9 +27,9 @@ const isFilled = (val: number) => {
     <div class="rating_ltr__B9SPT rating_rating_question_icons_wrapper__72r9H">
       <div
         class="rating_icons_wrapper__uFEsr"
-        v-for="(i, key) in useQuestion.getScaleParameters.value"
+        v-for="(i, key) in useQuestionBuilder.getScaleParameters.value"
         :key="key"
-        @click="useQuestion.getRating.value = i"
+        @click="useQuestionBuilder.getRating.value = i"
         @mouseover="hoverIndex = i"
         @mouseleave="hoverIndex = null"
       >
@@ -41,7 +41,7 @@ const isFilled = (val: number) => {
               : 'rating_is_not_filled__1t6lf',
           ]"
         >
-          <component :is="{ ...icons[useQuestion.getRating.type] }" />
+          <component :is="{ ...icons[useQuestionBuilder.getRating.type] }" />
         </div>
         <div class="rating_icon_number__DCbs1">
           {{ i }}

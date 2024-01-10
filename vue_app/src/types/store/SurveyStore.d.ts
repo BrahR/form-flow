@@ -1,7 +1,7 @@
-export type SurveyStore = {
-    data: Survey[] | []
-    selected: Survey | null
-    creating: boolean
-    loading: boolean
-    hydrated: boolean
-}
+type SurveyStore = {
+  data: Survey[] | [];
+  selected: Survey | null;
+  creating: boolean;
+  loading: boolean;
+  hydrated: boolean;
+};

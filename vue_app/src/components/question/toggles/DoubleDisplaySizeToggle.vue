@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const useQuestion = inject("question") as QuestionStore;
           <input
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
-            v-model="useQuestion.getIsDoubleDisplaySize"
+            v-model="useQuestionBuilder.getIsDoubleDisplaySize"
           />
           <div
             class="toggleButton_slider_round__QN633 undefined undefined"

@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, watch } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 watch(
   [
-    () => useQuestion.getMultipleAnswers.min,
-    () => useQuestion.getMultipleAnswers.max,
+    () => useQuestionBuilder.getMultipleAnswers.min,
+    () => useQuestionBuilder.getMultipleAnswers.max,
   ],
   () => {
-    if (useQuestion.getMultipleAnswers.max == 1) {
-      useQuestion.getMultipleAnswers.error = true;
+    if (useQuestionBuilder.getMultipleAnswers.max == 1) {
+      useQuestionBuilder.getMultipleAnswers.error = true;
       return;
     }
-    useQuestion.getMultipleAnswers.error = false;
+    useQuestionBuilder.getMultipleAnswers.error = false;
   }
 );
 </script>
@@ -31,7 +31,7 @@ watch(
         </span>
         <label class="toggleButton_switch__EF_q8">
           <input
-            v-model="useQuestion.getMultipleAnswers.on"
+            v-model="useQuestionBuilder.getMultipleAnswers.on"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
           />
@@ -40,7 +40,7 @@ watch(
       </div>
     </div>
     <div
-      v-if="useQuestion.getMultipleAnswers.on"
+      v-if="useQuestionBuilder.getMultipleAnswers.on"
       class="buildMinMaxChoice_min_max_choices_wrapper__WvAKM"
     >
       <div class="buildMinMaxChoice_title__Nv3yz">Range</div>
@@ -56,13 +56,13 @@ watch(
               class="buildMinMaxChoice_input__29wsq"
               type="number"
               inputmode="decimal"
-              v-model="useQuestion.getMultipleAnswers.min"
+              v-model="useQuestionBuilder.getMultipleAnswers.min"
               @input="
-                useQuestion.getMultipleAnswers.min = Math.max(
+                useQuestionBuilder.getMultipleAnswers.min = Math.max(
                   1,
                   Math.min(
-                    useQuestion.getMultipleAnswers.max ?? 1,
-                    Math.min(99, useQuestion.getMultipleAnswers.min ?? 1)
+                    useQuestionBuilder.getMultipleAnswers.max ?? 1,
+                    Math.min(99, useQuestionBuilder.getMultipleAnswers.min ?? 1)
                   )
                 )
               "
@@ -80,13 +80,13 @@ watch(
               class="buildMinMaxChoice_input__29wsq"
               type="number"
               inputmode="decimal"
-              v-model="useQuestion.getMultipleAnswers.max"
+              v-model="useQuestionBuilder.getMultipleAnswers.max"
               @input="
-                useQuestion.getMultipleAnswers.max = Math.min(
+                useQuestionBuilder.getMultipleAnswers.max = Math.min(
                   99,
                   Math.max(
-                    useQuestion.getMultipleAnswers.min ?? 2,
-                    useQuestion.getMultipleAnswers.max ?? 2
+                    useQuestionBuilder.getMultipleAnswers.min ?? 2,
+                    useQuestionBuilder.getMultipleAnswers.max ?? 2
                   )
                 )
               "
@@ -95,7 +95,7 @@ watch(
         </div>
       </div>
       <InputError
-        :show="useQuestion.getMultipleAnswers.error"
+        :show="useQuestionBuilder.getMultipleAnswers.error"
         error="Max must be greater than 1"
       />
     </div>

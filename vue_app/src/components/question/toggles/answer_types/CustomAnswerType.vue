@@ -2,23 +2,23 @@
 import InputError from "@/components/form/InputError.vue";
 
 import { ref, inject, computed, watchEffect } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const isRegExDirty = ref(false);
 const isPlaceholderDirty = ref(false);
 const isCustomErrorDirty = ref(false);
 
 const errors = computed(() =>
   [
-    !useQuestion.getRulesRegex,
-    !useQuestion.getRulesPlaceholder,
-    !useQuestion.getCustomError,
+    !useQuestionBuilder.getRulesRegex,
+    !useQuestionBuilder.getRulesPlaceholder,
+    !useQuestionBuilder.getCustomError,
   ].some((value) => value !== false)
 );
 
 watchEffect(() => {
-  useQuestion.getAnswerFormat.error["custom"] = errors.value;
+  useQuestionBuilder.getAnswerFormat.error["custom"] = errors.value;
 });
 </script>
 
@@ -32,12 +32,12 @@ watchEffect(() => {
         class="textInput_input__YzEWk false undefined false"
         name="regex_value"
         type="text"
-        v-model="useQuestion.getRulesRegex"
+        v-model="useQuestionBuilder.getRulesRegex"
         @input="isRegExDirty = true"
       />
     </div>
     <InputError
-      :show="!useQuestion.getRulesRegex && isRegExDirty"
+      :show="!useQuestionBuilder.getRulesRegex && isRegExDirty"
       error="RegEx is required"
     />
   </div>
@@ -48,12 +48,12 @@ watchEffect(() => {
         class="textInput_input__YzEWk false undefined false"
         name="regex_placeholder"
         type="text"
-        v-model="useQuestion.getRulesPlaceholder"
+        v-model="useQuestionBuilder.getRulesPlaceholder"
         @input="isPlaceholderDirty = true"
       />
     </div>
     <InputError
-      :show="!useQuestion.getRulesPlaceholder && isPlaceholderDirty"
+      :show="!useQuestionBuilder.getRulesPlaceholder && isPlaceholderDirty"
       error="Placeholder is required"
     />
   </div>
@@ -66,12 +66,12 @@ watchEffect(() => {
         class="textInput_input__YzEWk false undefined false"
         name="regex_validation_message"
         type="text"
-        v-model="useQuestion.getCustomError"
+        v-model="useQuestionBuilder.getCustomError"
         @input="isCustomErrorDirty = true"
       />
     </div>
     <InputError
-      :show="!useQuestion.getCustomError && isCustomErrorDirty"
+      :show="!useQuestionBuilder.getCustomError && isCustomErrorDirty"
       error="Custom validation message is required"
     />
   </div>

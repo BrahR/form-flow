@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -13,12 +13,15 @@ const useQuestion = inject("question") as QuestionStore;
       <div class="welcome_welcome_page_detail_text__Vt6Fe">
         <p
           class="welcome_welcome_page_detail_title__YCOka"
-          v-html="useQuestion.getLabelModel"
+          v-html="useQuestionBuilder.getLabelModel"
         ></p>
         <p
-          v-if="useQuestion.getDescribed.on && useQuestion.getDescModel !== ''"
+          v-if="
+            useQuestionBuilder.getDescribed.on &&
+            useQuestionBuilder.getDescModel !== ''
+          "
           class="welcome_welcome_page_detail_description__Csczl welcome_ltr___Sfvu"
-          v-html="useQuestion.getDescModel"
+          v-html="useQuestionBuilder.getDescModel"
         ></p>
       </div>
     </div>
@@ -26,8 +29,8 @@ const useQuestion = inject("question") as QuestionStore;
       class="welcome_welcome_button_wrapper__ujW1l"
       style="max-width: 1063px"
     >
-      <button v-if="useQuestion.getButton.value !== ''" type="button">
-        {{ useQuestion.getButton.value }}
+      <button v-if="useQuestionBuilder.getButton.value !== ''" type="button">
+        {{ useQuestionBuilder.getButton.value }}
       </button>
     </div>
   </div>

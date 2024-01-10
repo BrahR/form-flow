@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
-useQuestion.getDescModel = "";
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
+useQuestionBuilder.getDescModel = "";
 </script>
 
 <template>
@@ -18,7 +18,7 @@ useQuestion.getDescModel = "";
           >
           <label class="toggleButton_switch__EF_q8">
             <input
-              v-model="useQuestion.getDescribed.on"
+              v-model="useQuestionBuilder.getDescribed.on"
               class="toggleButton_toggle_button_checkbox__a2Pr8"
               type="checkbox"
             />
@@ -28,13 +28,13 @@ useQuestion.getDescModel = "";
       </div>
     </div>
     <div
-      v-show="useQuestion.getDescribed.on"
+      v-show="useQuestionBuilder.getDescribed.on"
       class="ck-show-toolbar-wrapper mt-3"
     >
       <ckeditor
-        :editor="useQuestion.getDescribed.editor.editor"
-        :config="useQuestion.getDescribed.editor.config"
-        @ready="useQuestion.getDescribed.editor.ready"
+        :editor="useQuestionBuilder.getDescribed.editor.editor"
+        :config="useQuestionBuilder.getDescribed.editor.config"
+        @ready="useQuestionBuilder.getDescribed.editor.ready"
       ></ckeditor>
     </div>
   </div>

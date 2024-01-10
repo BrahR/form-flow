@@ -1,8 +1,6 @@
-import type { EditorType } from "./EditorType";
-import type { QuestionPayload } from "./QuestionPayload";
 import type { Component } from "vue";
 
-export interface GenericQuestion {
+interface GenericQuestion {
   type: string;
   name: string;
   preview: Component;

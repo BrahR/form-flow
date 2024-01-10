@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -11,14 +11,14 @@ const useQuestion = inject("question") as QuestionStore;
     class="preview_multiplechoice_question_wrapper__RatfO preview_ltr__Yc2N7"
     style="opacity: 1"
   >
-    <QuestionHeader :description="useQuestion.getMultipleAnswersText" />
+    <QuestionHeader :description="useQuestionBuilder.getMultipleAnswersText" />
 
     <div
-      :class="{ 'flex-col': useQuestion.getIsVerticalDisplay }"
+      :class="{ 'flex-col': useQuestionBuilder.getIsVerticalDisplay }"
       class="preview_multiplechoice_question_choices_wrapper__9pZyU preview_ltr__Yc2N7"
     >
       <template
-        v-for="(choice, index) in useQuestion.getMultipleChoices.filter(
+        v-for="(choice, index) in useQuestionBuilder.getMultipleChoices.filter(
           (choice) => !!choice.value && !choice.hidden
         )"
         :key="choice.id"

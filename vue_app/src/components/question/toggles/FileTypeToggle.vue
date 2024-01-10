@@ -7,9 +7,9 @@ import {
 } from "@headlessui/vue";
 
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 type Format = {
   name: string;
@@ -50,7 +50,7 @@ const fileFormatOptions: Format[] = [
             name="fileFormatToggle"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
-            v-model="useQuestion.getIsCustomExtension"
+            v-model="useQuestionBuilder.getIsCustomExtension"
           />
           <div
             class="toggleButton_slider_round__QN633 undefined undefined"
@@ -58,7 +58,7 @@ const fileFormatOptions: Format[] = [
         </label>
       </div>
       <div
-        v-if="useQuestion.getIsCustomExtension"
+        v-if="useQuestionBuilder.getIsCustomExtension"
         class="fileupload_format_section__CvKTY"
       >
         <div class="fileupload_formats_dropdown__KHXx1">
@@ -67,7 +67,7 @@ const fileFormatOptions: Format[] = [
           </div>
           <Listbox
             class="fileupload_dropdown_wrapper__KjWrH z-10"
-            v-model="useQuestion.getCustomExtensions"
+            v-model="useQuestionBuilder.getCustomExtensions"
             multiple
           >
             <div role="listbox" class="fileFormatDropDown_main_wrapper__OGo0I">
@@ -149,7 +149,7 @@ const fileFormatOptions: Format[] = [
         <div>
           <div>
             <template
-              v-if="useQuestion.getCustomExtensions.some((format: Format) => format.value == 'Custom')"
+              v-if="useQuestionBuilder.getCustomExtensions.some((format: Format) => format.value == 'Custom')"
             >
               <span class="fileFormatInput_input_title__Fgc6x">
                 Custom file type
@@ -184,7 +184,7 @@ const fileFormatOptions: Format[] = [
             <div class="fileFormatInput_input_wrapper__XZBE2">
               <div class="react-tag-input">
                 <template
-                  v-for="selectedFormat in useQuestion.getCustomExtensions"
+                  v-for="selectedFormat in useQuestionBuilder.getCustomExtensions"
                   :key="selectedFormat.value"
                 >
                   <div
@@ -197,8 +197,8 @@ const fileFormatOptions: Format[] = [
                     <div
                       class="react-tag-input__tag__remove"
                       @click="
-                        useQuestion.getCustomExtensions.splice(
-                          useQuestion.getCustomExtensions.findIndex(
+                        useQuestionBuilder.getCustomExtensions.splice(
+                          useQuestionBuilder.getCustomExtensions.findIndex(
                             (item: Format) => item.value == selectedFormat.value
                           ),
                           1

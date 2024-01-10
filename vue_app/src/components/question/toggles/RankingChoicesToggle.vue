@@ -2,13 +2,13 @@
 import InputError from "@/components/form/InputError.vue";
 import { ref, inject } from "vue";
 import { useDraggable } from "vue-draggable-plus";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const el = ref(null as unknown as HTMLElement);
 
 // @ts-ignore
-useDraggable(el, useQuestion.getRankingChoices, {
+useDraggable(el, useQuestionBuilder.getRankingChoices, {
   animation: 150,
   handle: ".dragable",
   easing: "ease-in-out",
@@ -24,14 +24,14 @@ useDraggable(el, useQuestion.getRankingChoices, {
     </div>
     <transition-group ref="el" type="transition" tag="div" name="fade">
       <div
-        v-for="(element, index) in useQuestion.getRankingChoices"
+        v-for="(element, index) in useQuestionBuilder.getRankingChoices"
         :key="element.id"
         class="ranking_choice_row__X3rte ranking_ltr__Z1q0z"
       >
         <div
           :class="{
             buildChoice_error__87vPk:
-              useQuestion.getRankingChoices.filter(
+              useQuestionBuilder.getRankingChoices.filter(
                 (choice) =>
                   choice.value === element.value && choice.value !== ''
               ).length > 1,
@@ -70,9 +70,13 @@ useDraggable(el, useQuestion.getRankingChoices, {
             <div
               class="ranking_action_right__0_oWe ranking_ltr__Z1q0z"
               @click="
-                useQuestion.appendChoice(index, useQuestion.getRankingChoices, {
-                  value: '',
-                })
+                useQuestionBuilder.appendChoice(
+                  index,
+                  useQuestionBuilder.getRankingChoices,
+                  {
+                    value: '',
+                  }
+                )
               "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -92,11 +96,14 @@ useDraggable(el, useQuestion.getRankingChoices, {
             <div
               :class="{
                 ranking_disable__h_fAK:
-                  useQuestion.getRankingChoices.length <= 2,
+                  useQuestionBuilder.getRankingChoices.length <= 2,
               }"
               class="ranking_action_left__ITc0l ranking_ltr__Z1q0z"
               @click="
-                useQuestion.deleteChoice(index, useQuestion.getRankingChoices)
+                useQuestionBuilder.deleteChoice(
+                  index,
+                  useQuestionBuilder.getRankingChoices
+                )
               "
             >
               <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -121,9 +128,9 @@ useDraggable(el, useQuestion.getRankingChoices, {
     </transition-group>
     <InputError
       :show="
-        useQuestion.getRankingChoices.some(
+        useQuestionBuilder.getRankingChoices.some(
           (choice, i) =>
-            useQuestion.getRankingChoices
+            useQuestionBuilder.getRankingChoices
               .map((val) => val.value)
               .indexOf(choice.value) !== i && !!choice.value
         )
@@ -132,8 +139,9 @@ useDraggable(el, useQuestion.getRankingChoices, {
     />
     <InputError
       :show="
-        useQuestion.getRankingChoices.filter((choice) => choice.value !== '')
-          .length < 2
+        useQuestionBuilder.getRankingChoices.filter(
+          (choice) => choice.value !== ''
+        ).length < 2
       "
       error="At least 2 choices must be shown"
     />

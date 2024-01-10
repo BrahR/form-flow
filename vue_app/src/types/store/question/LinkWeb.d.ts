@@ -1,4 +1,3 @@
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type LinkWeb = {
@@ -30,5 +29,3 @@ type LinkWeb = {
   };
   components: Component[];
 };
-
-export default LinkWeb;

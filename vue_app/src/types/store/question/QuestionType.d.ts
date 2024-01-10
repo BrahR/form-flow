@@ -15,5 +15,3 @@ type QuestionType =
   | "statement"
   | "fileUpload"
   | "endings";
-
-export default QuestionType;

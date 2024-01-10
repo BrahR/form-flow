@@ -9,10 +9,10 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
-const types = useQuestion.getAnswerFormat.types;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
+const types = useQuestionBuilder.getAnswerFormat.types;
 const query = ref("");
 
 const filteredTypes = computed(() =>
@@ -41,7 +41,7 @@ const filteredTypes = computed(() =>
         class="dropDownInput_main_wrapper__Nhc3q undefined"
       >
         <div>
-          <Combobox v-model="useQuestion.getAnswerFormat.selected">
+          <Combobox v-model="useQuestionBuilder.getAnswerFormat.selected">
             <div class="relative mt-1">
               <div
                 class="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
@@ -119,7 +119,7 @@ const filteredTypes = computed(() =>
       </div>
     </div>
     <component
-      :is="{ ...useQuestion.getAnswerFormat.selected.toggle }"
+      :is="{ ...useQuestionBuilder.getAnswerFormat.selected.toggle }"
     ></component>
   </div>
 </template>

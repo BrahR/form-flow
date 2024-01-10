@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import { QuestionStore } from "@/store/question";
+import { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const useQuestion = inject("question") as QuestionStore;
             name="start_point"
             class="toggleButton_toggle_button_checkbox__a2Pr8"
             type="checkbox"
-            v-model="useQuestion.getIsStartZero"
+            v-model="useQuestionBuilder.getIsStartZero"
           />
           <div
             class="toggleButton_slider_round__QN633 undefined undefined"

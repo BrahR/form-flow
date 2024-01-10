@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type Statement = GenericQuestion & {
@@ -11,5 +9,3 @@ type Statement = GenericQuestion & {
     error: boolean;
   };
 };
-
-export default Statement;

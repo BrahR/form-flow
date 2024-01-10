@@ -1,5 +1,5 @@
 type Survey = {
-    id: number,
-    name: string
-    workspace_id: number
-}
+  id: number;
+  name: string;
+  workspace_id: number;
+};

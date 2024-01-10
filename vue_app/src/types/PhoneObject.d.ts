@@ -12,5 +12,3 @@ type PhoneObject = {
   valid: boolean;
   formatted: string;
 };
-
-export default PhoneObject;

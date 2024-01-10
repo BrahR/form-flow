@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const validate = (e: Event) => {
   const value = (e.target as HTMLInputElement).value;
   const regex = /^[A-Za-z][A-Za-z]*$/;
 
   if (regex.test(value)) {
-    useQuestion.getIsAnswerError = false;
+    useQuestionBuilder.getIsAnswerError = false;
     return;
   }
 
-  useQuestion.getIsAnswerError = true;
+  useQuestionBuilder.getIsAnswerError = true;
 };
 </script>
 
@@ -21,19 +21,19 @@ const validate = (e: Event) => {
     <input
       inputmode="text"
       class="textQuestion_not_empty__sFAKu false"
-      :placeholder="useQuestion.getRulesPlaceholder"
+      :placeholder="useQuestionBuilder.getRulesPlaceholder"
       :class="{
-        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+        textQuestion_hasError__19d2Q: useQuestionBuilder.getIsAnswerError,
       }"
       @input="validate"
     />
   </span>
   <div
-    v-if="useQuestion.getIsAnswerError"
+    v-if="useQuestionBuilder.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getCustomError }}
+      {{ useQuestionBuilder.getCustomError }}
     </div>
   </div>
 </template>

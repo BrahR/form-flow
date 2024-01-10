@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// import { useQuestionStore } from "@/store/question.ts";
+// import { useQuestionBuilderStore } from "@/store/questionBuilder";
 
-// const useQuestion = useQuestionStore();
+// const useQuestionBuilder = useQuestionBuilderStore();
 </script>
 
 <template>dropdown</template>

@@ -4,7 +4,7 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 import { ref } from "vue";
 import axiosInstance from "@/axios";
 
-export const _useQuestionStore = defineStore("question", () => {
+export const useQuestionStore = defineStore("question", () => {
   const data = ref<Question[]>([]);
   const loading = ref(false);
   const hydrated = ref(false);
@@ -45,5 +45,5 @@ export const _useQuestionStore = defineStore("question", () => {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(_useQuestionStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useQuestionStore, import.meta.hot));
 }

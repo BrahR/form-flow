@@ -1,4 +1,3 @@
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type Numerical = {
@@ -33,5 +32,3 @@ type Numerical = {
   };
   components: Component[];
 };
-
-export default Numerical;

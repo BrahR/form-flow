@@ -1,4 +1,3 @@
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type Email = {
@@ -26,5 +25,3 @@ type Email = {
   };
   components: Component[];
 };
-
-export default Email;

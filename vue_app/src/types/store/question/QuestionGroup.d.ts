@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type QuestionGroup = GenericQuestion & {
@@ -23,5 +21,3 @@ type QuestionGroup = GenericQuestion & {
     error: boolean;
   };
 };
-
-export default QuestionGroup;

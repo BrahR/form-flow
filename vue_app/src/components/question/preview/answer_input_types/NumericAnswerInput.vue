@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { computed, watch, inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const errMessage = computed(() => {
-  let message = `You can type between ${useQuestion.getRules!.min} and
-      ${useQuestion.getRules!.max} characters.`;
+  let message = `You can type between ${useQuestionBuilder.getRules!.min} and
+      ${useQuestionBuilder.getRules!.max} characters.`;
 
-  if (useQuestion.getRules!.min === useQuestion.getRules!.max) {
-    message = `Your input must be ${useQuestion.getRules!.min} character${
-      useQuestion.getRules!.min == 1 ? "" : "s"
-    }`;
+  if (useQuestionBuilder.getRules!.min === useQuestionBuilder.getRules!.max) {
+    message = `Your input must be ${
+      useQuestionBuilder.getRules!.min
+    } character${useQuestionBuilder.getRules!.min == 1 ? "" : "s"}`;
   }
   return message;
 });
@@ -20,40 +20,41 @@ const errMessage = computed(() => {
 const schema = computed(() =>
   yup
     .string()
-    .min(useQuestion.getRules!.min ?? 0, errMessage.value)
-    .max(useQuestion.getRules!.max ?? 200, errMessage.value)
+    .min(useQuestionBuilder.getRules!.min ?? 0, errMessage.value)
+    .max(useQuestionBuilder.getRules!.max ?? 200, errMessage.value)
 );
 
 const validate = () => {
   const regex = /^\d+$/;
-  const value = useQuestion.getAnswerFormat.selected.model;
+  const value = useQuestionBuilder.getAnswerFormat.selected.model;
   if (!regex.test(value)) {
-    useQuestion.getIsAnswerError = true;
+    useQuestionBuilder.getIsAnswerError = true;
 
-    useQuestion.getRules!.displayError = useQuestion.getCustomError;
+    useQuestionBuilder.getRules!.displayError =
+      useQuestionBuilder.getCustomError;
     return;
   }
 
   schema.value
     .validate(value)
     .then(() => {
-      useQuestion.getIsAnswerError = false;
-      useQuestion.getRules!.displayError = "";
+      useQuestionBuilder.getIsAnswerError = false;
+      useQuestionBuilder.getRules!.displayError = "";
     })
     .catch((err) => {
-      useQuestion.getIsAnswerError = true;
-      useQuestion.getRules!.displayError = err.message;
+      useQuestionBuilder.getIsAnswerError = true;
+      useQuestionBuilder.getRules!.displayError = err.message;
     });
 };
 
 watch(
   [
-    () => useQuestion.getAnswerFormat.selected.model,
-    () => useQuestion.getCustomError,
-    () => useQuestion.getRules,
+    () => useQuestionBuilder.getAnswerFormat.selected.model,
+    () => useQuestionBuilder.getCustomError,
+    () => useQuestionBuilder.getRules,
   ],
   () => {
-    if (useQuestion.getAnswerFormat.selected.value !== "numeric") return;
+    if (useQuestionBuilder.getAnswerFormat.selected.value !== "numeric") return;
     validate();
   },
   {
@@ -67,19 +68,19 @@ watch(
     <input
       inputmode="text"
       class="textQuestion_not_empty__sFAKu false"
-      :placeholder="useQuestion.getRulesPlaceholder"
+      :placeholder="useQuestionBuilder.getRulesPlaceholder"
       :class="{
-        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+        textQuestion_hasError__19d2Q: useQuestionBuilder.getIsAnswerError,
       }"
-      v-model="useQuestion.getAnswerFormat.selected.model"
+      v-model="useQuestionBuilder.getAnswerFormat.selected.model"
       @input="validate"
   /></span>
   <div
-    v-if="useQuestion.getIsAnswerError"
+    v-if="useQuestionBuilder.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getRules!.displayError }}
+      {{ useQuestionBuilder.getRules!.displayError }}
     </div>
   </div>
 </template>

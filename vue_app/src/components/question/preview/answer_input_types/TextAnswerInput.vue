@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { computed, watch, inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const errMessage = computed(() => {
-  let message = `You can type between ${useQuestion.getRules!.min} and
-      ${useQuestion.getRules!.max} characters.`;
+  let message = `You can type between ${useQuestionBuilder.getRules!.min} and
+      ${useQuestionBuilder.getRules!.max} characters.`;
 
-  if (useQuestion.getRules!.min === useQuestion.getRules!.max) {
-    message = `Your input must be ${useQuestion.getRules!.min} character${
-      useQuestion.getRules!.min == 1 ? "" : "s"
-    }`;
+  if (useQuestionBuilder.getRules!.min === useQuestionBuilder.getRules!.max) {
+    message = `Your input must be ${
+      useQuestionBuilder.getRules!.min
+    } character${useQuestionBuilder.getRules!.min == 1 ? "" : "s"}`;
   }
   return message;
 });
@@ -20,28 +20,31 @@ const errMessage = computed(() => {
 const schema = computed(() =>
   yup
     .string()
-    .min(useQuestion.getRules!.min ?? 0, errMessage.value)
-    .max(useQuestion.getRules!.max ?? 200, errMessage.value)
+    .min(useQuestionBuilder.getRules!.min ?? 0, errMessage.value)
+    .max(useQuestionBuilder.getRules!.max ?? 200, errMessage.value)
 );
 
 const validate = () => {
-  const value = useQuestion.getAnswerFormat.selected.model;
-  useQuestion.getCustomError = errMessage.value;
+  const value = useQuestionBuilder.getAnswerFormat.selected.model;
+  useQuestionBuilder.getCustomError = errMessage.value;
 
   schema.value
     .validate(value)
     .then(() => {
-      useQuestion.getIsAnswerError = false;
+      useQuestionBuilder.getIsAnswerError = false;
     })
     .catch((_err) => {
-      useQuestion.getIsAnswerError = true;
+      useQuestionBuilder.getIsAnswerError = true;
     });
 };
 
 watch(
-  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  [
+    () => useQuestionBuilder.getRules!.min,
+    () => useQuestionBuilder.getRules!.max,
+  ],
   () => {
-    if (useQuestion.getAnswerFormat.selected.value !== "text") return;
+    if (useQuestionBuilder.getAnswerFormat.selected.value !== "text") return;
 
     validate();
   }
@@ -53,22 +56,23 @@ watch(
     <input
       class="textQuestion_not_empty__sFAKu false"
       :class="{
-        textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+        textQuestion_hasError__19d2Q: useQuestionBuilder.getIsAnswerError,
       }"
-      v-model="useQuestion.getAnswerFormat.selected.model"
+      v-model="useQuestionBuilder.getAnswerFormat.selected.model"
       @input="validate"
     />
   </span>
   <div
-    v-if="useQuestion.getIsAnswerError"
+    v-if="useQuestionBuilder.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm"
     :class="{
-      textQuestion_text_question_error__Vp6AE: useQuestion.getIsAnswerError,
+      textQuestion_text_question_error__Vp6AE:
+        useQuestionBuilder.getIsAnswerError,
     }"
   >
     <div class="textQuestion_question_error__W6xqr">
       <!-- -->
-      {{ useQuestion.getCustomError }}
+      {{ useQuestionBuilder.getCustomError }}
     </div>
   </div>
 </template>

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { convertSize } from "@/utils";
 import { inject, computed } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const displayedSize = computed(() => {
-  return convertSize(useQuestion.getMaxFileSize, "KB", useQuestion.getFileUnit);
+  return convertSize(
+    useQuestionBuilder.getMaxFileSize,
+    "KB",
+    useQuestionBuilder.getFileUnit
+  );
 });
 </script>
 
@@ -19,12 +23,12 @@ const displayedSize = computed(() => {
       >
         <button
           type="button"
-          v-for="unit in useQuestion.getUnits"
+          v-for="unit in useQuestionBuilder.getUnits"
           :class="{
             selectionButtonGroup_selected_tab__BT9Pz:
-              unit === useQuestion.getFileUnit,
+              unit === useQuestionBuilder.getFileUnit,
           }"
-          @click="useQuestion.getFileUnit = unit"
+          @click="useQuestionBuilder.getFileUnit = unit"
         >
           <span>{{ unit }}</span>
         </button>
@@ -34,9 +38,9 @@ const displayedSize = computed(() => {
         min="0"
         :value="displayedSize"
         @input="
-          useQuestion.getMaxFileSize = convertSize(
+          useQuestionBuilder.getMaxFileSize = convertSize(
             ($event.target as HTMLInputElement).value as unknown as number,
-            useQuestion.getFileUnit,
+            useQuestionBuilder.getFileUnit,
             'KB'
           )
         "

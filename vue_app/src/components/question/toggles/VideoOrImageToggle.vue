@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const useQuestion = inject("question") as QuestionStore;
           </span>
           <label class="toggleButton_switch__EF_q8">
             <input
-              v-model="useQuestion.getVideoOrImage.on"
+              v-model="useQuestionBuilder.getVideoOrImage.on"
               name="Image or Video"
               class="toggleButton_toggle_button_checkbox__a2Pr8"
               type="checkbox"
@@ -26,7 +26,7 @@ const useQuestion = inject("question") as QuestionStore;
           </label>
         </div>
       </div>
-      <div v-if="useQuestion.getVideoOrImage.on">
+      <div v-if="useQuestionBuilder.getVideoOrImage.on">
         <div
           class="addImageOrVideo_image_or_video_selector__uGhVz addImageOrVideo_ltr__oPv_8"
         >

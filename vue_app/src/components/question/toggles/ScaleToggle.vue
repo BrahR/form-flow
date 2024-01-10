@@ -2,25 +2,25 @@
 import VueSlider from "vue-3-slider-component";
 
 import { inject, computed, watch } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 const sliderMinMax = computed(() => {
   return {
-    min: 2 + (useQuestion.getIsStartZero ? 0 : 1),
-    max: 10 + (useQuestion.getIsStartZero ? 0 : 1),
+    min: 2 + (useQuestionBuilder.getIsStartZero ? 0 : 1),
+    max: 10 + (useQuestionBuilder.getIsStartZero ? 0 : 1),
   };
 });
 
 watch(
-  () => useQuestion.getIsStartZero,
+  () => useQuestionBuilder.getIsStartZero,
   () => {
     if (
-      useQuestion.getScaleParameters.value === 2 ||
-      useQuestion.getScaleParameters.value === 11
+      useQuestionBuilder.getScaleParameters.value === 2 ||
+      useQuestionBuilder.getScaleParameters.value === 11
     ) {
-      useQuestion.getScaleParameters.value = 3;
+      useQuestionBuilder.getScaleParameters.value = 3;
     }
   }
 );
@@ -34,12 +34,12 @@ watch(
       <div class="rangeInput_slider_info_wrapper__THWn0">
         <span>Scale</span>
         <div class="rangeInput_slider_value__nG5d0">
-          {{ useQuestion.getScaleParameters.value }}
+          {{ useQuestionBuilder.getScaleParameters.value }}
         </div>
       </div>
       <VueSlider
         class="rangeInput_slider_input__cOgVu"
-        v-model="useQuestion.getScaleParameters.value"
+        v-model="useQuestionBuilder.getScaleParameters.value"
         :min="sliderMinMax.min"
         :max="sliderMinMax.max"
         marks
@@ -52,7 +52,7 @@ watch(
         <input
           name="right_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          v-model="useQuestion.getScaleLabels.right"
+          v-model="useQuestionBuilder.getScaleLabels.right"
         />
       </div>
       <div class="opinionScaleQuestion_label_input_wrapper__RYacm">
@@ -60,7 +60,7 @@ watch(
         <input
           name="center_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          v-model="useQuestion.getScaleLabels.center"
+          v-model="useQuestionBuilder.getScaleLabels.center"
         />
       </div>
       <div class="opinionScaleQuestion_label_input_wrapper__RYacm">
@@ -68,7 +68,7 @@ watch(
         <input
           name="left_label"
           class="opinionScaleQuestion_label_input__ZEMa3 false"
-          v-model="useQuestion.getScaleLabels.left"
+          v-model="useQuestionBuilder.getScaleLabels.left"
         />
       </div>
     </div>

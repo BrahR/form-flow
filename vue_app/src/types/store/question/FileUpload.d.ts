@@ -1,6 +1,3 @@
-import type { Units } from "@/types";
-import type { GenericQuestion } from "./GenericQuestion";
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type FileUpload = GenericQuestion & {
@@ -27,5 +24,3 @@ type FileUpload = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default FileUpload;

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 import QuestionHeader from "./QuestionHeader.vue";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const useQuestion = inject("question") as QuestionStore;
   >
     <QuestionHeader description="" />
     <component
-      :is="{ ...useQuestion.getAnswerFormat.selected.input }"
+      :is="{ ...useQuestionBuilder.getAnswerFormat.selected.input }"
     ></component>
   </div>
 </template>

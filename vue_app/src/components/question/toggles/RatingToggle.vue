@@ -4,9 +4,9 @@ import StarIcon from "@/components/question/toggles/rating_icons/StarIcon.vue";
 import ThumbsUpIcon from "@/components/question/toggles/rating_icons/ThumbsUpIcon.vue";
 import VueSlider from "vue-3-slider-component";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const icons = [ThumbsUpIcon, HeartIcon, StarIcon];
 </script>
 
@@ -18,14 +18,14 @@ const icons = [ThumbsUpIcon, HeartIcon, StarIcon];
       <div class="rangeInput_slider_info_wrapper__THWn0">
         <span>Scale</span>
         <div class="rangeInput_slider_value__nG5d0">
-          {{ useQuestion.getScaleParameters.value }}
+          {{ useQuestionBuilder.getScaleParameters.value }}
         </div>
       </div>
       <VueSlider
         class="rangeInput_slider_input__cOgVu"
-        v-model="useQuestion.getScaleParameters.value"
-        :min="useQuestion.getScaleParameters.min"
-        :max="useQuestion.getScaleParameters.max"
+        v-model="useQuestionBuilder.getScaleParameters.value"
+        :min="useQuestionBuilder.getScaleParameters.min"
+        :max="useQuestionBuilder.getScaleParameters.max"
         marks
       />
     </div>
@@ -39,11 +39,11 @@ const icons = [ThumbsUpIcon, HeartIcon, StarIcon];
           class="undefined"
           :class="{
             selectionButtonGroup_selected_tab__BT9Pz:
-              useQuestion.getRating.type == index,
+              useQuestionBuilder.getRating.type == index,
           }"
           v-for="(icon, index) in icons"
           :key="index"
-          @click="useQuestion.getRating.type = index"
+          @click="useQuestionBuilder.getRating.type = index"
         >
           <component :is="icon" />
         </button>

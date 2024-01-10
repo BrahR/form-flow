@@ -1,4 +1,3 @@
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type Dropdown = {
@@ -35,5 +34,3 @@ type Dropdown = {
   };
   components: Component[];
 };
-
-export default Dropdown;

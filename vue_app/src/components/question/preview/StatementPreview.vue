@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
   <div class="statement_wrapper__sKGXy false statement_ltr__mMIb2">
     <QuestionHeader description="" />
     <button type="button" class="statement_button__5vdzb">
-      {{ useQuestion.getButton.value }}
+      {{ useQuestionBuilder.getButton.value }}
     </button>
   </div>
 </template>

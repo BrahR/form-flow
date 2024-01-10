@@ -1,4 +1,3 @@
-import type { EditorType } from "./EditorType";
 import type { Component } from "vue";
 
 type LongText = {
@@ -33,5 +32,3 @@ type LongText = {
   };
   components: Component[];
 };
-
-export default LongText;

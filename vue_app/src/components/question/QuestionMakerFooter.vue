@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useQuestionStore } from "@/store/question";
+import { useQuestionBuilderStore } from "@/store/questionBuilder";
 import { useSurveyStore } from "@/store/survey";
 
-const useQuestion = useQuestionStore();
+const useQuestionBuilder = useQuestionBuilderStore();
 const useSurvey = useSurveyStore();
 
 defineEmits<{
@@ -15,8 +15,12 @@ defineEmits<{
     <button
       type="button"
       class="footer_save_button__NO8M2"
-      :disabled="useQuestion.isLoading || !useQuestion.selected.canSubmit"
-      @click="useQuestion.postQuestion(useSurvey.getSelected?.id ?? null)"
+      :disabled="
+        useQuestionBuilder.isLoading || !useQuestionBuilder.selected.canSubmit
+      "
+      @click="
+        useQuestionBuilder.postQuestion(useSurvey.getSelected?.id ?? null)
+      "
     >
       Save
     </button>

@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type Endings = GenericQuestion & {
@@ -32,5 +30,3 @@ type Endings = GenericQuestion & {
     timer: number;
   };
 };
-
-export default Endings;

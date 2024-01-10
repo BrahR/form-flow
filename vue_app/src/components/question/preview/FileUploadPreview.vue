@@ -2,9 +2,9 @@
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 import { convertSize } from "@/utils";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -26,10 +26,10 @@ const useQuestion = inject("question") as QuestionStore;
               (Maximum size:
               {{
                 `${convertSize(
-                  useQuestion.getMaxFileSize,
+                  useQuestionBuilder.getMaxFileSize,
                   "KB",
-                  useQuestion.getFileUnit
-                )} ${useQuestion.getFileUnit}`
+                  useQuestionBuilder.getFileUnit
+                )} ${useQuestionBuilder.getFileUnit}`
               }})
             </span>
             <input

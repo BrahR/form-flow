@@ -3,13 +3,13 @@ import InputError from "@/components/form/InputError.vue";
 
 import { useDraggable } from "vue-draggable-plus";
 import { ref, inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const el = ref(null as never as HTMLElement);
 
 // @ts-ignore
-useDraggable(el, useQuestion.getPictureChoices, {
+useDraggable(el, useQuestionBuilder.getPictureChoices, {
   handle: ".dragable",
 });
 </script>
@@ -33,7 +33,7 @@ useDraggable(el, useQuestion.getPictureChoices, {
     </div>
     <transition-group ref="el" type="transition" tag="div" name="fade">
       <div
-        v-for="(choice, index) in useQuestion.getPictureChoices"
+        v-for="(choice, index) in useQuestionBuilder.getPictureChoices"
         :key="choice.id"
         class="picturechoice_row_wrapper__Yq_6C"
       >
@@ -102,9 +102,9 @@ useDraggable(el, useQuestion.getPictureChoices, {
                 <div
                   class="picturechoice_action__1eDy0 false"
                   @click="
-                    useQuestion.appendChoice(
+                    useQuestionBuilder.appendChoice(
                       index,
-                      useQuestion.getPictureChoices,
+                      useQuestionBuilder.getPictureChoices,
                       {
                         label: '',
                         image:
@@ -175,16 +175,16 @@ useDraggable(el, useQuestion.getPictureChoices, {
                   class="picturechoice_action__1eDy0"
                   :class="{
                     picturechoice_disabled__7LaWA:
-                      useQuestion.getPictureChoices.length <= 2,
+                      useQuestionBuilder.getPictureChoices.length <= 2,
                   }"
                   @click="
-                    useQuestion.deleteChoice(
+                    useQuestionBuilder.deleteChoice(
                       index,
-                      useQuestion.getPictureChoices
+                      useQuestionBuilder.getPictureChoices
                     )
                   "
                 >
-                  <!-- @click="useQuestion.deletePictureChoice(index)" -->
+                  <!-- @click="useQuestionBuilder.deletePictureChoice(index)" -->
                   <svg
                     width="24"
                     height="24"
@@ -213,7 +213,7 @@ useDraggable(el, useQuestion.getPictureChoices, {
     </transition-group>
     <InputError
       :show="
-        useQuestion.getPictureChoices.filter(
+        useQuestionBuilder.getPictureChoices.filter(
           (choice) => choice.image !== '' && !choice.hidden
         ).length < 2
       "

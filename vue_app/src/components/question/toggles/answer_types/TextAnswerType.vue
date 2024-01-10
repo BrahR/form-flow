@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import { inject, watch } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 import InputError from "@/components/form/InputError.vue";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 watch(
-  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  [
+    () => useQuestionBuilder.getRules!.min,
+    () => useQuestionBuilder.getRules!.max,
+  ],
   () => {
-    if (useQuestion.getAnswerFormat.selected.value !== "text") return;
+    if (useQuestionBuilder.getAnswerFormat.selected.value !== "text") return;
 
-    if (useQuestion.getRules!.max == 0) {
-      useQuestion.getAnswerFormat.error["text"] = true;
+    if (useQuestionBuilder.getRules!.max == 0) {
+      useQuestionBuilder.getAnswerFormat.error["text"] = true;
       return;
     }
-    useQuestion.getAnswerFormat.error["text"] = false;
+    useQuestionBuilder.getAnswerFormat.error["text"] = false;
   }
 );
 </script>
@@ -31,13 +34,13 @@ watch(
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="useQuestion.getRules!.min"
+          v-model="useQuestionBuilder.getRules!.min"
           @input="
-            useQuestion.getRules!.min = Math.max(
+            useQuestionBuilder.getRules!.min = Math.max(
               0,
               Math.min(
-                useQuestion.getRules?.max ?? 0,
-                Math.min(200, useQuestion.getRules?.min ?? 0)
+                useQuestionBuilder.getRules?.max ?? 0,
+                Math.min(200, useQuestionBuilder.getRules?.min ?? 0)
               )
             )
           "
@@ -53,13 +56,13 @@ watch(
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="useQuestion.getRules!.max"
+          v-model="useQuestionBuilder.getRules!.max"
           @input="
-            useQuestion.getRules!.max = Math.min(
+            useQuestionBuilder.getRules!.max = Math.min(
               200,
               Math.max(
-                useQuestion.getRules?.min ?? 0,
-                useQuestion.getRules?.max ?? 0
+                useQuestionBuilder.getRules?.min ?? 0,
+                useQuestionBuilder.getRules?.max ?? 0
               )
             )
           "
@@ -67,7 +70,7 @@ watch(
       </div>
     </div>
     <InputError
-      :show="useQuestion.getAnswerFormat.error['text']"
+      :show="useQuestionBuilder.getAnswerFormat.error['text']"
       error="Max value must be greater than 0"
     />
   </div>

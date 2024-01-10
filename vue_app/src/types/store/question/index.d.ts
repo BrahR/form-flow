@@ -1,23 +1,3 @@
-import type QuestionType from "./QuestionType";
-import type Welcome from "./Welcome";
-import type GeneralText from "./GeneralText";
-import type MultipleChoice from "./MultipleChoice";
-import type LongText from "./LongText";
-import type PictureChoice from "./PictureChoice";
-import type QuestionGroup from "./QuestionGroup";
-import type Dropdown from "./Dropdown";
-import type Numerical from "./Numerical";
-import type OpinionScale from "./OpinionScale";
-import type Email from "./Email";
-import type Rating from "./Rating";
-import type LinkWeb from "./LinkWeb";
-import type Ranking from "./Ranking";
-import type Statement from "./Statement";
-import type FileUpload from "./FileUpload";
-import type Endings from "./Endings";
-
-import type { GeneralTextFormat, GeneralTextType } from "./GeneralText";
-
 type Question = {
   welcome: Welcome;
   generalText: GeneralText;
@@ -64,37 +44,3 @@ type hasMultipleAnswers = MultipleChoice | PictureChoice;
 type hasChoices = MultipleChoice | PictureChoice | Ranking;
 type hasButton = Welcome | QuestionGroup | Statement;
 type hasScale = OpinionScale | Rating;
-
-export {
-  GeneralTextFormat,
-  GeneralTextType,
-  Question,
-  QuestionType,
-  Welcome,
-  GeneralText,
-  MultipleChoice,
-  LongText,
-  PictureChoice,
-  QuestionGroup,
-  Dropdown,
-  Numerical,
-  OpinionScale,
-  Email,
-  Rating,
-  LinkWeb,
-  Ranking,
-  Statement,
-  FileUpload,
-  Endings,
-  hasImageOrVideo,
-  hasRequired,
-  hasHideQuestionNumber,
-  hasRandomize,
-  hasHiddenLabel,
-  hasDoubleDisplay,
-  hasVerticalDisplay,
-  hasMultipleAnswers,
-  hasChoices,
-  hasButton,
-  hasScale,
-};

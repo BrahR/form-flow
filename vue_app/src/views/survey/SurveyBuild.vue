@@ -2,15 +2,11 @@
 import WelcomeIcon from "@/components/survey/icons/WelcomeIcon.vue";
 import GeneralTextIcon from "@/components/survey/icons/GeneralTextIcon.vue";
 import MultipleChoiceIcon from "@/components/survey/icons/MultipleChoiceIcon.vue";
-// import LongTextIcon from "@/components/survey/icons/LongTextIcon.vue";
 import PictureChoiceIcon from "@/components/survey/icons/PictureChoiceIcon.vue";
 import QuestionGroupIcon from "@/components/survey/icons/QuestionGroupIcon.vue";
 import DropdownIcon from "@/components/survey/icons/DropdownIcon.vue";
-// import NumericalAnswerIcon from "@/components/survey/icons/NumericalAnswerIcon.vue";
 import OpinionScaleIcon from "@/components/survey/icons/OpinionScaleIcon.vue";
-// import EmailIcon from "@/components/survey/icons/EmailIcon.vue";
 import RatingIcon from "@/components/survey/icons/RatingIcon.vue";
-// import LinkWebsiteIcon from "@/components/survey/icons/LinkWebsiteIcon.vue";
 import RankingIcon from "@/components/survey/icons/RankingIcon.vue";
 import StatementIcon from "@/components/survey/icons/StatementIcon.vue";
 import FileUploadIcon from "@/components/survey/icons/FileUploadIcon.vue";
@@ -21,14 +17,16 @@ import CalculatedVariablesIcon from "@/components/survey/icons/CalculatedVariabl
 import CustomVariablesIcon from "@/components/survey/icons/CustomVariablesIcon.vue";
 
 import QuestionMaker from "@/components/question/QuestionMaker.vue";
-// const QuestionMaker = defineAsyncComponent(() => import("@/components/question/QuestionMaker.vue"))
+import QuestionsList from "@/components/question/QuestionsList.vue";
 
+import { onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { QuestionType } from "@/types/store/question";
+import { useQuestionStore } from "@/store/question";
+import type { Component } from "vue";
 
 type SurveyButton = {
   title: string;
-  component: unknown;
+  component: Component;
   fullWidth: boolean;
   type: QuestionType;
 };
@@ -74,7 +72,7 @@ const buttons: SurveyButton[] = [
     title: "Link options",
     component: DropdownIcon,
     fullWidth: false,
-    type: "dropdown",
+    type: null as never,
   },
   // {
   //   title: "Numerical Answer",
@@ -159,6 +157,12 @@ const bottomButtons = [
 
 const router = useRouter();
 const route = useRoute();
+const useQuestion = useQuestionStore();
+
+onMounted(() => {
+  // @ts-ignore
+  useQuestion.hydrate(route.params.surveyId);
+});
 
 const addParam = (title: QuestionType) => {
   router.push({
@@ -233,98 +237,7 @@ const addParam = (title: QuestionType) => {
             </div>
           </div>
         </div>
-        <div class="questionsList_wrapper__AaFrc">
-          <div
-            class="questionsList_welcome_wrapper__Vq7wD questionsList_empty__JIwpm"
-          >
-            <div
-              class="questionsList_droppable__cWD_h false"
-              data-react-beautiful-dnd-droppable="4"
-            >
-              <div>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g fill="none" fill-rule="evenodd">
-                    <path d="M0 0h24v24H0z"></path>
-                    <path
-                      d="M12 6a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 1-1z"
-                      fill="#3E434D"
-                    ></path>
-                  </g>
-                </svg>
-                <div class="questionsList_text__m9oDX">Welcome Page</div>
-              </div>
-            </div>
-          </div>
-          <div class="questionsList_questions_list_wrapper__L6jFw">
-            <div class="questionsList_questions_list__15XoV undefined">
-              <div data-react-beautiful-dnd-droppable="4">
-                <div
-                  class="questionsList_empty_provided_placholder__8Kk_P"
-                ></div>
-              </div>
-              <div class="questionsList_empty_survey_container__wL6zF">
-                <div class="questionsList_empty_survey_box__1KFAs null"></div>
-                <div class="questionsList_empty_survey_placeholder__KBtgK">
-                  Drag and drop questions here.
-                  <div>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g fill="none" fill-rule="evenodd">
-                        <path d="M0 0h24v24H0z"></path>
-                        <g
-                          stroke="#6B7079"
-                          stroke-linecap="round"
-                          stroke-width="2"
-                        >
-                          <path d="M22 16c-9 0-11-4-11-14"></path>
-                          <path
-                            stroke-linejoin="round"
-                            d="m15 6-4-4-4 4"
-                          ></path>
-                        </g>
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="questionsList_appreciation_pages_list__D__gY">
-            <div
-              data-react-beautiful-dnd-droppable="4"
-              style="min-height: 52px"
-            >
-              <div
-                class="dropHerePlaceholder_drop_here_placeholder__mCdLf dropHerePlaceholder_add_on_click__I_ZZN undefined false dropHerePlaceholder_ltr__Mwv9S"
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g fill="none" fill-rule="evenodd">
-                    <path d="M0 0h24v24H0z"></path>
-                    <path
-                      d="M12 6a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 1-1z"
-                      fill="#3E434D"
-                    ></path>
-                  </g>
-                </svg>
-                <div>Endings</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <QuestionsList />
         <div
           class="buildMain_new_question_modal_button__7GbOa buildMain_ltr__Qz_0d"
         >
@@ -621,163 +534,6 @@ const addParam = (title: QuestionType) => {
     .questionsTypesList_variables__VXEhg
     .questionsTypesList_variable__0pjbr:last-child {
     margin-bottom: 1.5rem;
-  }
-}
-
-.questionsList_wrapper__AaFrc {
-  background: #fff;
-  width: calc(100% - 25rem);
-  height: calc(100 * 1vh - 3rem);
-  box-sizing: border-box;
-  padding: 0 1.5rem 1.5rem;
-  position: relative;
-  overflow: auto;
-}
-
-.questionsList_wrapper__AaFrc::-webkit-scrollbar {
-  width: 1.5rem;
-}
-
-.questionsList_wrapper__AaFrc::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 0.5rem 0.5rem transparent;
-}
-
-.questionsList_wrapper__AaFrc::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 0.5rem 0.5rem #f0f2f5;
-  border: 0.5rem solid transparent;
-  border-radius: 1rem;
-  min-height: 2rem;
-}
-
-.questionsList_wrapper__AaFrc [data-react-beautiful-dnd-droppable] {
-  min-height: 3rem;
-}
-
-.questionsList_wrapper__AaFrc .questionsList_empty_provided_placholder__8Kk_P {
-  height: 0;
-  overflow: hidden;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_empty_survey_container__wL6zF
-  .questionsList_empty_survey_box__1KFAs {
-  border: 0.0625rem dashed #bbbcc0;
-  height: 3rem;
-  border-radius: 0.5rem;
-  top: -0.0625rem;
-  right: 0;
-  left: 0;
-  position: absolute;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_empty_survey_container__wL6zF
-  .questionsList_empty_survey_placeholder__KBtgK {
-  color: #6b7079;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-  margin-top: 0;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_empty_survey_container__wL6zF
-  .questionsList_empty_survey_placeholder__KBtgK
-  svg {
-  display: block;
-  margin: 0 0.125rem;
-}
-
-.questionsList_wrapper__AaFrc .questionsList_welcome_wrapper__Vq7wD {
-  margin-top: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD
-  .questionsList_droppable__cWD_h {
-  pointer-events: auto;
-  cursor: pointer;
-  opacity: 1;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD.questionsList_empty__JIwpm {
-  border: 0.0625rem dashed #bbbcc0;
-  border-radius: 0.5rem;
-  color: #3e434d;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD.questionsList_empty__JIwpm:hover {
-  background-color: #f7f8fa;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD.questionsList_empty__JIwpm
-  > div {
-  height: 3rem;
-  position: relative;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD.questionsList_empty__JIwpm
-  > div
-  > div {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-  width: 100%;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_welcome_wrapper__Vq7wD.questionsList_empty__JIwpm
-  svg
-  path:last-child {
-  stroke: #3e434d;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_questions_list_wrapper__L6jFw
-  [data-react-beautiful-dnd-droppable] {
-  padding-bottom: 0.25rem;
-}
-
-.questionsList_wrapper__AaFrc
-  .questionsList_questions_list_wrapper__L6jFw
-  .questionsList_questions_list__15XoV {
-  position: relative;
-}
-
-.questionsList_wrapper__AaFrc .questionsList_appreciation_pages_list__D__gY {
-  margin-top: 2.5rem;
-  position: relative;
-}
-
-@media (max-width: 900px) {
-  .questionsList_wrapper__AaFrc {
-    height: calc(100 * 1vh - 9rem);
-  }
-}
-
-@media (max-width: 1024px) {
-  .questionsList_wrapper__AaFrc {
-    width: 100%;
-    padding: 1rem;
-    height: calc(100 * 1vh - 6rem);
-  }
-
-  .questionsTypesList_wrapper__ZpLGJ.questionsTypesList_ltr__Z0TqO {
-    display: none;
-  }
-
-  .questionsList_wrapper__AaFrc .questionsList_appreciation_pages_list__D__gY {
-    margin-bottom: 7rem;
   }
 }
 

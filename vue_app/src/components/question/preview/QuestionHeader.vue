@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 defineProps<{
   description: string;
@@ -15,17 +15,17 @@ defineProps<{
       <div class="questionIntro_question_intro_title_text_wrapper__FjDMC">
         <div class="questionIntro_question_number_wrapper__4lzy7">
           <span
-            v-if="useQuestion.getRequired?.on"
+            v-if="useQuestionBuilder.getRequired?.on"
             class="questionIntro_ltr__PbYmc questionIntro_answer_required_icon__xsNa1"
             >*</span
           >
           <span
-            v-if="!useQuestion.getHideQuestionNumber.on"
+            v-if="!useQuestionBuilder.getHideQuestionNumber.on"
             class="questionIntro_question_number___M7ip"
             >1</span
           >
           <div
-            v-if="!useQuestion.getHideQuestionNumber.on"
+            v-if="!useQuestionBuilder.getHideQuestionNumber.on"
             class="questionIntro_question_number_indicator_icon__SdB_o questionIntro_ltr__PbYmc"
           >
             <svg
@@ -47,14 +47,16 @@ defineProps<{
         </div>
         <span
           class="questionIntro_question_intro_title_text__YurZo"
-          v-html="useQuestion.getLabelModel"
+          v-html="useQuestionBuilder.getLabelModel"
         ></span>
       </div>
     </div>
     <p
-      v-if="useQuestion.getDescribed.on && useQuestion.getDescModel"
+      v-if="
+        useQuestionBuilder.getDescribed.on && useQuestionBuilder.getDescModel
+      "
       class="questionIntro_question_intro_description__J0fpU"
-      v-html="useQuestion.getDescModel"
+      v-html="useQuestionBuilder.getDescModel"
     ></p>
     <p class="questionIntro_question_intro_porsline_description__ZEPzQ">
       {{ description }}

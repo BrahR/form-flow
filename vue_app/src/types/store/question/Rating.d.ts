@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type Rating = GenericQuestion & {
@@ -19,5 +17,3 @@ type Rating = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default Rating;

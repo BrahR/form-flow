@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, watch } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 watch(
-  () => useQuestion.getButton.value,
+  () => useQuestionBuilder.getButton.value,
   (value) => {
     if (!value) {
-      useQuestion.getButton.error = true;
+      useQuestionBuilder.getButton.error = true;
       return;
     }
-    useQuestion.getButton.error = false;
+    useQuestionBuilder.getButton.error = false;
   }
 );
 </script>
@@ -23,7 +23,7 @@ watch(
       <p class="inlineInput_label__gJoig">Button</p>
       <div class="inlineInput_input_wrapper__8ZUU7">
         <input
-          v-model="useQuestion.getButton.value"
+          v-model="useQuestionBuilder.getButton.value"
           class="inlineInput_input__S084b undefined"
           type="text"
         />
@@ -31,7 +31,7 @@ watch(
     </div>
 
     <InputError
-      :show="useQuestion.getButton.error"
+      :show="useQuestionBuilder.getButton.error"
       error="Button value is required."
     />
   </div>

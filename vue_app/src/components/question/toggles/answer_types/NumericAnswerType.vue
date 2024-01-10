@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, watchEffect, ref, onMounted, watch, computed } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const minMaxError = ref(false);
 
 const errors = computed(() =>
   [
     minMaxError.value,
-    !useQuestion.getRulesPlaceholder,
-    !useQuestion.getCustomError,
+    !useQuestionBuilder.getRulesPlaceholder,
+    !useQuestionBuilder.getCustomError,
   ].some((value) => value !== false)
 );
 
 watch(
-  [() => useQuestion.getRules!.min, () => useQuestion.getRules!.max],
+  [
+    () => useQuestionBuilder.getRules!.min,
+    () => useQuestionBuilder.getRules!.max,
+  ],
   () => {
-    if (useQuestion.getAnswerFormat.selected.value !== "numeric") return;
+    if (useQuestionBuilder.getAnswerFormat.selected.value !== "numeric") return;
 
-    if (useQuestion.getRules!.max == 0) {
+    if (useQuestionBuilder.getRules!.max == 0) {
       minMaxError.value = true;
       return;
     }
@@ -28,13 +31,13 @@ watch(
 );
 
 onMounted(() => {
-  if (useQuestion.getRules!.max === 0) {
+  if (useQuestionBuilder.getRules!.max === 0) {
     minMaxError.value = true;
   }
 });
 
 watchEffect(() => {
-  useQuestion.getAnswerFormat.error["numeric"] = errors.value;
+  useQuestionBuilder.getAnswerFormat.error["numeric"] = errors.value;
 });
 </script>
 
@@ -50,13 +53,13 @@ watchEffect(() => {
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="useQuestion.getRules!.min"
+          v-model="useQuestionBuilder.getRules!.min"
           @input="
-            useQuestion.getRules!.min = Math.max(
+            useQuestionBuilder.getRules!.min = Math.max(
               0,
               Math.min(
-                useQuestion.getRules?.max ?? 0,
-                Math.min(200, useQuestion.getRules?.min ?? 0)
+                useQuestionBuilder.getRules?.max ?? 0,
+                Math.min(200, useQuestionBuilder.getRules?.min ?? 0)
               )
             )
           "
@@ -72,13 +75,13 @@ watchEffect(() => {
           class="numberInput_input__a2e6l undefined undefined"
           type="number"
           inputmode="decimal"
-          v-model="useQuestion.getRules!.max"
+          v-model="useQuestionBuilder.getRules!.max"
           @input="
-            useQuestion.getRules!.max = Math.min(
+            useQuestionBuilder.getRules!.max = Math.min(
               200,
               Math.max(
-                useQuestion.getRules?.min ?? 0,
-                useQuestion.getRules?.max ?? 0
+                useQuestionBuilder.getRules?.min ?? 0,
+                useQuestionBuilder.getRules?.max ?? 0
               )
             )
           "
@@ -98,11 +101,11 @@ watchEffect(() => {
         class="textInput_input__YzEWk false undefined false"
         name="regex_placeholder"
         type="text"
-        v-model="useQuestion.getRulesPlaceholder"
+        v-model="useQuestionBuilder.getRulesPlaceholder"
       />
     </div>
     <InputError
-      :show="!useQuestion.getRulesPlaceholder"
+      :show="!useQuestionBuilder.getRulesPlaceholder"
       error="Placeholder is required"
     />
   </div>
@@ -114,11 +117,11 @@ watchEffect(() => {
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="useQuestion.getCustomError"
+        v-model="useQuestionBuilder.getCustomError"
       />
     </div>
     <InputError
-      :show="!useQuestion.getCustomError"
+      :show="!useQuestionBuilder.getCustomError"
       error="Custom validation message is required"
     />
   </div>

@@ -5,26 +5,28 @@ import "vue-tel-input/vue-tel-input.css";
 import { isValidNumber, parse } from "libphonenumber-js";
 import { PhoneObject } from "@/types";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
-const selected = useQuestion.getAnswerFormat.selected;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
+const selected = useQuestionBuilder.getAnswerFormat.selected;
 
 const onInput = (event: string, phoneObject: PhoneObject) => {
   const { number, country } = phoneObject;
   const regex = /^\+?[1-9]\d{1,14}$/;
 
   if (!country) {
-    useQuestion.getIsAnswerError = true;
+    useQuestionBuilder.getIsAnswerError = true;
     return;
   }
 
   if (!regex.test(event)) {
-    useQuestion.getIsAnswerError = true;
+    useQuestionBuilder.getIsAnswerError = true;
     return;
   }
 
-  useQuestion.getIsAnswerError = number ? !isValidNumber(parse(number)) : false;
+  useQuestionBuilder.getIsAnswerError = number
+    ? !isValidNumber(parse(number))
+    : false;
 };
 </script>
 
@@ -36,10 +38,10 @@ const onInput = (event: string, phoneObject: PhoneObject) => {
       :autoFormat="false"
       :autoDefaultCountry="false"
       :inputOptions="{
-        placeholder: useQuestion.getRules?.placeholder,
+        placeholder: useQuestionBuilder.getRules?.placeholder,
         styleClasses: {
           textQuestion_not_empty__sFAKu: true,
-          textQuestion_hasError__19d2Q: useQuestion.getIsAnswerError,
+          textQuestion_hasError__19d2Q: useQuestionBuilder.getIsAnswerError,
         },
       }"
       :dropdownOptions="{
@@ -53,11 +55,11 @@ const onInput = (event: string, phoneObject: PhoneObject) => {
     />
   </span>
   <div
-    v-if="useQuestion.getIsAnswerError"
+    v-if="useQuestionBuilder.getIsAnswerError"
     class="textQuestion_continue_button_wrapper__PBEZm textQuestion_text_question_error__Vp6AE"
   >
     <div class="textQuestion_question_error__W6xqr">
-      {{ useQuestion.getCustomError }}
+      {{ useQuestionBuilder.getCustomError }}
     </div>
   </div>
 </template>
@@ -147,7 +149,7 @@ li.vti__dropdown-item :last-child {
   width: calc(100% - 1.7rem);
 }
 
-/* 
+/*
 .dropDownInput_main_wrapper__Nhc3q .dropDownInput_ul__DPvAW li svg {
   margin-top: 0.25rem;
 }

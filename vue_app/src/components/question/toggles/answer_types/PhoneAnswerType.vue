@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject, watchEffect } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 
 watchEffect(() => {
-  useQuestion.getAnswerFormat.error["phone-number"] =
-    !useQuestion.getCustomError;
+  useQuestionBuilder.getAnswerFormat.error["phone-number"] =
+    !useQuestionBuilder.getCustomError;
 });
 </script>
 
@@ -18,7 +18,7 @@ watchEffect(() => {
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="useQuestion.getRules?.placeholder"
+        v-model="useQuestionBuilder.getRules?.placeholder"
       />
     </div>
   </div> -->
@@ -30,11 +30,11 @@ watchEffect(() => {
       <input
         class="textInput_input__YzEWk false undefined false"
         type="text"
-        v-model="useQuestion.getCustomError"
+        v-model="useQuestionBuilder.getCustomError"
       />
     </div>
     <InputError
-      :show="useQuestion.getAnswerFormat.error['phone-number']"
+      :show="useQuestionBuilder.getAnswerFormat.error['phone-number']"
       error="You have to enter a validation message"
     />
   </div>

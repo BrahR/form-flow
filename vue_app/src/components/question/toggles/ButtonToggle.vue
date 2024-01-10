@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const useQuestion = inject("question") as QuestionStore;
               name="continue_btn_active"
               class="toggleButton_toggle_button_checkbox__a2Pr8"
               type="checkbox"
-              v-model="useQuestion.getIsButton"
+              v-model="useQuestionBuilder.getIsButton"
             />
             <div
               class="toggleButton_slider_round__QN633 undefined undefined"
@@ -29,7 +29,7 @@ const useQuestion = inject("question") as QuestionStore;
         </div>
       </div>
       <div
-        v-if="useQuestion.getIsButton"
+        v-if="useQuestionBuilder.getIsButton"
         class="group_group_question_option_wrapper__P2vy4"
       >
         <div class="inlineInput_wrapper__7HOFO inlineInput_ltr__IdP5R">
@@ -40,7 +40,7 @@ const useQuestion = inject("question") as QuestionStore;
               name="continue_text"
               type="text"
               min="0"
-              v-model="useQuestion.getButtonLabel"
+              v-model="useQuestionBuilder.getButtonLabel"
             />
           </div>
         </div>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputError from "@/components/form/InputError.vue";
 import { inject } from "vue";
-import type { QuestionStore } from "@/store/question";
+import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
-const useQuestion = inject("question") as QuestionStore;
+const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const useQuestion = inject("question") as QuestionStore;
           </span>
           <label class="toggleButton_switch__EF_q8">
             <input
-              v-model="useQuestion.getLabeled.on"
+              v-model="useQuestionBuilder.getLabeled.on"
               class="toggleButton_toggle_button_checkbox__a2Pr8"
               type="checkbox"
             />
@@ -28,16 +28,16 @@ const useQuestion = inject("question") as QuestionStore;
       </div>
     </div>
     <div
-      v-show="useQuestion.getLabeled.on"
+      v-show="useQuestionBuilder.getLabeled.on"
       class="ck-show-toolbar-wrapper mt-3"
     >
       <ckeditor
-        :editor="useQuestion.getLabeled.editor.editor"
-        :config="useQuestion.getLabeled.editor.config"
-        @ready="useQuestion.getLabeled.editor.ready"
+        :editor="useQuestionBuilder.getLabeled.editor.editor"
+        :config="useQuestionBuilder.getLabeled.editor.config"
+        @ready="useQuestionBuilder.getLabeled.editor.ready"
       ></ckeditor>
 
-      <InputError :error="useQuestion.getLabeled.error" />
+      <InputError :error="useQuestionBuilder.getLabeled.error" />
     </div>
   </div>
 </template>

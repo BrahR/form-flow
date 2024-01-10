@@ -1,5 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { GenericQuestion } from "./GenericQuestion";
 import type { Component } from "vue";
 
 type MultipleChoice = GenericQuestion & {
@@ -28,5 +26,3 @@ type MultipleChoice = GenericQuestion & {
     on: boolean;
   };
 };
-
-export default MultipleChoice;
