@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Resources\QuestionResource;
 use App\Models\Survey;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\OpinionScaleQuestion;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Survey $survey): Response
+    public function index(Survey $survey): ResourceCollection
     {
         $questions = $survey->questions()->get();
 
-        return response([
-            "questions" => $questions,
-        ]);
+        return QuestionResource::collection($questions);
     }
 
     /**
