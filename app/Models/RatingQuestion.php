@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Http\Resources\RatingResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RatingQuestion extends Model
 {
@@ -17,7 +16,7 @@ class RatingQuestion extends Model
         "hide_question_number",
     ];
 
-    public function getResource(): ResourceCollection
+    public function getResource(): RatingResource
     {
         return new RatingResource($this);
     }

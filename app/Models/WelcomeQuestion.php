@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class WelcomeQuestion extends Model
 {
@@ -22,7 +21,7 @@ class WelcomeQuestion extends Model
         return $this->morphOne(Question::class, 'questionable');
     }
 
-    public function getResource(): ResourceCollection
+    public function getResource(): WelcomeResource
     {
         return new WelcomeResource($this);
     }

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Http\Resources\StatementResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class StatementQuestion extends Model
 {
@@ -16,7 +15,7 @@ class StatementQuestion extends Model
         "hide_question_number",
     ];
 
-    public function getResource(): ResourceCollection
+    public function getResource(): StatementResource
     {
         return new StatementResource($this);
     }

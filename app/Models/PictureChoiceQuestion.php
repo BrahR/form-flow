@@ -6,7 +6,6 @@ use App\Http\Resources\PictureChoiceResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PictureChoiceQuestion extends Model
 {
@@ -26,7 +25,7 @@ class PictureChoiceQuestion extends Model
         'hide_question_number',
     ];
 
-    public function getResource(): ResourceCollection
+    public function getResource(): PictureChoiceResource
     {
         return new PictureChoiceResource($this);
     }

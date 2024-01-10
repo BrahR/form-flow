@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Http\Resources\GeneralTextResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GeneralTextQuestion extends Model
 {
@@ -20,7 +19,7 @@ class GeneralTextQuestion extends Model
         'placeholder',
     ];
 
-    public function getResource(): ResourceCollection
+    public function getResource(): GeneralTextResource
     {
         return new GeneralTextResource($this);
     }
