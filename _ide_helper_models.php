@@ -151,7 +151,7 @@ namespace App\Models{
  * @property string $html_label
  * @property string|null $html_description
  * @property string|null $attachment
- * @property string $required
+ * @property int $required
  * @property string $questionable_type
  * @property int $questionable_id
  * @property int $survey_id
@@ -255,6 +255,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property int $is_active
+ * @property string $link
  * @property int $workspace_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -267,6 +269,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Survey query()
  * @method static \Illuminate\Database\Eloquent\Builder|Survey whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Survey whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Survey whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Survey whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Survey whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Survey whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Survey whereWorkspaceId($value)

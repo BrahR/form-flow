@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create("surveys", function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->boolean("is_active")->default(false);
+            $table->string("link")->unique();
             $table->foreignId("workspace_id")->constrained();
             $table->timestamps();
         });

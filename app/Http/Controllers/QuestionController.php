@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
-use App\Http\Requests\StoreQuestionRequest;
-use App\Http\Resources\QuestionResource;
 use App\Models\Survey;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Response;
+use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Models\OpinionScaleQuestion;
+use App\Http\Resources\QuestionResource;
+use App\Http\Requests\StoreQuestionRequest;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class QuestionController extends Controller
@@ -28,7 +24,7 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreQuestionRequest $request, Survey $survey): Application | Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory
+    public function store(StoreQuestionRequest $request, Survey $survey): QuestionResource
     {
         $validated = $request->validated();
 
@@ -37,9 +33,7 @@ class QuestionController extends Controller
         $questonable = $class::create($validated["questionable"]);
         $question->questionable()->associate($questonable)->save();
 
-        return response([
-            "question" => $question,
-        ]);
+        return new QuestionResource($question);
     }
 
     /**
