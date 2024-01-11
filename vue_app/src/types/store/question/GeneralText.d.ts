@@ -1,7 +1,3 @@
-import type { EditorType } from "./EditorType";
-import type { Component, Ref } from "vue";
-import type { GenericQuestion } from "./GenericQuestion";
-
 type KeyTypes =
   | "text"
   | "long-text"
@@ -48,6 +44,7 @@ type GeneralText = GenericQuestion & {
   };
   required: {
     on: boolean;
+    e: QuestionType;
   };
   hideQuestionNumber: {
     on: boolean;

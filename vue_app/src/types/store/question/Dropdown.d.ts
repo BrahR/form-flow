@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type Dropdown = {
   name: string;
   preview: Component;
@@ -30,7 +28,7 @@ type Dropdown = {
     on: boolean;
   };
   hideQuestionNumber: {
-    on: boolean;
+    on: EditorType;
   };
   components: Component[];
 };

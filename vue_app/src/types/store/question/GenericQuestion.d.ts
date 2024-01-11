@@ -1,6 +1,4 @@
-import type { Component } from "vue";
-
-interface GenericQuestion {
+type GenericQuestion = {
   type: string;
   name: string;
   preview: Component;
@@ -22,4 +20,4 @@ interface GenericQuestion {
   components: Component[];
   canSubmit: boolean;
   getData: QuestionPayload | null;
-}
+};

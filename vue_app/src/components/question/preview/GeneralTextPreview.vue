@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import type { QuestionBuilderStore } from "@/store/questionBuilder";
-import QuestionHeader from "./QuestionHeader.vue";
+import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
 
 const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 </script>

@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <button class="secondary-button">
@@ -9,7 +7,6 @@
 </template>
 
 <style scoped>
-
 .secondary-button {
   all: unset;
   min-width: 4rem;
@@ -22,7 +19,7 @@
   box-sizing: border-box;
   cursor: pointer;
   font-size: 14px;
-  background-color: rgba(59, 54, 142, .15);
+  background-color: rgba(59, 54, 142, 0.15);
   color: #3b368e;
   -webkit-text-fill-color: #3b368e;
 }

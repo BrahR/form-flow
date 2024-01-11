@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 defineProps<{
-  survey: Survey
-}>()
-
+  survey: Survey;
+}>();
 </script>
 
 <template>
   <div class="mySurveyItem_card_view_survey__AFsFL">
     <router-link
-        class="mySurveyItem_name_wrapper__FtsrP"
-        :to="{ name: 'Survey.Build', params: { workspaceId: survey.workspace_id , surveyId: survey.id } }"
-        style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151);"
+      class="mySurveyItem_name_wrapper__FtsrP"
+      :to="{
+        name: 'Survey.Build',
+        params: { workspaceId: survey.workspace_id, surveyId: survey.id },
+      }"
+      style="background-color: rgb(234, 235, 252); color: rgb(121, 73, 151)"
     >
       <div>{{ survey.name }}</div>
     </router-link>
     <div class="mySurveyItem_details__S0THf">
-      <div style="opacity: 1;">
+      <div style="opacity: 1">
         <div class="action-buttons">
           <div class="survey-action-buttons">Preview</div>
           <div class="survey-action-buttons">Results</div>
@@ -34,7 +36,9 @@ defineProps<{
             <div class="mySurveyItem_detail_value__Fio0G">0</div>
           </div>
           <div class="mySurveyItem_detail_item__dsEGA">
-            <div class="mySurveyItem_detail_title__oNnFR mySurveyItem_inactive__GkX8M">
+            <div
+              class="mySurveyItem_detail_title__oNnFR mySurveyItem_inactive__GkX8M"
+            >
               <div class="mySurveyItem_activation__Dfafy">Inactive</div>
             </div>
           </div>
@@ -42,56 +46,96 @@ defineProps<{
       </div>
       <Menu as="div" class="mySurveyItem_detail_item__dsEGA">
         <div>
-          <MenuButton
-              class="relative flex items-center text-sm">
+          <MenuButton class="relative flex items-center text-sm">
             <div class="moreDropDown_wrapper__3ZqgO">
               <div
-                  class="moreDropDown_button__3GhWA mySurveyItem_more_dropdown_button__DZPmc moreDropDown_bordered__H7rK2"
-                  id="downshift-30-toggle-button" aria-haspopup="listbox" aria-expanded="false"
-                  aria-labelledby="downshift-30-label downshift-30-toggle-button">
+                class="moreDropDown_button__3GhWA mySurveyItem_more_dropdown_button__DZPmc moreDropDown_bordered__H7rK2"
+                id="downshift-30-toggle-button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-labelledby="downshift-30-label downshift-30-toggle-button"
+              >
                 <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
                   <g fill="none" fill-rule="evenodd">
                     <path d="M0 0h16v16H0z"></path>
                     <path
-                        d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
-                        stroke="#3E434D" fill="#3E434D" stroke-linecap="round" stroke-linejoin="round"></path>
+                      d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                      stroke="#3E434D"
+                      fill="#3E434D"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
                   </g>
                 </svg>
               </div>
               <ul
-                  class="moreDropDown_list__6nQ41 moreDropDown_top__wVKAf moreDropDown_not_show__HjTwn"
-                  id="downshift-30-menu" role="listbox" aria-labelledby="downshift-30-label" tabindex="-1"></ul>
+                class="moreDropDown_list__6nQ41 moreDropDown_top__wVKAf moreDropDown_not_show__HjTwn"
+                id="downshift-30-menu"
+                role="listbox"
+                aria-labelledby="downshift-30-label"
+                tabindex="-1"
+              ></ul>
             </div>
           </MenuButton>
         </div>
-        <transition enter-active-class="transition ease-out duration-100"
-                    enter-from-class="transform opacity-0 scale-95"
-                    enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75"
-                    leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+        <transition
+          enter-active-class="transition ease-out duration-100"
+          enter-from-class="transform opacity-0 scale-95"
+          enter-to-class="transform opacity-100 scale-100"
+          leave-active-class="transition ease-in duration-75"
+          leave-from-class="transform opacity-100 scale-100"
+          leave-to-class="transform opacity-0 scale-95"
+        >
           <MenuItems
-              class="absolute z-10 mt-2 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              style="margin-top: 2rem"
+            class="absolute z-10 mt-2 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            style="margin-top: 2rem"
           >
             <MenuItem key="Sign-out" v-slot="{ active }">
-              <a href="" @click.prevent="console.log(1)"
-                 :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Rename</a>
+              <a
+                href=""
+                @click.prevent="console.log(1)"
+                :class="[
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700',
+                ]"
+                >Rename</a
+              >
             </MenuItem>
 
             <MenuItem key="Sign-out" v-slot="{ active }">
-              <a href="" @click.prevent="console.log(1)"
-                 :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Move to another
-                workspace</a>
+              <a
+                href=""
+                @click.prevent="console.log(1)"
+                :class="[
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700',
+                ]"
+                >Move to another workspace</a
+              >
             </MenuItem>
             <MenuItem key="Sign-out" v-slot="{ active }">
-              <a href="" @click.prevent="console.log(1)"
-                 :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Duplicate</a>
+              <a
+                href=""
+                @click.prevent="console.log(1)"
+                :class="[
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700',
+                ]"
+                >Duplicate</a
+              >
             </MenuItem>
             <MenuItem key="Sign-out" v-slot="{ active }">
-              <a href="" @click.prevent="console.log(1)"
-                 class="text-red-600"
-                 :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Delete</a>
+              <a
+                href=""
+                @click.prevent="console.log(1)"
+                class="text-red-600"
+                :class="[
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700',
+                ]"
+                >Delete</a
+              >
             </MenuItem>
-
           </MenuItems>
         </transition>
       </Menu>
@@ -100,7 +144,6 @@ defineProps<{
 </template>
 
 <style scoped>
-
 .mySurveyItem_card_view_survey__AFsFL {
   background-color: #fff;
   width: 18.25rem;
@@ -108,7 +151,7 @@ defineProps<{
   border-radius: 0.5rem;
   display: flex;
   box-sizing: border-box;
-  box-shadow: 0 0.125rem 0.5rem -0.125rem rgba(0, 0, 0, .15);
+  box-shadow: 0 0.125rem 0.5rem -0.125rem rgba(0, 0, 0, 0.15);
 }
 
 .mySurveyItem_ltr__tZFi6 {
@@ -180,7 +223,6 @@ defineProps<{
   font-weight: 700;
   color: #3e434d;
   line-height: 1rem;
-
 }
 
 .mySurveyItem_inactive__GkX8M {
@@ -195,13 +237,11 @@ defineProps<{
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .survey-action-buttons:hover {
   background-color: #f0f2f5;
   border-radius: 0.25rem;
-
 }
 
 .moreDropDown_wrapper__3ZqgO {
@@ -242,5 +282,4 @@ defineProps<{
   opacity: 0;
   display: none;
 }
-
 </style>

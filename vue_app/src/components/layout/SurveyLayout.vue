@@ -3,8 +3,8 @@ import UserDropdown from "@/components/UserDropdown.vue";
 import UpdateSurveyForm from "@/components/survey/UpdateSurveyForm.vue";
 
 import { ref } from "vue";
-import { useWorkspaceStore } from "@/store/workspace.ts";
-import { useSurveyStore } from "@/store/survey.ts";
+import { useWorkspaceStore } from "@/store/workspace";
+import { useSurveyStore } from "@/store/survey";
 
 const useWorkspace = useWorkspaceStore();
 const useSurvey = useSurveyStore();

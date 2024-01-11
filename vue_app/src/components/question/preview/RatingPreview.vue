@@ -4,13 +4,13 @@ import HeartIcon from "@/components/question/preview/rating_icons/HeartIcon.vue"
 import StarIcon from "@/components/question/preview/rating_icons/StarIcon.vue";
 import ThumbsUpIcon from "@/components/question/preview/rating_icons/ThumbsUpIcon.vue";
 
-import { inject, ref } from "vue";
+import { inject, ref, Ref } from "vue";
 import type { Component } from "vue";
 import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
 const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const icons: Component[] = [ThumbsUpIcon, HeartIcon, StarIcon];
-const hoverIndex = ref<number | null>(0);
+const hoverIndex: Ref<number | null> = ref(0);
 
 const isFilled = (val: number) => {
   return (

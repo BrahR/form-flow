@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type Email = {
   name: string;
   preview: Component;

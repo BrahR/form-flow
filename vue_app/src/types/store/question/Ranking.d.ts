@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type Ranking = GenericQuestion & {
   choices: {
     id: number;

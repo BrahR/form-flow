@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import UpdateWorkspaceForm from "@/components/workspace/UpdateWorkspaceModal.vue";
 
-import {useWorkspaceStore} from "@/store/workspace.ts";
-import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
-import {computed, ref} from "vue";
+import { useWorkspaceStore } from "@/store/workspace";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { computed, ref } from "vue";
 
-const useWorkspace = useWorkspaceStore()
-const isUpdateWorkspaceModalOpen = ref(false)
-const workspace = computed(() => useWorkspace.workspaces.selected)
+const useWorkspace = useWorkspaceStore();
+const isUpdateWorkspaceModalOpen = ref(false);
+const workspace = computed(() => useWorkspace.workspaces.selected);
 
 const openUpdateWorkspace = async () => {
-  isUpdateWorkspaceModalOpen.value = true
-}
+  isUpdateWorkspaceModalOpen.value = true;
+};
 
 const closeUpdateWorkspace = () => {
-  isUpdateWorkspaceModalOpen.value = false
-}
-
+  isUpdateWorkspaceModalOpen.value = false;
+};
 </script>
 
 <template>
@@ -24,42 +23,82 @@ const closeUpdateWorkspace = () => {
     <div class="mySurveys_container_wrapper__87EPU">
       <div class="mySurveys_header__5IXQb">
         <div class="mySurveys_folder_name_wrapper__R94N2">
-          <div class="mySurveys_folder_name__D7f9W">{{ workspace?.name ?? "" }}</div>
+          <div class="mySurveys_folder_name__D7f9W">
+            {{ workspace?.name ?? "" }}
+          </div>
           <Menu as="div" class="relative">
             <div>
-              <MenuButton
-                  class="relative flex items-center text-sm">
+              <MenuButton class="relative flex items-center text-sm">
                 <div class="mySurveys_more_icon_wrapper__oYNt_">
                   <div class="moreDropDown_wrapper__3ZqgO">
                     <div class="moreDropDown_button__3GhWA">
-                      <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                      <svg
+                        width="16"
+                        height="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
                         <g fill="none" fill-rule="evenodd">
                           <path d="M0 0h16v16H0z"></path>
                           <path
-                              d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
-                              stroke="#3E434D" fill="#3E434D" stroke-linecap="round" stroke-linejoin="round"></path>
+                            d="M8 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                            stroke="#3E434D"
+                            fill="#3E434D"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
                         </g>
                       </svg>
                     </div>
                     <ul
-                        class="moreDropDown_list__6nQ41 moreDropDown_right__hZmc7 undefined moreDropDown_not_show__HjTwn undefined"
-                        id="downshift-12-menu" role="listbox" aria-labelledby="downshift-12-label" tabindex="-1"></ul>
+                      class="moreDropDown_list__6nQ41 moreDropDown_right__hZmc7 undefined moreDropDown_not_show__HjTwn undefined"
+                      id="downshift-12-menu"
+                      role="listbox"
+                      aria-labelledby="downshift-12-label"
+                      tabindex="-1"
+                    ></ul>
                   </div>
                 </div>
               </MenuButton>
             </div>
-            <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95"
-                        enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
               <MenuItems
-                  class="absolute left-10 z-50 top-0 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                class="absolute left-10 z-50 top-0 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
                 <MenuItem key="Sign-out" v-slot="{ active, close }">
-                  <a href="" @click.prevent="openUpdateWorkspace(); close()"
-                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Rename</a>
+                  <a
+                    href=""
+                    @click.prevent="
+                      openUpdateWorkspace();
+                      close();
+                    "
+                    :class="[
+                      active ? 'bg-gray-100' : '',
+                      'block px-4 py-2 text-sm text-gray-700',
+                    ]"
+                    >Rename</a
+                  >
                 </MenuItem>
                 <MenuItem key="Sign-out" v-slot="{ active, close }">
-                  <a href="" @click.prevent="useWorkspace.delete_(workspace); close()" class="text-red-600"
-                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Delete workspace</a>
+                  <a
+                    href=""
+                    @click.prevent="
+                      useWorkspace.delete_(workspace);
+                      close();
+                    "
+                    class="text-red-600"
+                    :class="[
+                      active ? 'bg-gray-100' : '',
+                      'block px-4 py-2 text-sm text-gray-700',
+                    ]"
+                    >Delete workspace</a
+                  >
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -67,20 +106,38 @@ const closeUpdateWorkspace = () => {
         </div>
         <div class="mySurveys_header_menubar_wrapper__zjJ4M">
           <button class="mySurveys_share_folder_button__VUV9N">
-            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g fill="none" fill-rule="evenodd">
                 <path d="M0 0h16v16H0z"></path>
-                <g transform="translate(2 3)" stroke="#3E434D" stroke-linecap="round" stroke-linejoin="round"
-                   stroke-width="1.5">
+                <g
+                  transform="translate(2 3)"
+                  stroke="#3E434D"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                >
                   <path
-                    d="M8.727 10V8.889c0-1.227-.977-2.222-2.182-2.222H2.182C.977 6.667 0 7.662 0 8.889V10"></path>
-                  <ellipse cx="4.364" cy="2.222" rx="2.182" ry="2.222"></ellipse>
+                    d="M8.727 10V8.889c0-1.227-.977-2.222-2.182-2.222H2.182C.977 6.667 0 7.662 0 8.889V10"
+                  ></path>
+                  <ellipse
+                    cx="4.364"
+                    cy="2.222"
+                    rx="2.182"
+                    ry="2.222"
+                  ></ellipse>
                   <path
-                    d="M12 10V8.889a2.215 2.215 0 0 0-1.636-2.15M8.182.072a2.215 2.215 0 0 1 1.64 2.153 2.215 2.215 0 0 1-1.64 2.153"></path>
+                    d="M12 10V8.889a2.215 2.215 0 0 0-1.636-2.15M8.182.072a2.215 2.215 0 0 1 1.64 2.153 2.215 2.215 0 0 1-1.64 2.153"
+                  ></path>
                 </g>
               </g>
             </svg>
-            <span>Share</span></button>
+            <span>Share</span>
+          </button>
         </div>
       </div>
       <div class="mySurveys_surveys_list__21dmw">
@@ -90,9 +147,9 @@ const closeUpdateWorkspace = () => {
   </div>
 
   <UpdateWorkspaceForm
-      :is-open="isUpdateWorkspaceModalOpen"
-      @open="openUpdateWorkspace"
-      @close="closeUpdateWorkspace"
+    :is-open="isUpdateWorkspaceModalOpen"
+    @open="openUpdateWorkspace"
+    @close="closeUpdateWorkspace"
   />
 </template>
 

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal.vue";
-import { useWorkspaceStore } from "@/store/workspace";
 import UserDropdown from "@/components/UserDropdown.vue";
+import CreateWorkspaceModal from "@/components/workspace/CreateWorkspaceModal.vue";
 
-useWorkspaceStore().hydrate();
+import { ref } from "vue";
+import { useWorkspaceStore } from "@/store/workspace";
+
+const workspaceStore = useWorkspaceStore();
+workspaceStore.hydrate();
+
 const isCreateWorkspaceModalOpen = ref(false);
 const openCreateWorkspace = () => {
   isCreateWorkspaceModalOpen.value = true;

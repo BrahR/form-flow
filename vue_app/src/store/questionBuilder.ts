@@ -1,36 +1,14 @@
 // this can be done in a better way but i got lazy
-import type {
-  Welcome,
-  GeneralText,
-  MultipleChoice,
-  PictureChoice,
-  QuestionGroup,
-  OpinionScale,
-  Rating,
-  Question,
-  QuestionType,
-  Ranking,
-  FileUpload,
-  hasHideQuestionNumber,
-  hasImageOrVideo,
-  hasRandomize,
-  hasRequired,
-  hasHiddenLabel,
-  hasDoubleDisplay,
-  hasVerticalDisplay,
-  hasMultipleAnswers,
-  hasButton,
-  hasScale,
-} from "@/types/store/question";
 import { acceptHMRUpdate, defineStore } from "pinia";
 import type {} from "vite";
 import { computed, ref } from "vue";
 import axiosInstance from "@/axios";
 import { defaultQuestions } from "@/utils/defaultQuestions";
+import { Ref } from "vue";
 
 export const useQuestionBuilderStore = defineStore("questionBuilder", () => {
-  const questions = ref<Question>(defaultQuestions);
-  const selected = ref<Question[QuestionType]>(null as any);
+  const questions: Ref<QuestionObject> = ref(defaultQuestions);
+  const selected: Ref<QuestionObject[QuestionType]> = ref(null as never);
   // const selected = ref<Endings>(null as any);
   const loading = ref(false);
   const hydrated = ref(false);
@@ -82,54 +60,56 @@ export const useQuestionBuilderStore = defineStore("questionBuilder", () => {
     },
   });
   const getVideoOrImage = computed(
-    () => (selected.value as hasImageOrVideo).imageOrVideo
+    () => (selected.value as Has<"imageOrVideo">).imageOrVideo
   );
-  const getRequired = computed(() => (selected.value as hasRequired).required);
+  const getRequired = computed(
+    () => (selected.value as Has<"required">).required
+  );
   const getHideQuestionNumber = computed(
-    () => (selected.value as hasHideQuestionNumber).hideQuestionNumber
+    () => (selected.value as Has<"hideQuestionNumber">).hideQuestionNumber
   );
   const getIsRandomize = computed({
     get: () => {
-      return (selected.value as hasRandomize).randomize.on;
+      return (selected.value as Has<"randomize">).randomize.on;
     },
     set: (value) => {
-      (selected.value as hasRandomize).randomize.on = value;
+      (selected.value as Has<"randomize">).randomize.on = value;
     },
   });
   const getIsHiddenLabel = computed({
     get: () => {
-      return (selected.value as hasHiddenLabel).hiddenLabel.on;
+      return (selected.value as Has<"hiddenLabel">).hiddenLabel.on;
     },
     set: (value) => {
-      (selected.value as hasHiddenLabel).hiddenLabel.on = value;
+      (selected.value as Has<"hiddenLabel">).hiddenLabel.on = value;
     },
   });
   const getIsDoubleDisplaySize = computed({
     get: () => {
-      return (selected.value as hasDoubleDisplay).doubleDisplaySize.on;
+      return (selected.value as Has<"doubleDisplaySize">).doubleDisplaySize.on;
     },
     set: (value) => {
-      (selected.value as hasDoubleDisplay).doubleDisplaySize.on = value;
+      (selected.value as Has<"doubleDisplaySize">).doubleDisplaySize.on = value;
     },
   });
   const getIsVerticalDisplay = computed({
     get: () => {
-      return (selected.value as hasVerticalDisplay).verticalDisplay.on;
+      return (selected.value as Has<"verticalDisplay">).verticalDisplay.on;
     },
     set: (value) => {
-      (selected.value as hasVerticalDisplay).verticalDisplay.on = value;
+      (selected.value as Has<"verticalDisplay">).verticalDisplay.on = value;
     },
   });
-  const getButton = computed(() => (selected.value as hasButton).button);
+  const getButton = computed(() => (selected.value as Has<"button">).button);
   const getMultipleAnswers = computed(
-    () => (selected.value as hasMultipleAnswers).multipleAnswers
+    () => (selected.value as Has<"multipleAnswers">).multipleAnswers
   );
   const getScaleParameters = computed({
     get: () => {
-      return (selected.value as hasScale).parameters;
+      return (selected.value as Has<"parameters">).parameters;
     },
     set: (value) => {
-      (selected.value as hasScale).parameters = value;
+      (selected.value as Has<"parameters">).parameters = value;
     },
   });
 

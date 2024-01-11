@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type QuestionGroup = GenericQuestion & {
   required: {
     on: boolean;

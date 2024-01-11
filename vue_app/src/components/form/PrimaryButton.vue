@@ -1,13 +1,20 @@
 <script setup lang="ts">
 defineProps<{
-  isSubmitting: boolean
-  disabled: boolean
-}>()
+  isSubmitting: boolean;
+  disabled: boolean;
+}>();
 </script>
 
 <template>
-  <button :class="{ 'on-submit': isSubmitting }" class="primary-button" :disabled="disabled">
-    <span :class="{ 'hidden': !isSubmitting }" class="loading loading-spinner loading-md mr-1.5 absolute"></span>
+  <button
+    :class="{ 'on-submit': isSubmitting }"
+    class="primary-button"
+    :disabled="disabled"
+  >
+    <span
+      :class="{ hidden: !isSubmitting }"
+      class="loading loading-spinner loading-md mr-1.5 absolute"
+    ></span>
     <span class="m-auto">
       <slot />
     </span>
@@ -15,7 +22,6 @@ defineProps<{
 </template>
 
 <style scoped>
-
 .primary-button {
   all: unset;
   min-width: 4rem;
@@ -32,15 +38,13 @@ defineProps<{
   color: #fff;
   -webkit-text-fill-color: #fff;
   -webkit-opacity: 1;
-  transition: .1s ease-in-out;
+  transition: 0.1s ease-in-out;
 }
 
 .primary-button[disabled],
-.primary-button.on-submit
-{
+.primary-button.on-submit {
   background-color: #d8dbe0;
   color: #3e434d;
   cursor: not-allowed;
 }
-
 </style>

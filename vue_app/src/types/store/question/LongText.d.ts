@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type LongText = {
   name: string;
   preview: Component;

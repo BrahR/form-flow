@@ -5,96 +5,103 @@ import StandardModalForm from "@/components/StandardModalForm.vue";
 import SecondaryButton from "@/components/form/SecondaryButton.vue";
 import TextInput from "@/components/form/TextInput.vue";
 
-import {computed, ref} from "vue";
-import {useForm} from "vee-validate";
 import * as yup from "yup";
-import {useSurveyStore} from "@/store/survey.ts";
+import { useSurveyStore } from "@/store/survey";
+import { computed, ref } from "vue";
+import { useForm } from "vee-validate";
 
 type SurveyForm = {
-  name: string
-}
+  name: string;
+};
 
 defineProps<{
-  isOpen: boolean
-}>()
+  isOpen: boolean;
+}>();
 
 const emits = defineEmits<{
-  (event: "close"): void
-}>()
+  (event: "close"): void;
+}>();
 
-const useSurvey = useSurveyStore()
-const {errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta} = useForm<SurveyForm>({
+const useSurvey = useSurveyStore();
+const {
+  errors,
+  isSubmitting,
+  handleSubmit,
+  resetForm,
+  defineComponentBinds,
+  meta,
+} = useForm<SurveyForm>({
   validationSchema: yup.object({
     name: yup.string().required().label("Name"),
   }),
-})
+});
 
 const name = defineComponentBinds("name");
 const error = ref("");
 
-const createSurvey = handleSubmit(values => {
+const createSurvey = handleSubmit((values) => {
   return new Promise((resolve, reject) => {
-    useSurvey.createSurvey(values as Survey)
+    useSurvey
+      .createSurvey(values as Survey)
       .then(() => {
-        closeSurveyModal()
+        closeSurveyModal();
         //   do something later
-        resolve(true)
+        resolve(true);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         // setTimeout(() => {
         resetForm({
           values: {
             name: "",
           },
-        })
-        error.value = "Something happened, please try again later!"
-        if (err.status) error.value = err.response.data.message
-        reject(false)
+        });
+        error.value = "Something happened, please try again later!";
+        if (err.status) error.value = err.response.data.message;
+        reject(false);
       });
-  })
-})
+  });
+});
 
 const closeSurveyModal = () => {
-  emits("close")
+  emits("close");
   resetForm();
-}
+};
 
 const isSubmitting_ = computed(() => {
-  return isSubmitting.value && meta.value.valid
-})
+  return isSubmitting.value && meta.value.valid;
+});
 
-const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.value.touched))
+const disabled = computed(
+  () => !meta.value.valid && (meta.value.dirty || meta.value.touched)
+);
 </script>
 
 <template>
-  <StandardModalForm title="Create new survey" :show="isOpen" @close="closeSurveyModal">
-    <form
-      @submit="createSurvey"
-      @keydown.enter.prevent="createSurvey"
-    >
+  <StandardModalForm
+    title="Create new survey"
+    :show="isOpen"
+    @close="closeSurveyModal"
+  >
+    <form @submit="createSurvey" @keydown.enter.prevent="createSurvey">
       <div class="messageModal_grid_wrapper__ziDi0">
         <div class="createFolderModal_createFolder_modal__UDqGR">
-          <InputError class="mb-3" :error="error" :show="!meta.touched"/>
+          <InputError class="mb-3" :error="error" :show="!meta.touched" />
 
           <TextInput
-              v-bind="name"
-              placeholder="Please enter a name for this survey"
+            v-bind="name"
+            placeholder="Please enter a name for this survey"
           />
 
-          <InputError :error="errors.name"/>
+          <InputError :error="errors.name" />
         </div>
       </div>
       <div class="messageModal_footer__EhWT8">
-        <SecondaryButton
-            @click.prevent="closeSurveyModal">
+        <SecondaryButton @click.prevent="closeSurveyModal">
           Cancel
         </SecondaryButton>
 
-        <PrimaryButton
-            :is-submitting="isSubmitting_"
-            :disabled="disabled"
-        >
+        <PrimaryButton :is-submitting="isSubmitting_" :disabled="disabled">
           Create
         </PrimaryButton>
       </div>
@@ -103,7 +110,6 @@ const disabled = computed(() => !meta.value.valid && (meta.value.dirty || meta.v
 </template>
 
 <style scoped>
-
 .messageModal_grid_wrapper__ziDi0 {
   padding: 2rem;
   font-size: 14px;

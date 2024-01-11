@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type FileUpload = GenericQuestion & {
   required: {
     on: boolean;

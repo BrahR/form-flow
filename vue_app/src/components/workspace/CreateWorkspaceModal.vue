@@ -5,9 +5,9 @@ import PrimaryButton from "@/components/form/PrimaryButton.vue";
 import StandardModalForm from "@/components/StandardModalForm.vue";
 import SecondaryButton from "@/components/form/SecondaryButton.vue";
 
-import { useWorkspaceStore } from "@/store/workspace.ts";
-import { useForm } from "vee-validate";
 import * as yup from "yup";
+import { useWorkspaceStore } from "@/store/workspace";
+import { useForm } from "vee-validate";
 import { computed, ref } from "vue";
 
 defineProps<{

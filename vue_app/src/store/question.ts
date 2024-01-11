@@ -1,11 +1,11 @@
 // this can be done in a better way but i got lazy
 import type {} from "vite";
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, Ref } from "vue";
 import axiosInstance from "@/axios";
 
 export const useQuestionStore = defineStore("question", () => {
-  const data = ref<Question[]>([]);
+  const data: Ref<Question[]> = ref([]);
   const loading = ref(false);
   const hydrated = ref(false);
 

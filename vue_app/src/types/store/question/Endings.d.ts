@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type Endings = GenericQuestion & {
   afterSubmit: {
     type: string;

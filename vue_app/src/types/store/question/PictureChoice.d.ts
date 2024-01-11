@@ -1,5 +1,3 @@
-import type { Component } from "vue";
-
 type PictureChoice = GenericQuestion & {
   choices: {
     id: number;

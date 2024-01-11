@@ -6,46 +6,54 @@ import AuthSubmit from "@/components/form/AuthSubmit.vue";
 
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import {useRouter} from "vue-router";
-import {ref} from "vue";
-import {useUserStore} from "@/store/user.ts";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useUserStore } from "@/store/user.ts";
 
 type RegisterForm = {
-  email: string,
-  password: string,
-  confirmPassword: string,
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
 
 const router = useRouter();
 const userStore = useUserStore();
-const { errors, isSubmitting, handleSubmit, resetForm, defineComponentBinds, meta } = useForm<RegisterForm>({
+const {
+  errors,
+  isSubmitting,
+  handleSubmit,
+  resetForm,
+  defineComponentBinds,
+  meta,
+} = useForm<RegisterForm>({
   validationSchema: yup.object({
     email: yup.string().required().email().label("Email"),
     password: yup.string().required().min(8).label("Password"),
-    confirmPassword:
-      yup.string()
-         .required()
-         .min(8)
-         .oneOf([yup.ref("password")], "Confirm password must match")
-         .label("Confirm password"),
+    confirmPassword: yup
+      .string()
+      .required()
+      .min(8)
+      .oneOf([yup.ref("password")], "Confirm password must match")
+      .label("Confirm password"),
   }),
-})
+});
 
 const email = defineComponentBinds("email");
 const password = defineComponentBinds("password");
 const confirmPassword = defineComponentBinds("confirmPassword");
 const error = ref("");
 
-const register = handleSubmit(values => {
-  return new Promise(resolve => {
+const register = handleSubmit((values) => {
+  return new Promise((resolve) => {
     const payload = {
       email: values.email,
       password: values.password,
       // laravel moment
       password_confirmation: values.confirmPassword,
-    }
+    };
 
-    userStore.registerUser(payload as never)
+    userStore
+      .registerUser(payload as never)
       .then(() => {
         router.push({ name: "Login" });
         resolve(true);
@@ -58,7 +66,7 @@ const register = handleSubmit(values => {
             password: "",
             confirmPassword: "",
           },
-        })
+        });
         error.value = err.response.data.message;
         resolve(false);
       });
@@ -68,7 +76,7 @@ const register = handleSubmit(values => {
 
 <template>
   <div class="register-wrapper">
-    <img src="" alt="">
+    <img src="" alt="" />
     <div class="register-form">
       <div class="register-form-title">Register</div>
       <InputError class="mb-1" :error="error" :show="!meta.touched" />
@@ -89,14 +97,16 @@ const register = handleSubmit(values => {
 
         <div class="register-password-group">
           <InputLabel id="confirm-password">Confirm password</InputLabel>
-          <TextInput id="confirm-password" type="password" v-bind="confirmPassword" />
+          <TextInput
+            id="confirm-password"
+            type="password"
+            v-bind="confirmPassword"
+          />
 
           <InputError :error="errors.confirmPassword" />
         </div>
 
-        <div class="register-form-policy">
-          Policy stuff
-        </div>
+        <div class="register-form-policy">Policy stuff</div>
 
         <AuthSubmit
           type="submit"
@@ -108,7 +118,8 @@ const register = handleSubmit(values => {
       </form>
     </div>
     <div class="register-footer">
-      Already have an account? <router-link :to="{ name: 'Login' }">Login to DET-form</router-link>
+      Already have an account?
+      <router-link :to="{ name: 'Login' }">Login to DET-form</router-link>
     </div>
   </div>
 </template>

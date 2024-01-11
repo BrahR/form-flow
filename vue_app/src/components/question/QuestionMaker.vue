@@ -5,7 +5,6 @@ import Dialog from "@/components/Dialog.vue";
 import CloseModal from "@/components/question/CloseModal.vue";
 
 import { useQuestionBuilderStore } from "@/store/questionBuilder";
-import type { QuestionType } from "@/types/store/question";
 import { watchEffect, provide } from "vue";
 
 const props = defineProps<{

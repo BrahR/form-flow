@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import QuestionHeader from "@/components/question/preview/QuestionHeader.vue";
-import { inject, computed, ref } from "vue";
+import { inject, computed, ref, Ref } from "vue";
 import type { QuestionBuilderStore } from "@/store/questionBuilder";
 
 const useQuestionBuilder = inject("question") as QuestionBuilderStore;
 const labels: ["right", "center", "left"] = ["right", "center", "left"];
 
-const activeScale = ref<number | null>(null);
+const activeScale: Ref<number | null> = ref(null);
 const active = computed({
   get() {
     return activeScale.value;
