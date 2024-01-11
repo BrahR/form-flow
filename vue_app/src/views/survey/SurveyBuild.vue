@@ -22,7 +22,6 @@ import QuestionsList from "@/components/question/QuestionsList.vue";
 import { onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuestionStore } from "@/store/question";
-import type { Component } from "vue";
 
 type SurveyButton = {
   title: string;
@@ -174,92 +173,86 @@ const addParam = (title: QuestionType) => {
 </script>
 
 <template>
-  <div class="ptr">
-    <div class="ptr__children">
-      <div class="buildMain_wrapper__txnsx">
-        <div
-          class="questionsTypesList_wrapper__ZpLGJ questionsTypesList_ltr__Z0TqO"
-        >
+  <div class="buildMain_wrapper__txnsx">
+    <div
+      class="questionsTypesList_wrapper__ZpLGJ questionsTypesList_ltr__Z0TqO"
+    >
+      <div data-react-beautiful-dnd-droppable="4" style="pointer-events: auto">
+        <div v-for="(btn, index) in buttons" :key="index">
           <div
-            data-react-beautiful-dnd-droppable="4"
-            style="pointer-events: auto"
+            @click="addParam(btn.type)"
+            data-react-beautiful-dnd-draggable="4"
+            tabindex="0"
+            data-react-beautiful-dnd-drag-handle="4"
+            aria-roledescription="Draggable item. Press space bar to lift"
+            draggable="false"
+            class="questionsTypesList_question_type__476hn questionsTypesList_ltr__Z0TqO questionsTypesList_translate_zero__IHjmN"
+            :class="{ questionsTypesList_full_width__pFODE: btn.fullWidth }"
           >
-            <div v-for="(btn, index) in buttons" :key="index">
-              <div
-                @click="addParam(btn.type)"
-                data-react-beautiful-dnd-draggable="4"
-                tabindex="0"
-                data-react-beautiful-dnd-drag-handle="4"
-                aria-roledescription="Draggable item. Press space bar to lift"
-                draggable="false"
-                class="questionsTypesList_question_type__476hn questionsTypesList_ltr__Z0TqO questionsTypesList_translate_zero__IHjmN"
-                :class="{ questionsTypesList_full_width__pFODE: btn.fullWidth }"
-              >
-                <component :is="btn.component"></component>
-                <div class="questionsTypesList_name__o2b3D">
-                  {{ btn.title }}
-                </div>
-              </div>
-            </div>
-            <div class="questionsTypesList_provided_placeholder__Y0aOz"></div>
-          </div>
-          <div
-            class="questionsTypesList_variables_and_in_app_message_wrapper__mmjWr"
-          >
-            <div class="questionsTypesList_variables__VXEhg">
-              <div
-                v-for="(btn, index) in bottomButtons"
-                :key="index"
-                class="questionsTypesList_variable__0pjbr questionsTypesList_ltr__Z0TqO"
-              >
-                <div class="questionsTypesList_icon_and_title__jClBm">
-                  <component :is="btn.component"></component>
-                  {{ btn.title }}
-                </div>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g fill="none" fill-rule="evenodd">
-                    <path d="M0 0h16v16H0z"></path>
-                    <path
-                      stroke="#3E434D"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M10.25 12.5 5.75 8l4.5-4.5"
-                    ></path>
-                  </g>
-                </svg>
-              </div>
+            <component :is="btn.component"></component>
+            <div class="questionsTypesList_name__o2b3D">
+              {{ btn.title }}
             </div>
           </div>
         </div>
-        <QuestionsList />
-        <div
-          class="buildMain_new_question_modal_button__7GbOa buildMain_ltr__Qz_0d"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+        <div class="questionsTypesList_provided_placeholder__Y0aOz"></div>
+      </div>
+      <div
+        class="questionsTypesList_variables_and_in_app_message_wrapper__mmjWr"
+      >
+        <div class="questionsTypesList_variables__VXEhg">
+          <div
+            v-for="(btn, index) in bottomButtons"
+            :key="index"
+            class="questionsTypesList_variable__0pjbr questionsTypesList_ltr__Z0TqO"
           >
-            <g fill="none" fill-rule="evenodd">
-              <path d="M0 0h24v24H0z"></path>
-              <path
-                d="M12 6a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 1-1z"
-                fill="#3E434D"
-              ></path>
-            </g>
-          </svg>
-          <div class="buildMain_text__AsezH">Add question</div>
+            <div class="questionsTypesList_icon_and_title__jClBm">
+              <component :is="btn.component"></component>
+              {{ btn.title }}
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g fill="none" fill-rule="evenodd">
+                <path d="M0 0h16v16H0z"></path>
+                <path
+                  stroke="#3E434D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.25 12.5 5.75 8l4.5-4.5"
+                ></path>
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
+    <QuestionsList />
+    <div
+      class="buildMain_new_question_modal_button__7GbOa buildMain_ltr__Qz_0d"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g fill="none" fill-rule="evenodd">
+          <path d="M0 0h24v24H0z"></path>
+          <path
+            d="M12 6a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 1-1z"
+            fill="#3E434D"
+          ></path>
+        </g>
+      </svg>
+      <div class="buildMain_text__AsezH">Add question</div>
+    </div>
   </div>
+
   <QuestionMaker
     :open="!!route.query?.type"
     :type="route.query?.type as QuestionType ?? null"
@@ -270,10 +263,6 @@ const addParam = (title: QuestionType) => {
 <style scoped>
 * {
   box-sizing: content-box;
-}
-
-.ptr__pull-down--pull-more div p {
-  display: none;
 }
 .questionsTypesList_wrapper__ZpLGJ {
   font-size: 14px;
