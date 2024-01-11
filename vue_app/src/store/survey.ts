@@ -1,6 +1,6 @@
 import axiosInstance from "@/axios.ts";
-import { acceptHMRUpdate, defineStore } from "pinia";
 import type {} from "vite";
+import { acceptHMRUpdate, defineStore } from "pinia";
 import { computed, reactive } from "vue";
 import { useWorkspaceStore } from "@/store/workspace.ts";
 import { find, pushToArray } from "@/utils";
@@ -45,11 +45,17 @@ export const useSurveyStore = defineStore("survey", () => {
   };
 
   // GETTERS
-  const getSurveys = computed((): Survey[] => surveys.data);
-  const getSelected = computed((): Survey | null => surveys.selected);
-  const isLoading = computed((): boolean => surveys.loading);
-  const isHydrated = computed((): boolean => surveys.hydrated);
-  const isCreating = computed((): boolean => surveys.creating);
+  const getSurveys = computed(() => surveys.data);
+  const getSelected = computed(() => surveys.selected);
+  const isLoading = computed(() => surveys.loading);
+  const isHydrated = computed(() => surveys.hydrated);
+  const isCreating = computed(() => surveys.creating);
+
+  const fetchSurvey = async (link: string) => {
+    return axiosInstance.get(`/survey/${link}`).then((r) => {
+      surveys.selected = r.data.survey;
+    });
+  };
 
   const createSurvey = async (survey: Survey): Promise<void> => {
     if (surveys.creating) return;
@@ -82,6 +88,7 @@ export const useSurveyStore = defineStore("survey", () => {
     isHydrated,
     isCreating,
 
+    fetchSurvey,
     createSurvey,
     update,
 

@@ -9,8 +9,8 @@ import {
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
-// import SurveyBuild from "@/views/survey/SurveyBuild.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
+// import SurveyBuild from "@/views/survey/SurveyBuild.vue";
 // import SurveyDesign from "@/views/survey/SurveyDesign.vue";
 // import SurveyResults from "@/views/survey/SurveyResults.vue";
 // import SurveySettings from "@/views/survey/SurveySettings.vue";
@@ -97,6 +97,12 @@ const routes: RouteRecordRaw[] = [
         component: HelloWorld,
       },
     ],
+  },
+  {
+    path: "/view/:surveySlug",
+    meta: { requiresAuth: true },
+    name: "Survey.View",
+    component: () => import("@/views/SurveyView.vue"),
   },
   {
     path: "/test",

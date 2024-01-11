@@ -1,11 +1,11 @@
 // this can be done in a better way but i got lazy
 import type {} from "vite";
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { ref, Ref } from "vue";
+import { computed, ref, Ref } from "vue";
 import axiosInstance from "@/axios";
 
 export const useQuestionStore = defineStore("question", () => {
-  const data: Ref<Question[]> = ref([]);
+  const data: Ref<QuestionBase<Questions>[]> = ref([]);
   const loading = ref(false);
   const hydrated = ref(false);
 
@@ -15,7 +15,7 @@ export const useQuestionStore = defineStore("question", () => {
     if (!surveyId) return;
     console.log("HYDRATING QUESTIONS WITH SURVEY ID: ", surveyId);
     loading.value = true;
-    data.value = await getQuestions(surveyId);
+    data.value = await fetchQuestions(surveyId);
     loading.value = false;
     hydrated.value = true;
   };
@@ -26,7 +26,7 @@ export const useQuestionStore = defineStore("question", () => {
     loading.value = false;
   };
 
-  const getQuestions = async (surveyId: number | null) => {
+  const fetchQuestions = async (surveyId: number | null) => {
     if (!surveyId) return;
 
     const response = await axiosInstance.get(`/survey/${surveyId}/question`);
@@ -34,10 +34,32 @@ export const useQuestionStore = defineStore("question", () => {
     return response.data.data;
   };
 
+  const getWelcome = computed((): QuestionBase<Welcome> | undefined => {
+    return data.value.find(
+      (q) => q.questionable.type === "Welcome"
+    ) as unknown as QuestionBase<Welcome>;
+  });
+
+  const getListableQuestions = computed((): QuestionBase<Questions>[] => {
+    return data.value.filter(
+      (q) =>
+        q.questionable.type !== "Welcome" && q.questionable.type !== "Endings"
+    );
+  });
+
+  const getEndings = computed((): QuestionBase<Endings> | undefined => {
+    return data.value.find(
+      (q) => q.questionable.type === "Endings"
+    ) as unknown as QuestionBase<Endings>;
+  });
+
   return {
     data,
 
-    getQuestions,
+    fetchQuestions,
+    getWelcome,
+    getListableQuestions,
+    getEndings,
 
     hydrate,
     dehydrate,

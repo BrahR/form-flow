@@ -1,12 +1,13 @@
 // this can be done in a better way but i got lazy
-import { acceptHMRUpdate, defineStore } from "pinia";
-import type {} from "vite";
-import { computed, ref } from "vue";
 import axiosInstance from "@/axios";
+import type {} from "vite";
+import { acceptHMRUpdate, defineStore } from "pinia";
+import { computed, ref, Ref } from "vue";
 import { defaultQuestions } from "@/utils/defaultQuestions";
-import { Ref } from "vue";
+import { useQuestionStore } from "@/store/question";
 
 export const useQuestionBuilderStore = defineStore("questionBuilder", () => {
+  const useQuestion = useQuestionStore();
   const questions: Ref<QuestionObject> = ref(defaultQuestions);
   const selected: Ref<QuestionObject[QuestionType]> = ref(null as never);
   // const selected = ref<Endings>(null as any);
@@ -33,6 +34,10 @@ export const useQuestionBuilderStore = defineStore("questionBuilder", () => {
     );
 
     console.log(response);
+    if (response.status === 201) {
+      useQuestion.data.push(response.data.data);
+      console.log(useQuestion.data);
+    }
   };
 
   const isLoading = computed(() => loading.value);
