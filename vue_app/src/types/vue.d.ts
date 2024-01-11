@@ -1,9 +1,9 @@
-import Router from 'vue-router'
+import Router from "vue-router";
 
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $route: Router & {
-            params: any
-        }
-    }
+declare module "@vue/runtime-core" {
+  interface ComponentCustomProperties {
+    $route: Router & {
+      params: any;
+    };
+  }
 }

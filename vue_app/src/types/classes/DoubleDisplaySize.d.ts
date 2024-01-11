@@ -1,0 +1,3 @@
+type DoubleDisplaySize = {
+  on: boolean;
+};

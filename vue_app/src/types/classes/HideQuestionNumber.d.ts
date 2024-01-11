@@ -1,0 +1,3 @@
+type HideQuestionNumber = {
+  on: boolean;
+};

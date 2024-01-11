@@ -1,0 +1,3 @@
+type HiddenLabel = {
+  on: boolean;
+};
