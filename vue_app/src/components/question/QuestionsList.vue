@@ -11,10 +11,7 @@ const useQuestion = useQuestionStore();
     <div
       class="questionsList_welcome_wrapper__Vq7wD questionsList_empty__JIwpm"
     >
-      <div
-        class="questionsList_droppable__cWD_h false"
-        data-react-beautiful-dnd-droppable="0"
-      >
+      <div class="questionsList_droppable__cWD_h false">
         <div>
           <svg
             width="24"

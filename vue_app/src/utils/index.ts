@@ -7,8 +7,6 @@ import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
 import { EditorConfig } from "@ckeditor/ckeditor5-core";
 import { Alignment } from "@ckeditor/ckeditor5-alignment";
 import { defineAsyncComponent, ref } from "vue";
-import type { Component, Ref } from "vue";
-import type { EditorType } from "@/types/store/question/EditorType";
 
 interface hasId {
   id: number;
@@ -77,7 +75,7 @@ function convertSize(
 function initEditor() {
   const ckeditor: EditorType = {
     instance: null as unknown as any,
-    editor: ClassicEditor,
+    editor: ClassicEditor as never,
     isDirty: false,
     model: ref("") as unknown as string,
     config: {

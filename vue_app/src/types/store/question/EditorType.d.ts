@@ -1,6 +1,6 @@
 type EditorType = {
   instance: ClassicEditor;
-  editor: ClassicEditor;
+  editor: never;
   model: string;
   config: EditorConfig;
   isDirty: boolean;

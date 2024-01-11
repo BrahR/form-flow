@@ -9,13 +9,9 @@ import HideQuestionNumberToggle from "@/components/question/toggles/HideQuestion
 import VerticalDisplayToggle from "@/components/question/toggles/VerticalDisplayToggle.vue";
 import MultipleAnswerToggle from "@/components/question/toggles/MultipleAnswerToggle.vue";
 import RandomizeToggle from "@/components/question/toggles/RandomizeToggle.vue";
-import MinMaxCharToggle from "@/components/question/toggles/MinMaxCharToggle.vue";
 import HideLabelToggle from "@/components/question/toggles/HideLabelToggle.vue";
 import DoubleDisplaySizeToggle from "@/components/question/toggles/DoubleDisplaySizeToggle.vue";
 import RandomizeGroupToggle from "@/components/question/toggles/RandomizeGroupToggle.vue";
-import AnswerOptionsToggle from "@/components/question/toggles/AnswerOptionsToggle.vue";
-import SortToggle from "@/components/question/toggles/SortToggle.vue";
-import AllowDecimalToggle from "@/components/question/toggles/AllowDecimalToggle.vue";
 import StartAtZeroToggle from "@/components/question/toggles/StartAtZeroToggle.vue";
 import ScaleToggle from "@/components/question/toggles/ScaleToggle.vue";
 import RatingToggle from "@/components/question/toggles/RatingToggle.vue";
@@ -50,8 +46,6 @@ import LongTextAnswerType from "@/components/question/toggles/answer_types/LongT
 import LongTextAnswerInput from "@/components/question/preview/answer_input_types/LongTextAnswerInput.vue";
 import GeneralTextPreview from "@/components/question/preview/GeneralTextPreview.vue";
 import GeneralTextIcon from "@/components/survey/icons/GeneralTextIcon.vue";
-
-import type { Question, GeneralTextType } from "@/types/store/question";
 
 const types: GeneralTextType[] = [
   {
@@ -159,7 +153,7 @@ const types: GeneralTextType[] = [
   },
 ];
 
-export const defaultQuestions: Question = {
+export const defaultQuestions: QuestionObject = {
   welcome: {
     type: "Welcome",
     name: "Welcome Page",

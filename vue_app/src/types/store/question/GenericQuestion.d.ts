@@ -6,12 +6,12 @@ type GenericQuestion = {
   action: boolean;
   labeled: {
     on: boolean;
-    editor: EditorType;
+    editor: any;
     error: string | null;
   };
   described: {
     on: boolean;
-    editor: EditorType;
+    editor: any;
     error?: string;
   };
   imageOrVideo: {

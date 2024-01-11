@@ -44,7 +44,6 @@ type GeneralText = GenericQuestion & {
   };
   required: {
     on: boolean;
-    e: QuestionType;
   };
   hideQuestionNumber: {
     on: boolean;
