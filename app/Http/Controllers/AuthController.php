@@ -2,56 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request): Response {
-        $data = $request->validated();
-        $data["password"] = bcrypt($data["password"]);
+  public function register(RegisterRequest $request): JsonResponse
+  {
+    $validatedData = $request->validated();
+    $validatedData["password"] = bcrypt($validatedData["password"]);
+    $user = User::create($validatedData);
+    $token = $user->createToken("auth_token")->plainTextToken;
 
-        $user = User::create($data);
-        $token = $user->createToken("auth_token")->plainTextToken;
+    return response()->json([
+      "user" => $user,
+      "token" => $token,
+    ]);
+  }
 
-        return response([
-            "user" => $user,
-            "token" => $token,
-        ]);
+  public function login(LoginRequest $request): JsonResponse
+  {
+    $credentials = $request->validated();
+    $remember_me = $credentials["remember_me"] ?? false;
+    unset($credentials["remember_me"]);
+
+    if (!auth()->attempt($credentials, $remember_me)) {
+      return response()->json([
+        "message" => "Invalid credentials",
+      ], Response::HTTP_UNAUTHORIZED);
     }
 
-    public function login(LoginRequest $request): Response {
-        $credentials = $request->validated();
-        $remember_me = $credentials["remember_me"] ?? false;
-        unset($credentials["remember_me"]);
+    $user = auth()->user();
+    $token = $user->createToken("auth_token")->plainTextToken;
 
-        if (!Auth::attempt($credentials, $remember_me)) {
-            return response([
-                "message" => "Invalid credentials",
-            ], ResponseAlias::HTTP_UNAUTHORIZED);
-        }
+    return response()->json([
+      "user" => $user,
+      "token" => $token,
+    ]);
+  }
 
-        /** @var $user User **/
-        $user = Auth::user();
-        $token = $user->createToken("auth_token")->plainTextToken;
+  public function logout(): JsonResponse
+  {
+    $user = auth()->user();
+    $user->tokens()->delete();
 
-        return response([
-            "user" => $user,
-            "token" => $token,
-        ]);
-    }
-
-    public function logout(): Response {
-        /** @var $user User **/
-        $user = Auth::user();
-        $user->tokens()->delete();
-
-        return response([
-            "success" => true,
-        ]);
-    }
+    return response()->json([
+      "message" => "Logged out",
+    ]);
+  }
 }

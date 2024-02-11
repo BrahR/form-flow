@@ -3,58 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WorkspaceRequest;
-use App\Models\User;
+use App\Http\Resources\WorkspaceResource;
 use App\Models\Workspace;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class WorkspaceController extends Controller {
-    public function index(): Response {
-        /** @var $user User **/
-        $user = Auth::user();
-        $workspaces = $user->workspaces;
+class WorkspaceController extends Controller
+{
+    public function index(): ResourceCollection
+    {
+        $user = auth()->user();
+        $workspaces = $user->workspaces()->with("surveys")->get();
 
-        return response([
-            "workspaces" => $workspaces
-        ]);
+        return WorkspaceResource::collection($workspaces);
     }
 
-    public function show(Workspace $workspace): Response {
-        return response([
-           "workspace" => $workspace->load("surveys")
-        ]);
+    public function store(WorkspaceRequest $request): WorkspaceResource
+    {
+        return new WorkspaceResource(Workspace::create($request->validated()));
     }
 
-    public function store(WorkspaceRequest $request): Response {
-        $workspace = Workspace::create($request->validated());
-        $workspace->users()->attach(auth()->user());
-
-        return response([
-            "workspace" => $workspace,
-        ]);
+    public function show(Workspace $workspace): WorkspaceResource
+    {
+        return new WorkspaceResource($workspace->load("surveys"));
     }
 
-    public function update(WorkspaceRequest $request, Workspace $workspace): Response {
+    public function update(WorkspaceRequest $request, Workspace $workspace): WorkspaceResource
+    {
         $workspace->update($request->validated());
 
-        return response([
-            "workspace" => $workspace->load("surveys"),
-        ]);
+        return new WorkspaceResource($workspace);
     }
 
-    public function delete(Workspace $workspace): Response {
-        $response = [
-            "success" => "Successfully deleted the workspace"
-        ];
+    public function destroy(Workspace $workspace): JsonResponse
+    {
+        $workspace->delete();
 
-        try {
-            $workspace->users()->detach();
-            $workspace->surveys()->delete();
-            $workspace->delete();
-        } catch (\Exception $e) {
-            report($e);
-        }
-
-        return response($response);
+        return response()->json();
     }
 }
