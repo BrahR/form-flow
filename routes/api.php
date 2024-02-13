@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post("/workspaces/{workspace}/surveys", [SurveyController::class, "store"]);
   Route::get("/workspaces/surveys/{survey}", [SurveyController::class, "show"]);
 
-  Route::get("/surveys/{survey:link}", [SurveyController::class, "show"]);
+  Route::get("/viewer/{survey:link}", [SurveyController::class, "show"]);
   Route::put("/surveys/{survey}", [SurveyController::class, "update"]);
 
   Route::group(["prefix" => "/surveys/{survey}/questions"], function () {

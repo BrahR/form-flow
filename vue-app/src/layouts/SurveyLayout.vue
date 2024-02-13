@@ -145,8 +145,8 @@ useSurvey.hydrate();
             v-slot="{ navigate }"
             custom
             :to="{
-              // name: 'Survey.Viewer',
-              // params: { surveySlug: useSurvey.selected.link },
+              name: 'Survey.Viewer',
+              params: { surveyLink: useSurvey.selected.link },
             }"
           >
             <div

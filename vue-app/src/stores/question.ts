@@ -37,7 +37,8 @@ export const useQuestionStore = defineStore("question", () => {
 
   const welcome = computed(() => {
     return data.value?.find(
-      (question) => question.questionable.type === "Welcome",
+      (question): question is Question<Welcome> =>
+        question.questionable.type === "Welcome",
     );
   });
 
@@ -49,7 +50,8 @@ export const useQuestionStore = defineStore("question", () => {
 
   const ending = computed(() => {
     return data.value?.find(
-      (question) => question.questionable.type === "Ending",
+      (question): question is Question<Ending> =>
+        question.questionable.type === "Ending",
     );
   });
 

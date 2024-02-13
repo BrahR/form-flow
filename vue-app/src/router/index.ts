@@ -71,7 +71,7 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: "/view/:surveyId",
+    path: "/view/:surveyLink",
     meta: { requiresAuth: true },
     name: "Survey.Viewer",
     component: () => import("@/views/survey/Viewer.vue"),

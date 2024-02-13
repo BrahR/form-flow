@@ -53,6 +53,7 @@ export const useQuestionFactoryStore = defineStore("question_factory", () => {
 
   const hydrate = (questionType: string | null, question: Question | null) => {
     if (!questionType) return;
+    console.log("Hydrating question factory");
     dehydrate();
     hydrating.value = true;
     if (isQuestionType(questionType)) {
@@ -61,7 +62,8 @@ export const useQuestionFactoryStore = defineStore("question_factory", () => {
       hydrated.value = true;
     } else
       console.error(
-        "Caught an invalid question type while hydrating QuestionStore, most likely due to a typo in the question type.",
+        "Caught an invalid question type while hydrating QuestionStore, most likely due to a typo in the question type. " +
+          questionType,
       );
     hydrating.value = false;
   };
@@ -73,6 +75,7 @@ export const useQuestionFactoryStore = defineStore("question_factory", () => {
   };
 
   const store = computed(() => {
+    console.log("called");
     if (!isQuestionType(type.value)) return null;
     return stores[type.value];
   });

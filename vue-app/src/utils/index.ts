@@ -33,7 +33,11 @@ function convertSize(
   return size * Math.pow(idk, fromIndex - toIndex);
 }
 
+function decapitalize(str: string) {
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
 // @ts-ignore
 function asyncComponent<T>(path: string) {}
 
-export { pushToArray, find, update, convertSize, asyncComponent };
+export { pushToArray, find, update, convertSize, decapitalize, asyncComponent };
