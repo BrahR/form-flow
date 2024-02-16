@@ -78,7 +78,18 @@ export const useQuestionStore = defineStore("question", () => {
 
   const update = () => {};
 
-  const remove = () => {};
+  const remove = async (surveyId: number, questionId: number) => {
+    if (!surveyId || !questionId) return;
+
+    return axiosInstance
+      .delete(`surveys/${surveyId}/questions/${questionId}`)
+      .then(() => {
+        if (!data.value) return;
+        data.value = data.value.filter(
+          (question) => question.id !== questionId,
+        );
+      });
+  };
 
   return {
     data,
@@ -88,6 +99,7 @@ export const useQuestionStore = defineStore("question", () => {
     welcome,
     questions,
     ending,
+
     hydrate,
     dehydrate,
     create,
