@@ -6,10 +6,6 @@ import { isValidNumber, parse } from "libphonenumber-js";
 import { useQuestionTogglesStore } from "@/stores/questions/toggle.ts";
 import { storeToRefs } from "pinia";
 
-const useQuestionToggles = useQuestionTogglesStore();
-const { textAnswerFormat, customErrorMessage, placeholderRule } =
-  storeToRefs(useQuestionToggles);
-
 type PhoneObject = {
   country: {
     name: string;
@@ -24,6 +20,14 @@ type PhoneObject = {
   valid: boolean;
   formatted: string;
 };
+
+const useQuestionToggles = useQuestionTogglesStore();
+const { textAnswerFormat, customErrorMessage, placeholderRule } =
+  storeToRefs(useQuestionToggles);
+
+const defaultCountry =
+  textAnswerFormat.value.selected.defaultCountry ??
+  import.meta.env.VITE_DEFAULT_PHONE_COUNTRY;
 
 const onInput = (event: string, phoneObject: PhoneObject) => {
   const { number, country } = phoneObject;
@@ -44,10 +48,7 @@ const onInput = (event: string, phoneObject: PhoneObject) => {
   <span class="textQuestion_hotkey_wrapper">
     <VueTelInput
       v-model="textAnswerFormat.selected.model"
-      :defaultCountry="
-        textAnswerFormat.selected.defaultCountry ??
-        import.meta.env.VITE_DEFAULT_PHONE_COUNTRY
-      "
+      :defaultCountry
       :autoFormat="false"
       :autoDefaultCountry="false"
       :inputOptions="{
