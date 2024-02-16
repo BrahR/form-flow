@@ -18,6 +18,7 @@ class GeneralText extends Model
     "max",
     "format",
     "error_message",
+    "default_country",
     "placeholder",
     "hide_question_number",
   ];
@@ -37,7 +38,7 @@ class GeneralText extends Model
         "questionable.min" => ["required", "numeric", "min:0"],
         "questionable.max" => ["required", "numeric", "min:0", "max:200"],
       ],
-      "long-text" => [
+      "longText" => [
         "questionable.min" => ["required", "numeric", "min:0"],
         "questionable.max" => ["required", "numeric", "min:0", "max:5000"],
       ],
@@ -45,12 +46,12 @@ class GeneralText extends Model
         "questionable.format" => ["required", "string"],
         "questionable.error_message" => ["required", "string"],
       ],
-      "phone-number" => [
+      "phoneNumber" => [
         "questionable.default_country" => ["required", "string"],
         "questionable.placeholder" => ["required", "string"],
         "questionable.error_message" => ["required", "string"],
       ],
-      "english-letter" => [
+      "englishLetter" => [
         "questionable.placeholder" => ["required", "string"],
         "questionable.error_message" => ["required", "string"],
       ],
