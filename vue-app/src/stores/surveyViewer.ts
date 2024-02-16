@@ -85,6 +85,7 @@ export const useSurveyViewerStore = defineStore("survey_viewer", () => {
   };
 
   return {
+    survey,
     welcome,
     questions,
     ending,
