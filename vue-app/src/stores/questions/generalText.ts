@@ -187,9 +187,10 @@ export const useGeneralTextQuestionStore = defineStore(
           generalText.questionable.min;
         textAnswerFormat.value.selected.rules.max =
           generalText.questionable.max;
-        formatRule.value = generalText.questionable.format ?? "";
         textAnswerFormat.value.selected.errorMessage =
           generalText.questionable.error_message ?? "";
+        textAnswerFormat.value.selected.defaultCountry = "US";
+        formatRule.value = generalText.questionable.format ?? "";
         placeholderRule.value = generalText.questionable.placeholder ?? "";
         hideQuestionNumber.value =
           generalText.questionable.hide_question_number;
@@ -223,6 +224,7 @@ export const useGeneralTextQuestionStore = defineStore(
           text_type: textAnswerFormat.value.selected.type,
           min: textAnswerFormat.value.selected.rules.min,
           max: textAnswerFormat.value.selected.rules.max,
+          default_country: textAnswerFormat.value.selected.defaultCountry,
           format: formatRule.value,
           error_message: textAnswerFormat.value.selected.errorMessage,
           placeholder: placeholderRule.value,
