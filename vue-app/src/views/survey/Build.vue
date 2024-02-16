@@ -149,6 +149,7 @@ const typeButtons: ButtonType[] = [
     disabled: () => true,
   },
 ];
+const surveyId = Number(route.params.surveyId);
 
 const openQuestionModal = (
   questionType: QuestionType,
@@ -192,7 +193,7 @@ watch(
 );
 
 onMounted(() => {
-  useQuestion.hydrate(Number(route.params.surveyId));
+  useQuestion.hydrate(surveyId);
 });
 </script>
 
@@ -223,8 +224,8 @@ onMounted(() => {
       <QuestionItem
         v-for="(question, i) in questions"
         :key="question.id"
-        :question
         :number="i + 1"
+        :question
       />
 
       <template v-slot:ending>
