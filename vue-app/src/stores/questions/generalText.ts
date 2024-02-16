@@ -80,7 +80,7 @@ const answerTypes: TextAnswerType[] = [
     label: "Phone Number",
     toggle: PhoneTextToggle,
     input: PhoneTypeInput,
-    defaultCountry: "US",
+    defaultCountry: import.meta.env.VITE_DEFAULT_PHONE_COUNTRY,
     model: "",
     errorMessage: "Please enter a valid phone number",
     rules: {
@@ -164,7 +164,8 @@ export const useGeneralTextQuestionStore = defineStore(
 
     textAnswerFormat.value.types = answerTypes;
     textAnswerFormat.value.selected = textAnswerFormat.value.types[0];
-    textAnswerFormat.value.selected.defaultCountry = "US";
+    textAnswerFormat.value.selected.defaultCountry =
+      import.meta.env.VITE_DEFAULT_PHONE_COUNTRY;
     const components: Component[] = [
       ImageOrVideoToggle,
       LabelEditor,
@@ -189,7 +190,8 @@ export const useGeneralTextQuestionStore = defineStore(
           generalText.questionable.max;
         textAnswerFormat.value.selected.errorMessage =
           generalText.questionable.error_message ?? "";
-        textAnswerFormat.value.selected.defaultCountry = "US";
+        textAnswerFormat.value.selected.defaultCountry =
+          import.meta.env.VITE_DEFAULT_PHONE_COUNTRY;
         formatRule.value = generalText.questionable.format ?? "";
         placeholderRule.value = generalText.questionable.placeholder ?? "";
         hideQuestionNumber.value =
@@ -205,7 +207,8 @@ export const useGeneralTextQuestionStore = defineStore(
       hydrated.value = false;
       textAnswerFormat.value.types = answerTypes;
       textAnswerFormat.value.selected = textAnswerFormat.value.types[0];
-      textAnswerFormat.value.selected.defaultCountry = "US";
+      textAnswerFormat.value.selected.defaultCountry =
+        import.meta.env.VITE_DEFAULT_PHONE_COUNTRY;
       hideQuestionNumber.value = false;
       reset();
     };

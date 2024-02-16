@@ -44,7 +44,10 @@ const onInput = (event: string, phoneObject: PhoneObject) => {
   <span class="textQuestion_hotkey_wrapper">
     <VueTelInput
       v-model="textAnswerFormat.selected.model"
-      :defaultCountry="textAnswerFormat.selected.defaultCountry ?? 'US'"
+      :defaultCountry="
+        textAnswerFormat.selected.defaultCountry ??
+        import.meta.env.VITE_DEFAULT_PHONE_COUNTRY
+      "
       :autoFormat="false"
       :autoDefaultCountry="false"
       :inputOptions="{
