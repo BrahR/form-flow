@@ -33,16 +33,14 @@ useSurvey.hydrate();
 </script>
 
 <template>
-  <div class="surveyLayout_survey_layout_background__NQ7XF">
+  <div class="surveyLayout_survey_layout_background">
     <main
-      class="surveyLayout_survey_layout__dvLUs surveyLayout_ltr__gKavG surveyLayout_english__Q6s_6"
+      class="surveyLayout_survey_layout surveyLayout_ltr surveyLayout_english"
     >
-      <div class="surveyNavbar_wrapper__sDoyH surveyNavbar_ltr__Z0ZPQ">
-        <div
-          class="surveyNavbar_survey_info_wrapper__t5fNn surveyNavbar_ltr__Z0ZPQ"
-        >
+      <div class="surveyNavbar_wrapper surveyNavbar_ltr">
+        <div class="surveyNavbar_survey_info_wrapper surveyNavbar_ltr">
           <router-link v-slot="{ navigate }" custom :to="{ name: 'Dashboard' }">
-            <div class="surveyNavbar_back_icon__EzM4s" @click="navigate">
+            <div class="surveyNavbar_back_icon" @click="navigate">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="48"
@@ -66,14 +64,14 @@ useSurvey.hydrate();
               </svg>
             </div>
           </router-link>
-          <div class="surveyNavbar_survey_info__UXpg3">
+          <div class="surveyNavbar_survey_info">
             <router-link
               v-slot="{ navigate }"
               custom
               :to="{ name: 'Dashboard' }"
             >
               <div
-                class="surveyNavbar_folder_name__rrU8k"
+                class="surveyNavbar_folder_name"
                 :class="{
                   'skeleton w-20':
                     useWorkspace.hydrating || !useWorkspace.selected,
@@ -83,9 +81,9 @@ useSurvey.hydrate();
                 {{ useWorkspace.selected?.name }}
               </div>
             </router-link>
-            <span class="surveyNavbar_separator__N_q4E">/</span>
+            <span class="surveyNavbar_separator">/</span>
             <div
-              class="surveyNavbar_survey_name__Vlkqx"
+              class="surveyNavbar_survey_name"
               :class="{ 'skeleton w-20': useSurvey.hydrating }"
               @click="useSurvey.open('update')"
             >
@@ -93,15 +91,13 @@ useSurvey.hydrate();
             </div>
           </div>
         </div>
-        <div class="surveyNavbar_desktop_phases__U9fPD">
-          <div
-            class="surveyNavbar_phases_wrapper__jRKBG surveyNavbar_ltr__Z0ZPQ"
-          >
+        <div class="surveyNavbar_desktop_phases">
+          <div class="surveyNavbar_phases_wrapper surveyNavbar_ltr">
             <div
               v-for="(nav, i) in navLinks"
               :key="i"
-              class="surveyNavbar_phase__dogY0"
-              :class="{ surveyNavbar_active__RsZZe: nav.name == $route.name }"
+              class="surveyNavbar_phase"
+              :class="{ surveyNavbar_active: nav.name == $route.name }"
             >
               <div>
                 <router-link
@@ -113,13 +109,13 @@ useSurvey.hydrate();
                 </router-link>
                 <div
                   v-if="nav.name == $route.name"
-                  class="surveyNavbar_active_line__176cX"
+                  class="surveyNavbar_active_line"
                 ></div>
               </div>
               <span
                 v-if="!(navLinks.length - 1 == i)"
-                class="surveyNavbar_seperator_icon__u0F57"
-                :class="{ surveyNavbar_active__RsZZe: nav.name == $route.name }"
+                class="surveyNavbar_seperator_icon"
+                :class="{ surveyNavbar_active: nav.name == $route.name }"
               >
                 <svg width="8" height="8" xmlns="http://www.w3.org/2000/svg">
                   <g fill="none" fill-rule="evenodd">
@@ -137,9 +133,7 @@ useSurvey.hydrate();
             </div>
           </div>
         </div>
-        <div
-          class="surveyNavbar_buttons_wrapper__FjtKQ surveyNavbar_ltr__Z0ZPQ"
-        >
+        <div class="surveyNavbar_buttons_wrapper surveyNavbar_ltr">
           <router-link
             v-if="useSurvey.selected"
             v-slot="{ navigate }"
@@ -150,7 +144,7 @@ useSurvey.hydrate();
             }"
           >
             <div
-              class="surveyNavbar_button__iMgk2 surveyNavbar_preview__WxOVd"
+              class="surveyNavbar_button surveyNavbar_preview"
               @click="navigate"
             >
               <svg
@@ -179,22 +173,20 @@ useSurvey.hydrate();
               </svg>
             </div>
           </router-link>
-          <div
-            class="surveyNavbar_button__iMgk2 surveyNavbar_survey_activation__odSFw"
-          >
-            <div class="surveyNavbar_survey_deactive__0f0hz">Inactive</div>
+          <div class="surveyNavbar_button surveyNavbar_survey_activation">
+            <div class="surveyNavbar_survey_deactive">Inactive</div>
           </div>
-          <div class="surveyNavbar_divider__TQq57"></div>
+          <div class="surveyNavbar_divider"></div>
           <UserDropdown style="margin-left: 0.5rem" />
         </div>
       </div>
-      <div class="surveyNavbar_second_row__U7Brq">
-        <div class="surveyNavbar_phases_wrapper__jRKBG surveyNavbar_ltr__Z0ZPQ">
+      <div class="surveyNavbar_second_row">
+        <div class="surveyNavbar_phases_wrapper surveyNavbar_ltr">
           <div
             v-for="(nav, i) in navLinks"
             :key="i"
-            class="surveyNavbar_phase__dogY0"
-            :class="{ surveyNavbar_active__RsZZe: nav.name == $route.name }"
+            class="surveyNavbar_phase"
+            :class="{ surveyNavbar_active: nav.name == $route.name }"
           >
             <div>
               <router-link
@@ -206,13 +198,13 @@ useSurvey.hydrate();
               </router-link>
               <div
                 v-if="nav.name == $route.name"
-                class="surveyNavbar_active_line__176cX"
+                class="surveyNavbar_active_line"
               ></div>
             </div>
             <span
               v-if="!(navLinks.length - 1 == i)"
-              class="surveyNavbar_seperator_icon__u0F57"
-              :class="{ surveyNavbar_active__RsZZe: nav.name == $route.name }"
+              class="surveyNavbar_seperator_icon"
+              :class="{ surveyNavbar_active: nav.name == $route.name }"
             >
               <svg width="8" height="8" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
@@ -238,15 +230,15 @@ useSurvey.hydrate();
 </template>
 
 <style scoped>
-.surveyLayout_survey_layout__dvLUs {
+.surveyLayout_survey_layout {
   position: relative;
   z-index: 0;
   height: inherit;
-  font-family: Vazirmatn;
+  font-family: Vazirmatn, sans-serif;
   font-size: 14px !important;
 }
 
-.surveyLayout_survey_layout_background__NQ7XF {
+.surveyLayout_survey_layout_background {
   position: fixed;
   height: calc(100 * 1vh);
   width: 100%;
@@ -254,7 +246,7 @@ useSurvey.hydrate();
   background-color: #eef0f5;
 }
 
-.surveyNavbar_wrapper__sDoyH {
+.surveyNavbar_wrapper {
   height: 3rem;
   display: flex;
   justify-content: space-between;
@@ -266,16 +258,16 @@ useSurvey.hydrate();
   position: relative;
 }
 
-.surveyNavbar_wrapper__sDoyH .surveyNavbar_survey_info_wrapper__t5fNn {
+.surveyNavbar_wrapper .surveyNavbar_survey_info_wrapper {
   width: 33%;
   padding: 0.125rem;
   display: flex;
   align-items: center;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3 {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info {
   display: flex;
   width: 100%;
   margin: 0 0.25rem;
@@ -283,10 +275,10 @@ useSurvey.hydrate();
   align-items: center;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3
-  .surveyNavbar_folder_name__rrU8k {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info
+  .surveyNavbar_folder_name {
   cursor: pointer;
   color: #6b7079;
   margin-left: 0.125rem;
@@ -302,26 +294,26 @@ useSurvey.hydrate();
   align-items: center;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3
-  .surveyNavbar_folder_name__rrU8k:hover {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info
+  .surveyNavbar_folder_name:hover {
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3
-  .surveyNavbar_separator__N_q4E {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info
+  .surveyNavbar_separator {
   color: #6b7079;
   margin-left: 0.25rem;
   margin-right: 0.25rem;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3
-  .surveyNavbar_survey_name__Vlkqx {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info
+  .surveyNavbar_survey_name {
   border-radius: 0.25rem;
   padding: 0 0.125rem;
   height: 2rem;
@@ -334,41 +326,41 @@ useSurvey.hydrate();
   max-width: 10rem;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_survey_info__UXpg3
-  .surveyNavbar_survey_name__Vlkqx:hover {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_survey_info
+  .surveyNavbar_survey_name:hover {
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_back_icon__EzM4s {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_back_icon {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.25rem;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_back_icon__EzM4s
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_back_icon
   svg {
   height: 2rem;
   width: 2rem;
   color: #3e434d;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn
-  .surveyNavbar_back_icon__EzM4s:hover {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper
+  .surveyNavbar_back_icon:hover {
   cursor: pointer;
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_back_icon__EzM4s {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper.surveyNavbar_ltr
+  .surveyNavbar_back_icon {
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
@@ -376,37 +368,37 @@ useSurvey.hydrate();
   -o-transform: rotate(180deg);
 }
 
-.surveyNavbar_wrapper__sDoyH
-  .surveyNavbar_survey_info_wrapper__t5fNn.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_survey_info__UXpg3 {
+.surveyNavbar_wrapper
+  .surveyNavbar_survey_info_wrapper.surveyNavbar_ltr
+  .surveyNavbar_survey_info {
   direction: ltr;
 }
 
-.surveyNavbar_wrapper__sDoyH .surveyNavbar_desktop_phases__U9fPD {
+.surveyNavbar_wrapper .surveyNavbar_desktop_phases {
   width: 33%;
   height: 100%;
   display: flex;
   justify-content: center;
 }
 
-.surveyNavbar_help_dropdown_wrapper__T39gx {
+.surveyNavbar_help_dropdown_wrapper {
   padding: 0;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ {
+.surveyNavbar_buttons_wrapper {
   width: 33%;
   display: flex;
   justify-content: flex-end;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_divider__TQq57 {
+.surveyNavbar_buttons_wrapper .surveyNavbar_divider {
   width: 0.0625rem;
   height: 2rem;
   background-color: #d8dbe0;
   margin: 0 0.375rem;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_button__iMgk2 {
+.surveyNavbar_buttons_wrapper .surveyNavbar_button {
   height: 2rem;
   width: 2rem;
   text-align: center;
@@ -418,28 +410,27 @@ useSurvey.hydrate();
   margin: 0 0.125rem;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ
-  .surveyNavbar_button__iMgk2.surveyNavbar_icon__uVmNM {
+.surveyNavbar_buttons_wrapper .surveyNavbar_button.surveyNavbar_icon {
   flex-shrink: 0;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_button__iMgk2:hover {
+.surveyNavbar_buttons_wrapper .surveyNavbar_button:hover {
   cursor: pointer;
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_survey_activation__odSFw {
+.surveyNavbar_buttons_wrapper .surveyNavbar_survey_activation {
   width: auto;
   padding: 0 0.5rem;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ
-  .surveyNavbar_survey_activation__odSFw
-  .surveyNavbar_survey_deactive__0f0hz {
+.surveyNavbar_buttons_wrapper
+  .surveyNavbar_survey_activation
+  .surveyNavbar_survey_deactive {
   border-bottom: 0.125rem solid #e3324f;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_upgrade__yYDhY {
+.surveyNavbar_buttons_wrapper .surveyNavbar_upgrade {
   background-color: #ecc572;
   color: #3e434d;
   width: auto;
@@ -447,39 +438,38 @@ useSurvey.hydrate();
   margin: 0 0.375rem 0 0.125rem;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_upgrade__yYDhY:hover {
+.surveyNavbar_buttons_wrapper .surveyNavbar_upgrade:hover {
   background-color: #ecc572;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_upgrade__yYDhY {
+.surveyNavbar_buttons_wrapper.surveyNavbar_ltr .surveyNavbar_upgrade {
   margin: 0 0.125rem 0 0.375rem;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_help__w2X_4,
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_preview__WxOVd {
+.surveyNavbar_buttons_wrapper .surveyNavbar_help,
+.surveyNavbar_buttons_wrapper .surveyNavbar_preview {
   flex-shrink: 0;
   color: #3e434d;
   background-color: transparent;
 }
 
-.surveyNavbar_buttons_wrapper__FjtKQ .surveyNavbar_preview__WxOVd svg g {
+.surveyNavbar_buttons_wrapper .surveyNavbar_preview svg g {
   fill: transparent;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG {
+.surveyNavbar_phases_wrapper {
   display: flex;
   height: 100%;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #3e434d;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 > div {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div {
   position: relative;
   height: 100%;
   display: flex;
@@ -487,22 +477,17 @@ useSurvey.hydrate();
   align-items: center;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 > div > div {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div > div {
   padding: 0.25rem;
   border-radius: 0.125rem;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  > div
-  > div:hover {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div > div:hover {
   cursor: pointer;
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_active_line__176cX {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase .surveyNavbar_active_line {
   position: absolute;
   bottom: 0;
   padding: 0;
@@ -512,113 +497,103 @@ useSurvey.hydrate();
   background-color: #3b368e;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0.surveyNavbar_active__RsZZe {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase.surveyNavbar_active {
   color: #3b368e;
   font-weight: 700;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase .surveyNavbar_seperator_icon {
   margin: 0 0.25rem;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57
+.surveyNavbar_phases_wrapper
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon
   svg
   path:last-child {
   stroke: #6b7079;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57.surveyNavbar_active__RsZZe
+.surveyNavbar_phases_wrapper
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon.surveyNavbar_active
   svg
   path:last-child {
   stroke: #3b368e;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper.surveyNavbar_ltr .surveyNavbar_seperator_icon {
   padding-top: 0;
   padding-bottom: 0.125rem;
   transform: rotate(180deg);
 }
 
-.surveyNavbar_phases_wrapper__jRKBG.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper.surveyNavbar_ltr
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon {
   right: unset;
   left: calc(100% - 0.25rem);
 }
 
 @media (max-width: 900px) {
-  .surveyNavbar_wrapper__sDoyH {
+  .surveyNavbar_wrapper {
     padding: 0 0.5rem;
   }
 
-  .surveyNavbar_wrapper__sDoyH .surveyNavbar_survey_info_wrapper__t5fNn {
+  .surveyNavbar_wrapper .surveyNavbar_survey_info_wrapper {
     width: 75%;
   }
 
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_survey_info_wrapper__t5fNn
-    .surveyNavbar_survey_info__UXpg3
-    .surveyNavbar_folder_name__rrU8k,
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_survey_info_wrapper__t5fNn
-    .surveyNavbar_survey_info__UXpg3
-    .surveyNavbar_seperator__N_q4E {
+  .surveyNavbar_wrapper
+    .surveyNavbar_survey_info_wrapper
+    .surveyNavbar_survey_info
+    .surveyNavbar_folder_name,
+  .surveyNavbar_wrapper
+    .surveyNavbar_survey_info_wrapper
+    .surveyNavbar_survey_info
+    .surveyNavbar_seperator {
     display: none;
   }
 
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_survey_info_wrapper__t5fNn
-    .surveyNavbar_survey_info__UXpg3
-    .surveyNavbar_survey_name__Vlkqx {
+  .surveyNavbar_wrapper
+    .surveyNavbar_survey_info_wrapper
+    .surveyNavbar_survey_info
+    .surveyNavbar_survey_name {
     max-width: calc(100% - 7.5rem);
   }
 
-  .surveyNavbar_wrapper__sDoyH .surveyNavbar_desktop_phases__U9fPD {
+  .surveyNavbar_wrapper .surveyNavbar_desktop_phases {
     display: none;
   }
 
-  .surveyNavbar_wrapper__sDoyH .surveyNavbar_buttons_wrapper__FjtKQ {
+  .surveyNavbar_wrapper .surveyNavbar_buttons_wrapper {
     width: 25%;
   }
 
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_buttons_wrapper__FjtKQ
-    .surveyNavbar_account__ELAUQ,
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_buttons_wrapper__FjtKQ
-    .surveyNavbar_divider__TQq57,
-  .surveyNavbar_wrapper__sDoyH
-    .surveyNavbar_buttons_wrapper__FjtKQ
-    .surveyNavbar_help__w2X_4 {
+  .surveyNavbar_wrapper .surveyNavbar_buttons_wrapper .surveyNavbar_account,
+  .surveyNavbar_wrapper .surveyNavbar_buttons_wrapper .surveyNavbar_divider,
+  .surveyNavbar_wrapper .surveyNavbar_buttons_wrapper .surveyNavbar_help {
     display: none;
   }
 }
 
-.surveyNavbar_second_row__U7Brq {
+.surveyNavbar_second_row {
   display: none;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG {
+.surveyNavbar_phases_wrapper {
   display: flex;
   height: 100%;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #3e434d;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 > div {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div {
   position: relative;
   height: 100%;
   display: flex;
@@ -626,22 +601,17 @@ useSurvey.hydrate();
   align-items: center;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG .surveyNavbar_phase__dogY0 > div > div {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div > div {
   padding: 0.25rem;
   border-radius: 0.125rem;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  > div
-  > div:hover {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase > div > div:hover {
   cursor: pointer;
   background-color: #f0f2f5;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_active_line__176cX {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase .surveyNavbar_active_line {
   position: absolute;
   bottom: 0;
   padding: 0;
@@ -651,50 +621,46 @@ useSurvey.hydrate();
   background-color: #3b368e;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0.surveyNavbar_active__RsZZe {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase.surveyNavbar_active {
   color: #3b368e;
   font-weight: 700;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper .surveyNavbar_phase .surveyNavbar_seperator_icon {
   margin: 0 0.25rem;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57
+.surveyNavbar_phases_wrapper
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon
   svg
   path:last-child {
   stroke: #6b7079;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57.surveyNavbar_active__RsZZe
+.surveyNavbar_phases_wrapper
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon.surveyNavbar_active
   svg
   path:last-child {
   stroke: #3b368e;
 }
 
-.surveyNavbar_phases_wrapper__jRKBG.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper.surveyNavbar_ltr .surveyNavbar_seperator_icon {
   padding-top: 0;
   padding-bottom: 0.125rem;
   transform: rotate(180deg);
 }
 
-.surveyNavbar_phases_wrapper__jRKBG.surveyNavbar_ltr__Z0ZPQ
-  .surveyNavbar_phase__dogY0
-  .surveyNavbar_seperator_icon__u0F57 {
+.surveyNavbar_phases_wrapper.surveyNavbar_ltr
+  .surveyNavbar_phase
+  .surveyNavbar_seperator_icon {
   right: unset;
   left: calc(100% - 0.25rem);
 }
 
 @media (max-width: 900px) {
-  .surveyNavbar_second_row__U7Brq {
+  .surveyNavbar_second_row {
     display: flex;
     justify-content: center;
     height: 3rem;
@@ -702,9 +668,7 @@ useSurvey.hydrate();
     box-shadow: inset 0 -0.0625rem 0 0 #f0f2f5;
   }
 
-  .surveyNavbar_second_row__U7Brq
-    .surveyNavbar_phases_wrapper__jRKBG
-    .surveyNavbar_phase__dogY0 {
+  .surveyNavbar_second_row .surveyNavbar_phases_wrapper .surveyNavbar_phase {
     min-width: 3rem;
   }
 }
