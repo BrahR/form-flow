@@ -1,3 +1,0 @@
-type Randomize = {
-  on: boolean;
-};

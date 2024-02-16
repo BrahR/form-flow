@@ -1,3 +1,0 @@
-type DoubleDisplaySize = {
-  on: boolean;
-};

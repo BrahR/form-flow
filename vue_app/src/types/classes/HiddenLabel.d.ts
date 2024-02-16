@@ -1,3 +1,0 @@
-type HiddenLabel = {
-  on: boolean;
-};

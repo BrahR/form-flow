@@ -1,3 +1,0 @@
-type FixNumbers = {
-  on: boolean;
-};

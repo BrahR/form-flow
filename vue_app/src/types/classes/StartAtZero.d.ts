@@ -1,3 +1,0 @@
-type StartAtZero = {
-  on: boolean;
-};

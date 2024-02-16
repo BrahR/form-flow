@@ -1,3 +1,0 @@
-type VerticalDisplay = {
-  on: boolean;
-};
