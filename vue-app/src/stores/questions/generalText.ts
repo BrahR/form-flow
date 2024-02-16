@@ -46,7 +46,7 @@ const answerTypes: TextAnswerType[] = [
     errorMessage: "",
     rules: {
       min: 0,
-      max: 1,
+      max: 200,
       error: false,
     },
   },
