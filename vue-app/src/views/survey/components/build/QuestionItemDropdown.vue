@@ -1,31 +1,32 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { useQuestionStore } from "@/stores/question.ts";
+import { useRoute } from "vue-router";
 
-type Props = {
-  questionId: number;
+const { duplicate, questionId } = defineProps<{
   duplicate: boolean;
-};
+  questionId: number;
+}>();
+const emits = defineEmits<{
+  (event: "duplicate"): void;
+}>();
 
-type Emits = {
-  (event: "duplicate", questionId: number): void;
-  (event: "delete", questionId: number): void;
-};
-
-const { questionId, duplicate } = defineProps<Props>();
-const emits = defineEmits<Emits>();
+const useQuestion = useQuestionStore();
+const route = useRoute();
+const surveyId = Number(route.params.surveyId);
 
 const navigation = [
   {
     text: "Duplicate",
     classes: "",
     shown: duplicate,
-    action: emits("duplicate", questionId),
+    action: emits("duplicate"),
   },
   {
     text: "Delete",
     classes: "text-red-600",
     shown: true,
-    action: emits("delete", questionId),
+    action: () => useQuestion.remove(surveyId, questionId),
   },
 ];
 </script>
