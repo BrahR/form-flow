@@ -1,7 +1,15 @@
 type GeneralText = {
   id: number;
   type: "GeneralText";
-  text_type: string;
+  text_type:
+    | "text"
+    | "longText"
+    | "date"
+    | "phoneNumber"
+    | "numeric"
+    | "englishLetters"
+    | "time"
+    | "custom";
   min: number;
   max: number;
   format: string | null;

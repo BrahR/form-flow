@@ -10,8 +10,8 @@ import MaximumSizeToggle from "@/views/survey/components/build/toggles/fileUploa
 
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { useQuestion } from "@/composables/useQuestion.ts";
-import type { Component } from "vue";
 import { computed, ref } from "vue";
+import type { Component } from "vue";
 
 const isFileUpload = (
   question: Question | null,

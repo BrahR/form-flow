@@ -38,11 +38,14 @@ export const useRatingQuestionStore = defineStore("rating_question", () => {
   const hydrating = ref(false);
   const hydrated = ref(false);
 
-  const hydrate = (rating: Question | null) => {
+  const hydrate = (_rating: Question | null) => {
     console.log("Hydrating rating question");
     hydrating.value = true;
-    initialize(rating);
-    if (isRating(rating)) {
+    initialize(_rating);
+    if (isRating(_rating)) {
+      rating.value.type = _rating.questionable.rating_type as 0 | 1 | 2;
+      rating.value.model = _rating.questionable.rating_value;
+      hideQuestionNumber.value = _rating.questionable.hide_question_number;
     }
     hydrated.value = true;
     hydrating.value = false;

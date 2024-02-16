@@ -55,6 +55,10 @@ export const useRankingQuestionStore = defineStore("ranking_question", () => {
     hydrating.value = true;
     initialize(ranking);
     if (isRanking(ranking)) {
+      rankingChoices.value = ranking.questionable.choices;
+      fixRankingNumbers.value = ranking.questionable.fix_numbers;
+      randomize.value = ranking.questionable.randomize;
+      hideQuestionNumber.value = ranking.questionable.hide_question_number;
     }
     hydrated.value = true;
     hydrating.value = false;

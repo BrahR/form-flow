@@ -45,6 +45,8 @@ export const useStatementQuestionStore = defineStore(
       hydrating.value = true;
       initialize(statement);
       if (isStatement(statement)) {
+        statementButton.value.value = statement.questionable.button_text;
+        hideQuestionNumber.value = statement.questionable.hide_question_number;
       }
       hydrated.value = true;
       hydrating.value = false;

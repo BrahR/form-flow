@@ -9,8 +9,8 @@ type PictureChoice = {
     image: string;
   }[];
   multiple_answers: boolean;
-  min_answers: number | undefined;
-  max_answers: number | undefined;
+  min_answers: number;
+  max_answers: number;
   hide_label: boolean;
   double_display_size: boolean;
   hide_question_number: boolean;

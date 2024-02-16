@@ -64,6 +64,16 @@ export const usePictureChoiceQuestionStore = defineStore(
       hydrating.value = true;
       initialize(pictureChoice);
       if (isPictureChoice(pictureChoice)) {
+        pictureChoices.value = pictureChoice.questionable.choices;
+        multipleAnswers.value.on = pictureChoice.questionable.multiple_answers;
+        multipleAnswers.value.max = pictureChoice.questionable.max_answers;
+        multipleAnswers.value.min = pictureChoice.questionable.min_answers;
+        randomize.value = pictureChoice.questionable.randomize;
+        hiddenLabel.value = pictureChoice.questionable.hide_label;
+        doublePictureSize.value =
+          pictureChoice.questionable.double_display_size;
+        hideQuestionNumber.value =
+          pictureChoice.questionable.hide_question_number;
       }
       hydrated.value = true;
       hydrating.value = false;

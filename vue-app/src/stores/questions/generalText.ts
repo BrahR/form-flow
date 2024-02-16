@@ -149,7 +149,6 @@ export const useGeneralTextQuestionStore = defineStore(
     const useQuestionToggles = useQuestionTogglesStore();
     const {
       textAnswerFormat,
-      required,
       hideQuestionNumber,
       placeholderRule,
       formatRule,
@@ -181,9 +180,17 @@ export const useGeneralTextQuestionStore = defineStore(
       console.log("Hydrating general text question");
       hydrating.value = true;
       initialize(generalText);
-
       if (isGeneralText(generalText)) {
-        required.value = generalText.required;
+        textAnswerFormat.value.selected.type =
+          generalText.questionable.text_type;
+        textAnswerFormat.value.selected.rules.min =
+          generalText.questionable.min;
+        textAnswerFormat.value.selected.rules.max =
+          generalText.questionable.max;
+        formatRule.value = generalText.questionable.format ?? "";
+        textAnswerFormat.value.selected.errorMessage =
+          generalText.questionable.error_message ?? "";
+        placeholderRule.value = generalText.questionable.placeholder ?? "";
         hideQuestionNumber.value =
           generalText.questionable.hide_question_number;
       }
@@ -198,7 +205,6 @@ export const useGeneralTextQuestionStore = defineStore(
       textAnswerFormat.value.types = answerTypes;
       textAnswerFormat.value.selected = textAnswerFormat.value.types[0];
       textAnswerFormat.value.selected.defaultCountry = "US";
-      required.value = false;
       hideQuestionNumber.value = false;
       reset();
     };

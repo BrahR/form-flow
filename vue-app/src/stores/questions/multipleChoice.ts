@@ -28,7 +28,6 @@ export const useMultipleChoiceQuestionStore = defineStore(
     const useQuestionToggles = useQuestionTogglesStore();
     const {
       multipleChoices,
-      required,
       hideQuestionNumber,
       multipleAnswers,
       randomize,
@@ -63,12 +62,14 @@ export const useMultipleChoiceQuestionStore = defineStore(
       hydrating.value = true;
       initialize(multipleChoice);
       if (isMultipleQuestion(multipleChoice)) {
-        required.value = multipleChoice.required;
-        hideQuestionNumber.value =
-          multipleChoice.questionable.hide_question_number;
+        multipleChoices.value = multipleChoice.questionable.choices;
+        randomize.value = multipleChoice.questionable.randomize;
+        verticalDisplay.value = multipleChoice.questionable.vertical_display;
         multipleAnswers.value.on = multipleChoice.questionable.multiple_answers;
         multipleAnswers.value.min = multipleChoice.questionable.min_answers;
         multipleAnswers.value.max = multipleChoice.questionable.max_answers;
+        hideQuestionNumber.value =
+          multipleChoice.questionable.hide_question_number;
       }
       hydrated.value = true;
       hydrating.value = false;

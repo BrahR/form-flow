@@ -2,8 +2,8 @@ type MultipleChoice = {
   id: number;
   type: "MultipleChoice";
   choices: {
-    id?: number;
-    checked?: boolean;
+    id: number;
+    checked: boolean;
     value: string;
     hidden: boolean;
   }[];

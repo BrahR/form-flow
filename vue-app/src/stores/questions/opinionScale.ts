@@ -51,6 +51,11 @@ export const useOpinionScaleQuestionStore = defineStore(
       hydrating.value = true;
       initialize(opinionScale);
       if (isOpinionScale(opinionScale)) {
+        scaleParams.value.value = opinionScale.questionable.steps;
+        scaleLabels.value = opinionScale.questionable.labels;
+        startAtZero.value = opinionScale.questionable.start_at_zero;
+        hideQuestionNumber.value =
+          opinionScale.questionable.hide_question_number;
       }
       hydrated.value = true;
       hydrating.value = false;
