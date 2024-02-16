@@ -13,7 +13,7 @@ const questionFactory = useQuestionFactoryStore();
 const useViewer = useSurveyViewerStore();
 useViewer.hydrate(route.params.surveyLink as string);
 const { store } = storeToRefs(questionFactory);
-const { question, progress, index } = storeToRefs(useViewer);
+const { survey, question, progress, index } = storeToRefs(useViewer);
 const { nextQuestion: next, previousQuestion: previous } = useViewer;
 
 const hydrateFactory = () => {
@@ -179,12 +179,26 @@ watch(
                   </div>
                 </div>
               </div>
-              <button
-                class="navbar_poweredByPorsline navbar_is_not_persian false w-6"
-                type="button"
+              <router-link
+                v-if="survey"
+                v-slot="{ navigate }"
+                custom
+                :to="{
+                  name: 'Survey.Build',
+                  params: {
+                    workspaceId: survey.workspace_id,
+                    surveyId: survey.id,
+                  },
+                }"
               >
-                <PencilIcon class="h-5 w-5" />
-              </button>
+                <button
+                  class="navbar_poweredByPorsline navbar_is_not_persian false w-6"
+                  type="button"
+                  @click="navigate"
+                >
+                  <PencilIcon class="h-5 w-5" />
+                </button>
+              </router-link>
             </div>
           </div>
         </div>
