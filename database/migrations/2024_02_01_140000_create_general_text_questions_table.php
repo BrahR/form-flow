@@ -15,6 +15,7 @@ return new class extends Migration {
       $table->string('format')->nullable();
       $table->string('error_message')->nullable();
       $table->string('placeholder')->nullable();
+      $table->string('default_country')->nullable();
       $table->boolean('hide_question_number')->default(false);
       $table->timestamps();
     });

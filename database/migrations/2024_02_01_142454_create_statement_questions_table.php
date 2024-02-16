@@ -10,6 +10,7 @@ return new class extends Migration {
     Schema::create('statement_questions', function (Blueprint $table) {
       $table->id();
       $table->string('button_text');
+      $table->boolean("hide_question_number");
       $table->timestamps();
     });
   }
