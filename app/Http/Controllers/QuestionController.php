@@ -41,8 +41,12 @@ class QuestionController extends Controller
     return new QuestionResource($question);
   }
 
-  public function destroy(Question $question): JsonResponse
+  public function destroy(Survey $survey, Question $question): JsonResponse
   {
+    if ($question->questionable) {
+      $question->questionable->delete();
+    }
+
     $question->delete();
 
     return response()->json();
