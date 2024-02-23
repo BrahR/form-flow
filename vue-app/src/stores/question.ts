@@ -55,6 +55,11 @@ export const useQuestionStore = defineStore("question", () => {
     );
   });
 
+  const get = (questionId: number | null): null | Question => {
+    if (!data.value || !questionId) return null;
+    return data.value.find((question) => question.id === questionId) ?? null;
+  };
+
   const fetch = async (surveyId: number) => {
     return axiosInstance
       .get<ApiResponse<Question[]>>(`/surveys/${surveyId}/questions`)
@@ -100,6 +105,7 @@ export const useQuestionStore = defineStore("question", () => {
     questions,
     ending,
 
+    get,
     hydrate,
     dehydrate,
     create,
