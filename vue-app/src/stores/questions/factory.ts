@@ -43,7 +43,7 @@ const stores = {
   statement: useStatementQuestionStore(),
   fileUpload: useFileUploadQuestionStore(),
   ending: useEndingQuestionStore(),
-};
+} as const;
 
 export const useQuestionFactoryStore = defineStore("question_factory", () => {
   const modals = useModal();
