@@ -20,7 +20,7 @@ export const useQuestion = (
 
   label.model = question?.html_label ?? "";
   label.on = true;
-  description.model = question?.description_label ?? "";
+  description.model = question?.html_description ?? "";
   description.on = false;
   imageOrVideo.value.on = !!question?.attachment;
   imageOrVideo.value.url = question?.attachment || "";
@@ -37,7 +37,8 @@ export const useQuestion = (
     if (!question) return;
 
     label.model = question.html_label;
-    description.model = question.description_label;
+    description.on = question.described;
+    description.model = question.html_description ?? "";
     imageOrVideo.value.on = !!question.attachment;
     imageOrVideo.value.url = question.attachment || "";
     required.value = question.required;
@@ -48,7 +49,8 @@ export const useQuestion = (
       type: params.type,
       question: {
         html_label: label.model,
-        description_label: description.model,
+        described: description.on,
+        html_description: description.model,
         required: required.value,
         attachment: imageOrVideo.value.on ? imageOrVideo.value.url : null,
       },
