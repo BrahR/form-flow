@@ -15,6 +15,7 @@ class Question extends Model
 
   protected $fillable = [
     "html_label",
+    "described",
     "html_description",
     "attachment",
     "required",

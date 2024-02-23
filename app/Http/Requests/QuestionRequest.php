@@ -13,9 +13,11 @@ class QuestionRequest extends FormRequest
   {
     $rules = [
       "type" => ["required", "string", "in:" . implode(",", array_keys(Question::getRules("all")))],
-      "question.html_label" => ["required"],
-      "question.html_description" => ["nullable"],
+      "question.html_label" => ["required", "string"],
+      "question.described" => ["required", "boolean"],
+      "question.html_description" => ["nullable", "string"],
       "question.attachment" => ["nullable"],
+      "question.required" => ["required", "boolean"],
       "questionable" => ["array", "required"],
     ];
 

@@ -10,6 +10,7 @@ return new class extends Migration {
     Schema::create('Questions', function (Blueprint $table) {
       $table->id();
       $table->string('html_label');
+      $table->boolean("described")->default(false);
       $table->string('html_description')->nullable();
       $table->string('attachment')->nullable();
       $table->boolean('required')->default(false);
