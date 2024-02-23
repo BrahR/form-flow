@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { useUserStore } from "@/stores/user.ts";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/auth",
     redirect: "/login",
     name: "Auth",
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
     children: [
       {
         path: "/login",
@@ -81,6 +82,16 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach(async (to, _from, next) => {
+  const user = useUserStore();
+  if (user.token) user.hydrate().catch(() => console.log("E"));
+
+  if (to.meta.requiresAuth && !user.token) return next({ name: "Login" });
+  if (!to.meta.requiresAuth && user.token) return next({ name: "Dashboard" });
+
+  return next();
 });
 
 export default router;
