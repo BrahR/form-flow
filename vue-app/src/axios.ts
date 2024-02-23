@@ -1,4 +1,3 @@
-import type { AxiosError } from "axios";
 import axios from "axios";
 import { useUserStore } from "@/stores/user.ts";
 
@@ -21,9 +20,11 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (res) => res,
-  (err: AxiosError) => {
-    if (err.status === 401) {
+  (err) => {
+    if (err.response.status === 401) {
       useUserStore().dehydrate();
+      console.log("Caught in 4K");
+      window.location.reload();
     }
 
     return Promise.reject(err);
