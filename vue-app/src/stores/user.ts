@@ -4,8 +4,6 @@ import { ref, Ref } from "vue";
 import { useRouter } from "vue-router";
 import type { AxiosResponse } from "axios";
 
-type LoginUser = AxiosResponse<ApiResponse<User>>;
-
 type RegisterUser = AxiosResponse<
   ApiResponse<User> & {
     token: string;
@@ -35,7 +33,7 @@ export const useUserStore = defineStore("user", () => {
     hydrating.value = true;
     user.value = await fetchUser()
       .catch((err) => {
-        console.log("User is not logged in");
+        console.log("User is not logged in", err.response.status);
         if (err.response.status == 401) {
           dehydrate();
           router.push("/login");
@@ -60,8 +58,8 @@ export const useUserStore = defineStore("user", () => {
 
   const fetchUser = async () => {
     return await axiosInstance
-      .get("/user")
-      .then((res: LoginUser) => res.data.data);
+      .get<ApiResponse<User>>("/user")
+      .then((res) => res.data.data);
   };
 
   const setToken = (_token: string) => {
