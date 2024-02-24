@@ -67,13 +67,13 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   // multipleChoice
   const multipleChoices = reactive([
     {
-      id: 0,
+      id: 1,
       value: "",
       hidden: false,
       checked: false,
     },
     {
-      id: 1,
+      id: 2,
       value: "",
       hidden: false,
       checked: false,
