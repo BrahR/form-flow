@@ -1,45 +1,54 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
 import CloseQuestionModal from "@/views/survey/components/build/CloseQuestionModal.vue";
-import { useQuestionFactoryStore } from "@/stores/questions/factory.ts";
-import { storeToRefs } from "pinia";
-import { provide, watchEffect } from "vue";
-import { USE_QUESTION_FACTORY } from "@/config/injections.ts";
-import { validModalActions } from "@/config/typeValidation.ts";
 import QuestionMakerFooter from "@/views/survey/components/build/QuestionMakerFooter.vue";
+import { useQuestionFactoryStore } from "@/stores/questions/factory.ts";
+import { computed, provide, onMounted, onUnmounted, watch } from "vue";
+import { useQuestionStore } from "@/stores/question.ts";
+import { storeToRefs } from "pinia";
+import { USE_QUESTION_FACTORY } from "@/config/injections.ts";
 
 type Props = {
-  action: string | null;
-  type: string | null;
+  questionType: string | null;
+  action: "create" | "update";
   number: number | null;
   surveyId: number | null;
+  questionId: number | null;
 };
 
-type Emits = {
+const { questionType, action, number, surveyId, questionId } =
+  defineProps<Props>();
+defineEmits<{
   (event: "close"): void;
-};
+}>();
 
-const isValidAction = (action: string | null): action is "create" | "update" =>
-  validModalActions.includes(action ?? "");
-
-const { type, action, number, surveyId } = defineProps<Props>();
-defineEmits<Emits>();
-
+const useQuestion = useQuestionStore();
 const useQuestionFactory = useQuestionFactoryStore();
 const { hydrated, modals, store } = storeToRefs(useQuestionFactory);
+const { hydrate, dehydrate } = useQuestionFactory;
 
-watchEffect(() => {
-  if (type && isValidAction(action)) {
-    useQuestionFactory.open(action);
-    useQuestionFactory.hydrate(type, null);
-  }
+const question = computed(() => useQuestion.get(questionId));
+const hydrating = computed(
+  () => useQuestionFactory.hydrating || useQuestion.hydrating,
+);
+
+watch(
+  () => question.value,
+  () => hydrate(questionType, question.value),
+  { once: true },
+);
+
+onMounted(async () => {
+  let questionParam = action == "update" ? question.value : null;
+  hydrate(questionType, questionParam);
 });
+
+onUnmounted(() => dehydrate());
 provide(USE_QUESTION_FACTORY, useQuestionFactory);
 </script>
 
 <template>
   <Dialog
-    v-if="store && isValidAction(action)"
     :show="hydrated && modals[action]"
     :full="true"
     @close="$emit('close')"
@@ -51,7 +60,7 @@ provide(USE_QUESTION_FACTORY, useQuestionFactory);
         role="dialog"
         aria-modal="true"
       >
-        <div class="sharedIndex_content sharedIndex_ltr">
+        <div v-if="store" class="sharedIndex_content sharedIndex_ltr">
           <div class="sharedIndex_sidebar sharedIndex_ltr">
             <div class="questionHeader_header">
               <div class="questionHeader_title">
@@ -74,10 +83,10 @@ provide(USE_QUESTION_FACTORY, useQuestionFactory);
             </div>
             <div class="sharedIndex_content">
               <div
-                :class="{ skeleton: useQuestionFactory.hydrating }"
+                :class="{ skeleton: hydrating }"
                 class="sharedIndex_questions_content"
               >
-                <div v-if="!useQuestionFactory.hydrating">
+                <div v-if="!hydrating">
                   <div class="sharedBuild_questions_content">
                     <div class="sharedBuild_build_content">
                       <template v-for="(component, index) in store.components">
@@ -90,7 +99,12 @@ provide(USE_QUESTION_FACTORY, useQuestionFactory);
                 </div>
               </div>
             </div>
-            <QuestionMakerFooter :surveyId @close="$emit('close')" />
+            <QuestionMakerFooter
+              :action
+              :questionId
+              :surveyId
+              @close="$emit('close')"
+            />
           </div>
           <div class="sharedIndex_preview sharedIndex_ltr">
             <div class="sharedIndex_preview_buttons">
@@ -174,6 +188,7 @@ provide(USE_QUESTION_FACTORY, useQuestionFactory);
               class="sharedIndex_background sharedIndex_animation sharedIndex_ltr"
             ></div>
             <div class="sharedIndex_question">
+              {{ hydrating }}
               <component
                 :is="{
                   ...store.preview,

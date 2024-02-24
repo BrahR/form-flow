@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { computed, ref, Ref } from "vue";
 import axiosInstance from "@/axios.ts";
-import { pushToArray } from "@/utils";
+import { find, pushToArray } from "@/utils";
 
 export const useQuestionStore = defineStore("question", () => {
   const data: Ref<Question[] | null> = ref(null);
@@ -9,9 +9,9 @@ export const useQuestionStore = defineStore("question", () => {
   const hydrating = ref(false);
   const hydrated = ref(false);
 
-  const hydrate = (surveyId: number) => {
+  const hydrate = (surveyId: number | null) => {
+    if (hydrating.value || !surveyId) return;
     console.log("Hydrating question store");
-    if (hydrating.value) return;
     hydrating.value = true;
     hydrated.value = false;
     fetch(surveyId)
@@ -19,13 +19,8 @@ export const useQuestionStore = defineStore("question", () => {
         data.value = questions;
         hydrated.value = true;
       })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        hydrating.value = false;
-      });
-    hydrating.value = false;
+      .catch((error) => console.error(error))
+      .finally(() => (hydrating.value = false));
   };
 
   const dehydrate = () => {
@@ -66,7 +61,7 @@ export const useQuestionStore = defineStore("question", () => {
       .then((res) => res.data.data);
   };
 
-  const create = (surveyId: number, payload: unknown) => {
+  const create = (surveyId: number | null, payload: unknown) => {
     if (!surveyId || !payload) return;
     console.log(payload);
     loading.value = true;
@@ -81,7 +76,29 @@ export const useQuestionStore = defineStore("question", () => {
     return result;
   };
 
-  const update = () => {};
+  const update = (
+    surveyId: number | null,
+    questionId: number | null,
+    payload: unknown,
+  ) => {
+    if (!surveyId || !payload || !questionId) return;
+    console.log(payload);
+    loading.value = true;
+    const result = axiosInstance
+      .put<
+        ApiResponse<Question>
+      >(`surveys/${surveyId}/questions/${questionId}`, payload)
+      .then((res) => {
+        if (!data.value) return;
+
+        const index = find(questionId!, data.value);
+        data.value[index] = { ...data.value[index], ...res.data.data };
+        console.log("Question updated", res.data.data);
+      });
+    loading.value = false;
+
+    return result;
+  };
 
   const remove = async (surveyId: number, questionId: number) => {
     if (!surveyId || !questionId) return;

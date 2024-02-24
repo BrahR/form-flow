@@ -3,14 +3,16 @@ import QuestionTypeButton from "@/views/survey/components/build/QuestionTypeButt
 import AdvancedQuestionButtons from "@/views/survey/components/build/AdvancedQuestionButtons.vue";
 import QuestionsList from "@/views/survey/components/build/QuestionsList.vue";
 import QuestionModal from "@/views/survey/components/build/QuestionModal.vue";
-import type { Component } from "vue";
-import { defineAsyncComponent, onMounted, ref, Ref, watch } from "vue";
+import QuestionItem from "@/views/survey/components/build/QuestionItem.vue";
+import NewQuestionPlus from "@/views/survey/icons/build/NewQuestionPlus.vue";
+import { defineAsyncComponent, onMounted, Ref, ref, watch } from "vue";
 import { useQuestionFactoryStore } from "@/stores/questions/factory.ts";
 import { useRoute, useRouter } from "vue-router";
 import { useQuestionStore } from "@/stores/question.ts";
-import NewQuestionPlus from "@/views/survey/icons/build/NewQuestionPlus.vue";
-import QuestionItem from "@/views/survey/components/build/QuestionItem.vue";
 import { storeToRefs } from "pinia";
+import { decapitalize } from "@/utils";
+import { validModalActions } from "@/config/typeValidation.ts";
+import type { Component } from "vue";
 
 type ButtonType = {
   title: string;
@@ -20,18 +22,14 @@ type ButtonType = {
   disabled: () => boolean;
 };
 
+const isValidAction = (action: string | null): action is "create" | "update" =>
+  validModalActions.includes(action ?? "");
+
 const useQuestion = useQuestionStore();
 const { welcome, questions, ending } = storeToRefs(useQuestion);
 const useQuestionFactory = useQuestionFactoryStore();
 const router = useRouter();
 const route = useRoute();
-
-const action: Ref<string | null> = ref(
-  (route.query.action ?? null) as string | null,
-);
-const type: Ref<string | null> = ref(
-  (route.query.type ?? null) as string | null,
-);
 
 const typeButtons: ButtonType[] = [
   {
@@ -149,25 +147,36 @@ const typeButtons: ButtonType[] = [
     disabled: () => true,
   },
 ];
-const surveyId = Number(route.params.surveyId);
+const surveyId = route.params.surveyId
+  ? parseInt(route.params.surveyId as string)
+  : null;
+const questionType: Ref<string | null> = ref(null);
+const action: Ref<string | null> = ref(null);
+const number = ref(questions.value ? questions.value.length + 1 : null);
+const questionId: Ref<number | null> = ref(null);
 
 const openQuestionModal = (
-  questionType: QuestionType,
+  _questionType: QuestionType,
   _action: "create" | "update",
   disabled: () => boolean,
+  _questionId: number | null = null,
 ) => {
   if (disabled()) return;
+
+  const query = _questionId ? { id: _questionId } : {};
+  questionType.value = _questionType;
+  action.value = _action;
+  questionId.value = _questionId;
 
   router.push({
     name: "Survey.Build",
     params: route.params,
     query: {
       action: _action,
-      type: questionType,
+      type: _questionType,
+      ...query,
     },
   });
-  action.value = _action;
-  type.value = questionType;
   useQuestionFactory.open(_action);
 };
 
@@ -178,22 +187,33 @@ const closeQuestionModal = () => {
     query: {},
   });
   useQuestionFactory.resetModals();
-};
 
-const number = ref(questions.value ? questions.value.length + 1 : null);
+  setTimeout(() => {
+    questionType.value = null;
+    questionId.value = null;
+    action.value = null;
+  }, 750);
+};
 
 watch(
   () => questions.value?.length,
   () => {
-    setInterval(() => {
+    setTimeout(() => {
       const len = questions.value?.length ?? -1;
       number.value = len + 1;
-    }, 700);
+    }, 750);
   },
 );
 
 onMounted(() => {
   useQuestion.hydrate(surveyId);
+  questionType.value = (route.query.type ?? null) as string | null;
+  action.value = (route.query.action ?? null) as string | null;
+  questionId.value = route.query.id ? parseInt(route.query.id as string) : null;
+
+  if (isValidAction(action.value) && questionType.value) {
+    useQuestionFactory.open(action.value);
+  }
 });
 </script>
 
@@ -218,7 +238,18 @@ onMounted(() => {
 
     <QuestionsList>
       <template v-slot:welcome>
-        <QuestionItem v-if="welcome" :question="welcome" />
+        <QuestionItem
+          v-if="welcome"
+          :question="welcome"
+          @click="
+            openQuestionModal(
+              decapitalize(welcome.questionable.type) as QuestionType,
+              'update',
+              () => false,
+              welcome.id,
+            )
+          "
+        />
       </template>
 
       <QuestionItem
@@ -226,10 +257,29 @@ onMounted(() => {
         :key="question.id"
         :number="i + 1"
         :question
+        @click="
+          openQuestionModal(
+            decapitalize(question.questionable.type) as QuestionType,
+            'update',
+            () => false,
+            question.id,
+          )
+        "
       />
 
       <template v-slot:ending>
-        <QuestionItem v-if="ending" :question="ending" />
+        <QuestionItem
+          v-if="ending"
+          :question="ending"
+          @click="
+            openQuestionModal(
+              decapitalize(ending.questionable.type) as QuestionType,
+              'update',
+              () => false,
+              ending.id,
+            )
+          "
+        />
       </template>
     </QuestionsList>
 
@@ -239,10 +289,12 @@ onMounted(() => {
   </div>
 
   <QuestionModal
+    v-if="isValidAction(action)"
+    :questionType
     :action
-    :type
     :number
-    :surveyId="Number(route.params.surveyId)"
+    :surveyId
+    :questionId
     @close="closeQuestionModal"
   />
 </template>

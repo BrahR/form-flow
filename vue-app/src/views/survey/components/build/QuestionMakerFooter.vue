@@ -4,9 +4,13 @@ import { useQuestionStore } from "@/stores/question.ts";
 import { storeToRefs } from "pinia";
 // import { useSurveyStore } from "@/stores/survey.ts";
 
-const { surveyId } = defineProps<{
+type Props = {
+  action: "create" | "update";
+  questionId: number | null;
   surveyId: number | null;
-}>();
+};
+
+const { action, questionId, surveyId } = defineProps<Props>();
 const emits = defineEmits<{
   (event: "close"): void;
 }>();
@@ -17,16 +21,15 @@ const { store } = storeToRefs(useQuestionFactory);
 // const useSurvey = useSurveyStore();
 
 const postQuestion = () => {
-  const result = useQuestion.create(surveyId ?? 0, store.value?.getData());
+  const result =
+    action == "create"
+      ? useQuestion.create(surveyId, store.value?.getData())
+      : useQuestion.update(surveyId, questionId, store.value?.getData());
 
   if (result) {
     result
-      .then(() => {
-        emits("close");
-      })
-      .catch((error) => {
-        console.error("Error creating question: ", error);
-      });
+      .then(() => emits("close"))
+      .catch((error) => console.error("Error creating question: ", error));
   }
 };
 </script>

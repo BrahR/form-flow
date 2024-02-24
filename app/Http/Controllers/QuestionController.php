@@ -34,9 +34,11 @@ class QuestionController extends Controller
     return new QuestionResource($question);
   }
 
-  public function update(QuestionRequest $request, Question $question): QuestionResource
+  public function update(QuestionRequest $request, Survey $survey, Question $question): QuestionResource
   {
-    $question->update($request->validated());
+    $validated = $request->validated();
+    $question->update($validated["question"]);
+    $question->questionable->update($validated["questionable"]);
 
     return new QuestionResource($question);
   }
