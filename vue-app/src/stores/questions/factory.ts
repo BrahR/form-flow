@@ -12,6 +12,7 @@ import { useRankingQuestionStore } from "@/stores/questions/ranking.ts";
 import { useStatementQuestionStore } from "@/stores/questions/statement.ts";
 import { useFileUploadQuestionStore } from "@/stores/questions/fileUpload.ts";
 import { useEndingQuestionStore } from "@/stores/questions/ending.ts";
+import { decapitalize } from "@/utils";
 
 const questionTypes = [
   "welcome",
@@ -53,10 +54,13 @@ export const useQuestionFactoryStore = defineStore("question_factory", () => {
 
   const hydrate = (questionType: string | null, question: Question | null) => {
     if (!questionType) return;
+
     console.log("Hydrating question factory");
-    dehydrate();
     hydrating.value = true;
+
     if (isQuestionType(questionType)) {
+      if (question && questionType !== decapitalize(question.questionable.type))
+        return;
       type.value = questionType;
       store.value!.hydrate(question);
       hydrated.value = true;
