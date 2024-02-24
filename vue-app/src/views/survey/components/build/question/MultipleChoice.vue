@@ -13,7 +13,7 @@ const { multipleChoices, multipleAnswersText, verticalDisplay } =
     class="preview_multiple_choice_question_wrapper preview_ltr"
     style="opacity: 1"
   >
-    <QuestionHeader :sub-description="multipleAnswersText" />
+    <QuestionHeader :subDescription="multipleAnswersText" />
 
     <div
       :class="{ 'flex-col': verticalDisplay }"

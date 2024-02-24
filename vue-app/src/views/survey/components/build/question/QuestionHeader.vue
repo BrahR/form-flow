@@ -2,11 +2,9 @@
 import { useQuestionTogglesStore } from "@/stores/questions/toggle.ts";
 import { storeToRefs } from "pinia";
 
-type Props = {
+defineProps<{
   subDescription: string;
-};
-
-defineProps<Props>();
+}>();
 
 const useQuestionToggles = useQuestionTogglesStore();
 const { label, description } = useQuestionToggles;

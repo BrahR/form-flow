@@ -58,7 +58,7 @@ export const useMultipleChoiceQuestionStore = defineStore(
     const hydrated = ref(false);
 
     const hydrate = (multipleChoice: Question | null) => {
-      console.log("Hydrating multiple choice question");
+      console.info("Hydrating multiple choice question");
       hydrating.value = true;
       initialize(multipleChoice);
       if (isMultipleQuestion(multipleChoice)) {
