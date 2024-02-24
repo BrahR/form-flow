@@ -44,7 +44,15 @@ class Question extends Model
         "questionable.text_type" => ["required", "string", "in:" . implode(",", array_keys(GeneralText::getRules("all")))],
       ],
       "MultipleChoice" => [
+        "questionable.choices.*.id" => ["required", "integer"],
+        "questionable.choices.*.value" => ["required", "string"],
+        "questionable.choices.*.hidden" => ["required", "boolean"],
         "questionable.choices" => ["required", "array", "between:2,40", function (string $attribute, mixed $value, Closure $fail) {
+          if (!isset($choice["id"], $choice["value"], $choice["hidden"])) {
+            $fail("Choices must have id, value, and hidden keys");
+            return;
+          }
+
           $isChoiceEmpty = collect($value)->some(function ($choice, $key) {
             return $choice["value"] === "" && $choice["hidden"] === false;
           });
@@ -62,8 +70,6 @@ class Question extends Model
 
           if ($isChoiceDuplicated) $fail("Choices must be unique");
         }],
-        "questionable.choices.*.value" => ["required", "string"],
-        "questionable.choices.*.hidden" => ["required", "boolean"],
         "questionable.randomize" => ["required", "boolean"],
         "questionable.vertical_display" => ["required", "boolean"],
         "questionable.multiple_answers" => ["required", "boolean"],
