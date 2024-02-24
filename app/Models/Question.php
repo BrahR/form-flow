@@ -48,7 +48,12 @@ class Question extends Model
         "questionable.choices.*.value" => ["required", "string"],
         "questionable.choices.*.hidden" => ["required", "boolean"],
         "questionable.choices" => ["required", "array", "between:2,40", function (string $attribute, mixed $value, Closure $fail) {
-          if (!isset($choice["id"], $choice["value"], $choice["hidden"])) {
+//          TODO make this reusable
+          $invalidChoice = collect($value)->some(function ($choice, $key) {
+            return !isset($choice["id"], $choice["value"], $choice["hidden"]);
+          });
+
+          if ($invalidChoice) {
             $fail("Choices must have id, value, and hidden keys");
             return;
           }
