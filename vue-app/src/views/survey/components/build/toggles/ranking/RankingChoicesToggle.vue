@@ -7,7 +7,8 @@ import { storeToRefs } from "pinia";
 
 const useQuestionToggles = useQuestionTogglesStore();
 const { appendChoice, deleteChoice } = useQuestionToggles;
-const { rankingChoices } = storeToRefs(useQuestionToggles);
+const { rankingChoices, isRankingDuplicate, isRankingEmpty } =
+  storeToRefs(useQuestionToggles);
 const el = ref(null as unknown as HTMLElement);
 
 useDraggable(el, rankingChoices, {
@@ -115,19 +116,10 @@ useDraggable(el, rankingChoices, {
       </div>
     </transition-group>
     <InputError
-      :show="
-        rankingChoices.some(
-          (choice, i) =>
-            rankingChoices.map((val) => val.value).indexOf(choice.value) !==
-              i && !!choice.value,
-        )
-      "
+      :show="isRankingDuplicate"
       error="Ranking choices with the same value are not allowed"
     />
-    <InputError
-      :show="rankingChoices.filter((choice) => choice.value !== '').length < 2"
-      error="At least 2 choices must be shown"
-    />
+    <InputError :show="isRankingEmpty" error="All choices must have a value" />
   </div>
 </template>
 

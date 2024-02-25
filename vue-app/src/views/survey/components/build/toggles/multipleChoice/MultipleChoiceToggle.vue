@@ -7,7 +7,8 @@ import { storeToRefs } from "pinia";
 
 const useQuestionToggles = useQuestionTogglesStore();
 const { appendChoice, deleteChoice } = useQuestionToggles;
-const { multipleChoices } = storeToRefs(useQuestionToggles);
+const { multipleChoices, isMultiCDuplicate, isMultiCEmpty } =
+  storeToRefs(useQuestionToggles);
 const el = ref(null as unknown as HTMLElement);
 
 useDraggable(el, multipleChoices, {
@@ -180,23 +181,11 @@ useDraggable(el, multipleChoices, {
       </div>
     </transition-group>
     <InputError
-      :show="
-        multipleChoices.some(
-          (choice, i) =>
-            multipleChoices.map((val) => val.value).indexOf(choice.value) !==
-              i &&
-            !choice.hidden &&
-            !!choice.value,
-        )
-      "
+      :show="isMultiCDuplicate"
       error="Multiple choices with the same value are not allowed"
     />
     <InputError
-      :show="
-        multipleChoices.filter(
-          (choice) => choice.value !== '' && !choice.hidden,
-        ).length < 2
-      "
+      :show="isMultiCEmpty"
       error="At least 2 choices must be shown"
     />
   </div>
