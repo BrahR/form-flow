@@ -9,9 +9,6 @@ const useQuestionToggles = useQuestionTogglesStore();
 const { rankingChoices: _rankingChoices, fixRankingNumbers } =
   storeToRefs(useQuestionToggles);
 const el = ref(null as unknown as HTMLElement);
-
-// const crap = toRaw();
-
 const rankingChoices = ref([..._rankingChoices.value]);
 
 const validChoices = computed(() => {
@@ -20,8 +17,7 @@ const validChoices = computed(() => {
   );
 });
 
-// @ts-ignore
-useDraggable(el, rankingChoices.value, {
+useDraggable(el, rankingChoices, {
   animation: 150,
   handle: ".draggable",
   easing: "ease-in-out",

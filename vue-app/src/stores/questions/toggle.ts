@@ -186,6 +186,13 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
     });
   });
 
+  const isRankingEmpty = computed(() => {
+    return (
+      rankingChoices.value.filter((c) => !!c.value).length !==
+      rankingChoices.value.length
+    );
+  });
+
   // statement
   const statementButton = reactive({
     value: "",
@@ -306,6 +313,7 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
     fixRankingNumbers,
     // getters
     isRankingDuplicate,
+    isRankingEmpty,
     // statement
     statementButton,
     // fileUpload

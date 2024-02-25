@@ -72,10 +72,16 @@ export const useRankingQuestionStore = defineStore("ranking_question", () => {
   };
 
   const canSubmit = computed(() => {
+    console.log(
+      "canSubmit",
+      _canSubmit.value,
+      !rankingChoices.value.length,
+      !isRankingDuplicate.value,
+    );
     return (
       _canSubmit.value &&
-      !rankingChoices.value.length &&
-      isRankingDuplicate.value
+      rankingChoices.value.length >= 2 &&
+      !isRankingDuplicate.value
     );
   });
 
