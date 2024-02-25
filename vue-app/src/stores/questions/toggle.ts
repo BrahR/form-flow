@@ -65,7 +65,7 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   });
 
   // multipleChoice
-  const multipleChoices = reactive([
+  const multipleChoices = ref([
     {
       id: 1,
       value: "",
@@ -82,9 +82,9 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   const verticalDisplay = ref(false);
 
   const isMultiCDuplicate = computed(() => {
-    return multipleChoices.some((choice, i) => {
+    return multipleChoices.value.some((choice, i) => {
       return (
-        multipleChoices.map((c) => c.value).indexOf(choice.value) !== i &&
+        multipleChoices.value.map((c) => c.value).indexOf(choice.value) !== i &&
         !choice.hidden &&
         !!choice.value
       );
@@ -92,11 +92,13 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   });
 
   const isMultiCEmpty = computed(() => {
-    return multipleChoices.filter((c) => !!c.value && !c.hidden).length < 2;
+    return (
+      multipleChoices.value.filter((c) => !!c.value && !c.hidden).length < 2
+    );
   });
 
   // pictureChoice
-  const pictureChoices = reactive([
+  const pictureChoices = ref([
     {
       id: 1,
       hidden: false,
@@ -115,7 +117,9 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   const doublePictureSize = ref(false);
 
   const isPictureChoiceEmpty = computed(() => {
-    return pictureChoices.filter((c) => !c.hidden && c.image !== "").length < 2;
+    return (
+      pictureChoices.value.filter((c) => !c.hidden && c.image !== "").length < 2
+    );
   });
 
   // questionGroup
@@ -159,7 +163,7 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   });
 
   // ranking
-  const rankingChoices = reactive([
+  const rankingChoices = ref([
     {
       id: 1,
       value: "",
@@ -174,9 +178,9 @@ export const useQuestionTogglesStore = defineStore("question_toggles", () => {
   const fixRankingNumbers = ref(false);
 
   const isRankingDuplicate = computed(() => {
-    return rankingChoices.some((choice, i) => {
+    return rankingChoices.value.some((choice, i) => {
       return (
-        rankingChoices.map((c) => c.value).indexOf(choice.value) !== i &&
+        rankingChoices.value.map((c) => c.value).indexOf(choice.value) !== i &&
         !!choice.value
       );
     });
