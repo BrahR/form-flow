@@ -10,7 +10,7 @@ const { appendChoice, deleteChoice } = useQuestionToggles;
 const { rankingChoices } = storeToRefs(useQuestionToggles);
 const el = ref(null as unknown as HTMLElement);
 
-useDraggable(el, rankingChoices.value, {
+useDraggable(el, rankingChoices, {
   animation: 150,
   handle: ".draggable",
   easing: "ease-in-out",

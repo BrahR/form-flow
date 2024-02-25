@@ -79,6 +79,26 @@ export const useMultipleChoiceQuestionStore = defineStore(
       console.log("Dehydrating multiple choice question");
       hydrating.value = false;
       hydrated.value = false;
+      multipleChoices.value = [
+        {
+          id: 1,
+          value: "",
+          hidden: false,
+          checked: false,
+        },
+        {
+          id: 2,
+          value: "",
+          hidden: false,
+          checked: false,
+        },
+      ];
+      randomize.value = false;
+      verticalDisplay.value = false;
+      multipleAnswers.value.on = false;
+      multipleAnswers.value.min = 1;
+      multipleAnswers.value.max = 2;
+      hideQuestionNumber.value = false;
       reset();
     };
 

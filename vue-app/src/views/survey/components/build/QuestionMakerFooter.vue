@@ -35,11 +35,16 @@ const postQuestion = () => {
 </script>
 
 <template>
-  <div class="footer_footer_wrapper">
+  <div v-if="store" class="footer_footer_wrapper">
+    {{ store.type }}
+    <br />
+    {{ store.hydrating }}
+    {{ store.canSubmit }}
+    {{ useQuestion.loading }}
     <button
       type="button"
       class="footer_save_button"
-      :disabled="store?.hydrating || !store?.canSubmit || useQuestion.loading"
+      :disabled="store.hydrating || !store.canSubmit || useQuestion.loading"
       @click="postQuestion"
     >
       <span
